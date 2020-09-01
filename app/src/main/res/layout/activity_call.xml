@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.CallActivity">
+
+    <TextView
+        android:id="@+id/call_name_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="Bruce Owen"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="@color/light_blue_50"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/call_dialing_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/call_name_textView"
+        android:gravity="center"
+        android:text="Dialing....."
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@color/light_blue_50" />
+
+    <ImageView
+        android:id="@+id/call_contact_imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/call_dialing_textView"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:src="@drawable/ic_person" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/call_dismiss"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:gravity="center|bottom"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/call_dismiss">
+
+        <!--<ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@android:drawable/presence_video_online" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:src="@android:drawable/presence_audio_online" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:src="@android:drawable/sym_action_chat" />-->
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/call_activity_dismiss_imageview"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="25dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_calldismiss" />
+
+</RelativeLayout>

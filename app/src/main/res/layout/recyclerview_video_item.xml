@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/apk/res-auto"
+    style="@style/CardView.Light"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin2"
+    card_view:cardElevation="@dimen/margin5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin4"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/video_item_title_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VIDEO"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
+
+        <ImageView
+            android:id="@+id/video_item_player_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="@dimen/margin2"
+            android:src="@android:drawable/ic_media_play">
+
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin2">
+
+            <TextView
+                android:id="@+id/video_item_description_textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Description |" />
+
+            <TextView
+                android:id="@+id/video_item_casting_textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Casting |" />
+
+            <TextView
+                android:id="@+id/video_item_duration_textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="10.00" />
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

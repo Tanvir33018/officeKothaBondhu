@@ -1,0 +1,338 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.fragment.MyAccountFragment">
+
+    <RelativeLayout
+        android:id="@+id/two_line_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:minHeight="72dp"
+        android:paddingStart="?listPreferredItemPaddingLeft"
+        android:paddingLeft="?listPreferredItemPaddingLeft"
+        android:paddingEnd="?listPreferredItemPaddingRight"
+        android:paddingRight="?listPreferredItemPaddingRight">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/agent_item_user_imageView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person"
+            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_width="3dp"
+            app:civ_shadow="true"
+            app:civ_shadow_color="@color/green_500"
+            app:civ_shadow_radius="5" />
+
+        <ProgressBar
+            android:id="@+id/item_agent_icon_progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:foregroundGravity="center"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/lines_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin5"
+            android:layout_marginRight="@dimen/margin5"
+            android:layout_toEndOf="@+id/agent_item_user_imageView"
+            android:layout_toRightOf="@+id/agent_item_user_imageView"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/account_name_textView"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="Name"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/account_phone_textView"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="Phone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/account_gender_textView"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_femenine"
+                    android:drawableLeft="@drawable/ic_femenine"
+                    android:drawablePadding="@dimen/margin2"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/margin4"
+                    android:paddingBottom="@dimen/margin4"
+                    android:singleLine="true"
+                    android:text="Female" />
+
+                <TextView
+                    android:id="@+id/account_age_textView"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_clock"
+                    android:drawableLeft="@drawable/ic_clock"
+                    android:drawablePadding="@dimen/margin2"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/margin4"
+                    android:paddingLeft="@dimen/margin4"
+                    android:paddingTop="@dimen/margin4"
+                    android:paddingBottom="@dimen/margin4"
+                    android:singleLine="true"
+                    android:text="24 years" />
+
+                <TextView
+                    android:id="@+id/account_location_textView"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_placeholder"
+                    android:drawableLeft="@drawable/ic_placeholder"
+                    android:drawablePadding="@dimen/margin2"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/margin4"
+                    android:paddingLeft="@dimen/margin4"
+                    android:paddingTop="@dimen/margin4"
+                    android:paddingBottom="@dimen/margin4"
+                    android:singleLine="true"
+                    android:text="From Dhaka" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/account_edit_imageView"
+            style="?android:borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_edit" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Balance"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/black_overlay"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/account_time_left_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="Time Left: " />
+
+                <TextView
+                    android:id="@+id/account_last_call_duration_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="Last call duration: " />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Call History"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/black_overlay"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/my_acc_date_title_textView"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginEnd="@dimen/margin2"
+                        android:layout_marginRight="@dimen/margin2"
+                        android:background="@color/colorPrimary"
+                        android:paddingStart="@dimen/margin4"
+                        android:paddingLeft="@dimen/margin4"
+                        android:paddingTop="@dimen/margin2"
+                        android:paddingBottom="@dimen/margin2"
+                        android:text="Date and Time"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/my_acc_agent_name_title_textView"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/my_acc_duration_title_textView"
+                        android:layout_toLeftOf="@+id/my_acc_duration_title_textView"
+                        android:layout_toEndOf="@+id/my_acc_date_title_textView"
+                        android:layout_toRightOf="@+id/my_acc_date_title_textView"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/margin2"
+                        android:paddingBottom="@dimen/margin2"
+                        android:text="Agent Name"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/my_acc_duration_title_textView"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginStart="@dimen/margin2"
+                        android:layout_marginLeft="@dimen/margin2"
+                        android:background="@color/colorPrimary"
+                        android:paddingStart="@dimen/margin4"
+                        android:paddingLeft="@dimen/margin4"
+                        android:paddingTop="@dimen/margin2"
+                        android:paddingBottom="@dimen/margin2"
+                        android:text="Duration"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/call_history_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Package History"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/black_overlay"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/package_name_title_textView"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginEnd="@dimen/margin2"
+                        android:layout_marginRight="@dimen/margin2"
+                        android:background="@color/colorPrimary"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/margin4"
+                        android:paddingLeft="@dimen/margin4"
+                        android:paddingTop="@dimen/margin2"
+                        android:paddingBottom="@dimen/margin2"
+                        android:text="Package Details"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/payment_method_title_textView"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/package_value_title_textView"
+                        android:layout_toLeftOf="@+id/package_value_title_textView"
+                        android:layout_toEndOf="@+id/package_name_title_textView"
+                        android:layout_toRightOf="@+id/package_name_title_textView"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingTop="@dimen/margin2"
+                        android:paddingBottom="@dimen/margin2"
+                        android:text="Package Duration"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/package_value_title_textView"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginStart="@dimen/margin2"
+                        android:layout_marginLeft="@dimen/margin2"
+                        android:background="@color/colorPrimary"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/margin4"
+                        android:paddingLeft="@dimen/margin4"
+                        android:paddingTop="@dimen/margin2"
+                        android:paddingBottom="@dimen/margin2"
+                        android:text="Package Exp Date"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/package_history_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

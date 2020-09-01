@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
+    tools:context=".ui.activity.AgentProfileActivity">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/agent_profile_photo_imageView"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_person" />
+
+    <ProgressBar
+        android:id="@+id/agent_profile_photo_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:foregroundGravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/agent_profile_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:text="Name: name"
+        android:textColor="@color/black"
+        android:textSize="@dimen/toolbar_text_size" />
+
+    <TextView
+        android:id="@+id/agent_profile_age_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:text="Age: age"
+        android:textColor="@color/black"
+        android:textSize="@dimen/toolbar_text_size" />
+
+    <TextView
+        android:id="@+id/agent_profile_location_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:text="Location: dhaka"
+        android:textColor="@color/black"
+        android:textSize="@dimen/toolbar_text_size" />
+
+    <TextView
+        android:id="@+id/agent_profile_sex_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:text="Gender:"
+        android:textSize="@dimen/toolbar_text_size"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+        <ImageView
+            android:id="@+id/agent_profile_chat_imageview"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_chat"
+            android:visibility="gone"
+            android:layout_margin="@dimen/activity_horizontal_margin"/>
+
+        <ImageView
+            android:id="@+id/agent_profile_call_imageview"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_handphone"
+            android:layout_margin="@dimen/activity_horizontal_margin"/>
+
+    </LinearLayout>
+
+</LinearLayout>

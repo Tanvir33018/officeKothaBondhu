@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Kotha Bondhu</string>
+    <string name="title_activity_home_tabbed">Bondhu</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="agents_tab">Agents</string>
+    <string name="log_tab">Calls</string>
+    <string name="my_account_tab">My account</string>
+    <string name="packages_tab">Packages</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Agent name</string>
+    <string name="package_dialog_title">Select your package</string>
+    <string name="package_dialog_toast">Select your package to call!</string>
+    <string name="dialog_positive">OK</string>
+    <string name="dialog_negative">Cancel</string>
+
+
+    <!--Pending Messages-->
+    <string name="progress_dialog_loading">Loading</string>
+
+    <!--Error Messages-->
+    <string name="dialog_error">Error</string>
+
+    <!--Success Messages-->
+    <string name="dialog_success">Success</string>
+    <string name="title_activity_nav">NavActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="nav_item_settings">Settings</string>
+    <string name="nav_item_packages">Packages</string>
+    <string name="nav_item_my_account">My Account</string>
+    <string name="nave_item_beauty_tips">Beauty Tips</string>
+    <string name="nav_item_love_tips">Love Tips</string>
+    <string name="nav_item_jokes">Jokes</string>
+    <string name="nav_item_home">Home</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <string name="media_url_mp3">http://storage.googleapis.com/exoplayer-test-media-0/play.mp3</string>
+    <string name="media_url_mp4">http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4</string>
+    <string name="media_url_dash"><![CDATA[http://www.youtube.com/api/manifest/dash/id/bf5bb2419360daf1/source/youtube?as=fmp4_audio_clear,fmp4_sd_hd_clear&sparams=ip,ipbits,expire,source,id,as&ip=0.0.0.0&ipbits=0&expire=19000000000&signature=51AF5F39AB0CEC3E5497CD9C900EBFEAECCCB5C7.8506521BFC350652163895D4C26DEE124209AA9E&key=ik0]]></string>
+    <string name="media_url_youtube">https://youtu.be/08h0IVs4RKQ</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_activity_phone_verify">PhoneVerifyActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin1">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/call_log_item_CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/general_padding"
+        app:cardBackgroundColor="@color/white"
+        card_view:cardElevation="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/call_log_item_date_textView"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="@dimen/margin2"
+                android:layout_marginRight="@dimen/margin2"
+                android:background="@color/blue_100"
+                android:paddingBottom="@dimen/margin2"
+                android:paddingLeft="@dimen/margin4"
+                android:paddingStart="@dimen/margin4"
+                android:paddingTop="@dimen/margin2"
+                android:textSize="12dp"
+                android:text="12/12/19" />
+
+            <TextView
+                android:id="@+id/call_log_item_name_textView"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/call_log_item_date_textView"
+                android:layout_toLeftOf="@+id/call_log_item_duration_textView"
+                android:layout_toRightOf="@+id/call_log_item_date_textView"
+                android:layout_toStartOf="@+id/call_log_item_duration_textView"
+                android:background="@color/blue_100"
+                android:gravity="center"
+                android:text="Name"
+                android:paddingBottom="@dimen/margin2"
+                android:paddingTop="@dimen/margin2"
+                android:textSize="12dp"
+                android:textColor="@color/black_overlay" />
+
+            <TextView
+                android:id="@+id/call_log_item_duration_textView"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin2"
+                android:layout_marginStart="@dimen/margin2"
+                android:background="@color/blue_100"
+                android:paddingBottom="@dimen/margin2"
+                android:paddingLeft="@dimen/margin4"
+                android:paddingStart="@dimen/margin4"
+                android:paddingTop="@dimen/margin2"
+                android:textSize="12dp"
+                android:text="00:00:00" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>

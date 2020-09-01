@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin1">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/call_log_item_CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/general_padding"
+        app:cardBackgroundColor="@color/white"
+        card_view:cardElevation="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/package_details_textView"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginEnd="@dimen/margin2"
+                android:layout_marginRight="@dimen/margin2"
+                android:background="@color/blue_100"
+                android:maxLines="1"
+                android:paddingStart="@dimen/margin4"
+                android:paddingLeft="@dimen/margin4"
+                android:paddingTop="@dimen/margin2"
+                android:paddingBottom="@dimen/margin2"
+                android:text="Offer"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/package_expire_textView"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/package_duration_textView"
+                android:layout_toLeftOf="@+id/package_duration_textView"
+                android:layout_toEndOf="@+id/package_details_textView"
+                android:layout_toRightOf="@+id/package_details_textView"
+                android:background="@color/blue_100"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingTop="@dimen/margin2"
+                android:paddingBottom="@dimen/margin2"
+                android:text="Bkash"
+                android:textColor="@color/black_overlay"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/package_duration_textView"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="@dimen/margin2"
+                android:layout_marginLeft="@dimen/margin2"
+                android:background="@color/blue_100"
+                android:maxLines="1"
+                android:paddingStart="@dimen/margin4"
+                android:paddingLeft="@dimen/margin4"
+                android:paddingTop="@dimen/margin2"
+                android:paddingBottom="@dimen/margin2"
+                android:text="10000"
+                android:textSize="12dp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>
