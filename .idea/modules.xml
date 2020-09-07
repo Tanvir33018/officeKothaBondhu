@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="kth-bndh-android-master/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kth-bndh-android-master.iml" filepath="$PROJECT_DIR$/.idea/modules/kth-bndh-android-master.iml" group="kth-bndh-android-master" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="islbdKothaBondhu/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/islbdKothaBondhu.iml" filepath="$PROJECT_DIR$/.idea/modules/islbdKothaBondhu.iml" group="islbdKothaBondhu" />
     </modules>
   </component>
 </project>
