@@ -15,16 +15,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sinch.android.rtc.SinchError;
-
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.AgentDetails;
 import net.islbd.kothabondhu.model.pojo.AgentQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
-import net.islbd.kothabondhu.service.SinchService;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
+
 
 import org.jetbrains.annotations.NotNull;
 

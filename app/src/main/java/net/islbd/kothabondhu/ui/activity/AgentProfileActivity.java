@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +22,6 @@ import com.squareup.picasso.Picasso;
 
 import net.islbd.kothabondhu.MockData;
 import net.islbd.kothabondhu.R;
-import net.islbd.kothabondhu.event.IPackageSelectListener;
 import net.islbd.kothabondhu.model.pojo.PackageStatusInfo;
 import net.islbd.kothabondhu.model.pojo.PackageStatusQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
@@ -120,7 +119,7 @@ public class AgentProfileActivity extends BaseActivity {
 
     private void loadImage(String url, ImageView imageView, final ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        Picasso picasso = Picasso.with(this);
+        Picasso picasso = Picasso.get();
         //picasso.setDebugging(true);
         picasso.load(url).error(R.drawable.ic_person).into(imageView, new Callback() {
             @Override
@@ -129,10 +128,11 @@ public class AgentProfileActivity extends BaseActivity {
             }
 
             @Override
-            public void onError() {
+            public void onError(Exception e) {
                 progressBar.setVisibility(View.GONE);
             }
         });
+
     }
 
     private void showPackageDialog(final String id, final String name, final String url) {

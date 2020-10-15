@@ -32,7 +32,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_b" />
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,9 +46,9 @@
                     android:ems="10"
                     android:hint="PHONE"
                     android:inputType="number" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                     android:ems="10"
                     android:hint="PASSWORD"
                     android:inputType="textPassword" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/login_login_button"

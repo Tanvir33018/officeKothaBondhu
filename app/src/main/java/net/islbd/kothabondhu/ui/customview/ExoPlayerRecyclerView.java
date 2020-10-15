@@ -1,7 +1,7 @@
 package net.islbd.kothabondhu.ui.customview;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by UserStatusDetails on 2/27/2019.

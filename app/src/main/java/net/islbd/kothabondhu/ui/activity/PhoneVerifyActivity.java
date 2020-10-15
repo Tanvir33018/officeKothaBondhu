@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
+import androidx.annotation.NonNull;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.ActionBar;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -33,7 +32,6 @@ import net.islbd.kothabondhu.model.pojo.UserStatusDetails;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.service.SinchService;
-import net.islbd.kothabondhu.utility.GlobalConstants;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
@@ -111,7 +109,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
                 String phone = getPhoneNumber();
                 verifyUser(phone);
             }
-        }, 5000);
+        }, 1000);
     }
 
     private void verifyUser(String phone) {
@@ -124,7 +122,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
                 if (response.code() == HttpStatusCodes.OK) {
                     UserStatusDetails userStatusDetails = response.body();
                     if (userStatusDetails.getEndUserRegId() != null && userStatusDetails.getEndUserId() != null) {
-                        sharedPref.edit().putInt(SharedPrefUtils._USER_PHONE, Integer.valueOf(userStatusDetails.getEndUserId())).apply();
+                        sharedPref.edit().putInt(SharedPrefUtils._USER_PHONE, Integer.parseInt(userStatusDetails.getEndUserId())).apply();
                         if (!getSinchServiceInterface().isStarted()) {
                             getSinchServiceInterface().startClient(userStatusDetails.getEndUserId());
                         } else {
@@ -188,9 +186,9 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
         mPhoneNumber = "";
-        if (tMgr != null) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                /*ActivityCompat.requestPermissions(PhoneVerifyActivity.this,
+        /*if (tMgr != null) {
+            /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(PhoneVerifyActivity.this,
                         new String[]{
                                 Manifest.permission.READ_SMS,
                                 Manifest.permission.RECORD_AUDIO,
@@ -199,15 +197,17 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
                                 Manifest.permission.ACCESS_FINE_LOCATION
                         },
-                        REQUEST_CODE_PERMISSION);*/
+                        REQUEST_CODE_PERMISSION);
                 return mPhoneNumber;
             }
             mPhoneNumber = tMgr.getLine1Number();
-        }
+        }*/
 
         if (mPhoneNumber == null) mPhoneNumber = "";
 
-        if (mPhoneNumber.isEmpty() && BuildConfig.DEBUG) mPhoneNumber = "1863290261";
+        //if (mPhoneNumber.isEmpty() && BuildConfig.DEBUG) mPhoneNumber = "1863290261";
+
+        if (mPhoneNumber.isEmpty()) mPhoneNumber = "1863290261";
 
         if (mPhoneNumber.isEmpty()) {
             showVerifyButton(true);

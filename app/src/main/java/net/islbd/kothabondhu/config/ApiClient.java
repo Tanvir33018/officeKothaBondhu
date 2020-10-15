@@ -14,6 +14,7 @@ public class ApiClient {
     private static Retrofit retrofit = null;
     private static OkHttpClient okHttpClient = null;
 
+
     public static Retrofit getClient(String baseUrl, Long requestTimeout) {
         if (retrofit == null) {
             retrofit = new Retrofit

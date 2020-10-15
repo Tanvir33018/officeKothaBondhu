@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +28,9 @@ import net.islbd.kothabondhu.MockData;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.event.IPackageSelectListener;
 import net.islbd.kothabondhu.model.pojo.AgentDetails;
-import net.islbd.kothabondhu.model.pojo.PackageStatusInfo;
-import net.islbd.kothabondhu.model.pojo.StatusInfo;
 import net.islbd.kothabondhu.presenter.IDbInteractor;
 import net.islbd.kothabondhu.ui.activity.AgentProfileActivity;
-import net.islbd.kothabondhu.utility.GlobalConstants;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
-
-import retrofit2.Call;
 
 /**
  * Created by wahid.sadique on 9/17/2017.
@@ -197,7 +192,7 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
 
     private void loadImage(String url, ImageView imageView, final ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        Picasso picasso = Picasso.with(context);
+        Picasso picasso = Picasso.get();
         //picasso.setDebugging(true);
         picasso.load(url).error(R.drawable.ic_person).into(imageView, new Callback() {
             @Override
@@ -206,7 +201,7 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
             }
 
             @Override
-            public void onError() {
+            public void onError(Exception e) {
                 progressBar.setVisibility(View.GONE);
             }
         });

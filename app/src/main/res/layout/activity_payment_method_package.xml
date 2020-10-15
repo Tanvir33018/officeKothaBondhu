@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:context="net.islbd.kothabondhu.ui.activity.PaymentMethodActivity">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin4"
@@ -22,9 +22,9 @@
             android:layout_gravity="center"
             android:padding="@dimen/general_padding"
             android:src="@drawable/bkash_limited_logo" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin4"
@@ -37,6 +37,6 @@
             android:layout_gravity="center"
             android:padding="@dimen/general_padding"
             android:src="@drawable/mlogo" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

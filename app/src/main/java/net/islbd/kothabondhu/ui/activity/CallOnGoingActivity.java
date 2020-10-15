@@ -1,7 +1,6 @@
 package net.islbd.kothabondhu.ui.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -10,7 +9,6 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
@@ -21,19 +19,16 @@ import android.widget.Toast;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.sinch.android.rtc.PushPair;
 import com.sinch.android.rtc.calling.Call;
-import com.sinch.android.rtc.calling.CallDetails;
 import com.sinch.android.rtc.calling.CallEndCause;
 import com.sinch.android.rtc.calling.CallListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
-import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.CallHistoryDetails;
 import net.islbd.kothabondhu.model.pojo.StatusInfo;
@@ -211,7 +206,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
     }
 
     private void loadImage(String url, ImageView imageView) {
-        Picasso picasso = Picasso.with(this);
+        Picasso picasso = Picasso.get();
         //picasso.setDebugging(true);
         picasso.load(url).error(R.drawable.ic_person).into(imageView, new Callback() {
             @Override
@@ -220,7 +215,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
             }
 
             @Override
-            public void onError() {
+            public void onError(Exception e) {
 
             }
         });

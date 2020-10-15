@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:src="@drawable/kth" />
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:ems="10"
             android:hint="Phone number"
             android:inputType="phone" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/verify_login_button"

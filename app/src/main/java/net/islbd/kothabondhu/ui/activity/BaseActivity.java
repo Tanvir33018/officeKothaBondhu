@@ -9,12 +9,13 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 
 import net.islbd.kothabondhu.service.SinchService;
 
 import org.jetbrains.annotations.NotNull;
+
 
 /**
  * Created by User on 10/11/2019.

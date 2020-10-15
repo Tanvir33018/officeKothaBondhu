@@ -5,11 +5,12 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.ActionBar;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.ActionBar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -114,9 +115,31 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
 
     private void loadImage(String url, ImageView imageView, final ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        Picasso picasso = Picasso.with(this);
+        Picasso picasso = Picasso.get();
         //picasso.setDebugging(true);
+        /*picasso.load(Uri.parse(url)).error(R.drawable.ic_person).into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });*/
         picasso.load(url).error(R.drawable.ic_person).into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+        /*picasso.load(url).error(R.drawable.ic_person).into(imageView, new Callback() {
             @Override
             public void onSuccess() {
                 progressBar.setVisibility(View.GONE);
@@ -126,7 +149,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
             public void onError() {
                 progressBar.setVisibility(View.GONE);
             }
-        });
+        });*/
     }
 
     private void eventListeners() {

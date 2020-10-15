@@ -7,7 +7,7 @@
     android:layout_margin="15dp"
     android:id="@+id/package_item_relativeLayout">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:cardBackgroundColor="@color/colorPrimary"
@@ -30,7 +30,7 @@
         </LinearLayout>
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 </RelativeLayout>

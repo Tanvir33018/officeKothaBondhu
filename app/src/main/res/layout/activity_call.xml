@@ -48,7 +48,8 @@
         android:layout_margin="10dp"
         android:gravity="center|bottom"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/call_dismiss">
+        app:layout_constraintBottom_toTopOf="@id/call_dismiss"
+        tools:ignore="NotSibling">
 
         <!--<ImageView
             android:layout_width="50dp"

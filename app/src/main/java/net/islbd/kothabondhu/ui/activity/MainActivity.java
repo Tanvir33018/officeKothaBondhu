@@ -2,7 +2,7 @@ package net.islbd.kothabondhu.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
