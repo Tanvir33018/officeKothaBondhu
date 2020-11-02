@@ -4,6 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/54bcdcda56f64976b955dbcdef40bd47/jetified-sinch-android-rtc-3.15.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/54bcdcda56f64976b955dbcdef40bd47/jetified-sinch-android-rtc-3.15.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/54bcdcda56f64976b955dbcdef40bd47/jetified-sinch-android-rtc-3.15.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4990378c87fd050fd264976432c73a26/jetified-sinch-android-rtc-3.15.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4990378c87fd050fd264976432c73a26/jetified-sinch-android-rtc-3.15.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4990378c87fd050fd264976432c73a26/jetified-sinch-android-rtc-3.15.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
