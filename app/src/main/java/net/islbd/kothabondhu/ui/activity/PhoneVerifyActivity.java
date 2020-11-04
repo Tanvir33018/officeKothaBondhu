@@ -71,7 +71,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
         if (!hasPermission(context)) {
             ActivityCompat.requestPermissions(PhoneVerifyActivity.this,
                     new String[]{
-                            Manifest.permission.READ_SMS,
+                            //Manifest.permission.READ_SMS,
                             Manifest.permission.RECORD_AUDIO,
                             Manifest.permission.READ_PHONE_STATE,
                             Manifest.permission.ACCESS_COARSE_LOCATION,
