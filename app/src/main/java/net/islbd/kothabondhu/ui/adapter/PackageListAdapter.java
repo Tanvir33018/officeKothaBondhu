@@ -66,7 +66,8 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
         final String packageDetails = packageList.get(position).getPackageDetails();
         final String packageDuration = packageList.get(position).getPkgDuration();
         final String packageMedia = packageList.get(position).getMedia();
-        holder.packageNameTextView.setText(packageIdentifier);
+        //holder.packageNameTextView.setText(packageIdentifier);
+        holder.packageNameTextView.setText(packageDetails);
 
         holder.packageListRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
