@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -35,18 +38,43 @@ public class PackageListFragment extends Fragment {
     private Call<List<PackageInfo>> packageListCall;
     private SharedPreferences sharedPref;
     private PackageListAdapter packageListAdapter;
+    private TextView textViewAll, textViewTitle;
+    private Button buttonContinue;
+
+    private static final String FORTY_TAKA = "20 min / 40 TK";
+    private static final String HUNDRED_TAKA = "50 min / 100 TK";
+    private static final String HUNDRED_AND_NINTY_TAKA = "100 min / 190 TK";
+    private static final String THREE_HUNDRED_AND_EIGHTY_TAKA = "200 min / 380 TK";
+
+    public interface ContinueWork{
+        void loadMoveToPurchase();
+    }
+
+    private ContinueWork continueWork;
+
+    private void eventListener(){
+        buttonContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                continueWork.loadMoveToPurchase();
+            }
+        });
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_package_list, container, false);
         initializeWidgets(view);
         initializeData();
+        eventListener();
         return view;
     }
 
     private void initializeWidgets(View view) {
         packageListRecyclerView = view.findViewById(R.id.package_list_recyclerView);
+        textViewAll = view.findViewById(R.id.textViewAllPackageList);
+        textViewTitle = view.findViewById(R.id.textViewTitlePackageList);
+        buttonContinue = view.findViewById(R.id.buttonContinuePackageList);
     }
 
     private void initializeData() {
@@ -59,7 +87,8 @@ public class PackageListFragment extends Fragment {
     }
 
     private void createList() {
-        packageListAdapter = new PackageListAdapter(context, dbInteractor);
+        packageListAdapter = new PackageListAdapter(context, dbInteractor, this);
+        continueWork = (ContinueWork)packageListAdapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         packageListRecyclerView.setLayoutManager(layoutManager);
         packageListRecyclerView.setLayoutManager(layoutManager);
@@ -67,6 +96,28 @@ public class PackageListFragment extends Fragment {
         packageListRecyclerView.setAdapter(packageListAdapter);
 
         downloadPackages();
+    }
+
+    public void setPackageTextAcToAmount(String amount){
+        switch (amount){
+            case FORTY_TAKA:
+                textViewTitle.setText(FORTY_TAKA);
+                textViewAll.setText(getResources().getString(R.string.amount_40));
+                break;
+            case HUNDRED_TAKA:
+                textViewTitle.setText(HUNDRED_TAKA);
+                textViewAll.setText(getResources().getString(R.string.amount_100));
+                break;
+            case HUNDRED_AND_NINTY_TAKA:
+                textViewTitle.setText(HUNDRED_AND_NINTY_TAKA);
+                textViewAll.setText(getResources().getString(R.string.amount_190));
+                break;
+            case THREE_HUNDRED_AND_EIGHTY_TAKA:
+                textViewTitle.setText(THREE_HUNDRED_AND_EIGHTY_TAKA);
+                textViewAll.setText(getResources().getString(R.string.amount_380));
+                break;
+            default: break;
+        }
     }
 
     private void downloadPackages() {

@@ -52,4 +52,10 @@
     <string name="title_activity_phone_verify">PhoneVerifyActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="continue_button">CONTINUE</string>
+    <string name="amount_40">We will charge 40 Tk from your balance for your desire package. After purchasing this package we will add 20 minute into your kotha bondhu app balance. After purchasing we will not refund the money. We deduct the minute from your kotha bondu app balance for every minute you talking with our agent. This is not a recurring charge. You have to buy package again after finishing your balance.</string>
+    <string name="amount_100">We will charge 100 Tk from your balance for your desire package. After purchasing this package we will add 50 minute into your kotha bondhu app balance. After purchasing we will not refund the money. We deduct the minute from your kotha bondu app balance for every minute you talking with our agent. This is not a recurring charge. You have to buy package again after finishing your balance.</string>
+    <string name="amount_190">We will charge 190 Tk from your balance for your desire package. After purchasing this package we will add 100 minute into your kotha bondhu app balance. After purchasing we will not refund the money. We deduct the minute from your kotha bondu app balance for every minute you talking with our agent. This is not a recurring charge. You have to buy package again after finishing your balance.</string>
+    <string name="amount_380">We will charge 380 Tk from your balance for your desire package. After purchasing this package we will add 200 minute into your kotha bondhu app balance. After purchasing we will not refund the money. We deduct the minute from your kotha bondu app balance for every minute you talking with our agent. This is not a recurring charge. You have to buy package again after finishing your balance.</string>
+    <string name="_20_min_40_tk">20 min / 40 Tk</string>
 </resources>

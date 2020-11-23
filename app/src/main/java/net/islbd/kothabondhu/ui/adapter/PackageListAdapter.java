@@ -3,6 +3,8 @@ package net.islbd.kothabondhu.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.presenter.IDbInteractor;
 import net.islbd.kothabondhu.ui.activity.PaymentMethodActivity;
+import net.islbd.kothabondhu.ui.fragment.PackageListFragment;
 import net.islbd.kothabondhu.utility.GlobalConstants;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
@@ -33,7 +36,7 @@ import retrofit2.Response;
  * Created by UserStatusDetails on 2/16/2019.
  */
 
-public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.ViewHolder> {
+public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.ViewHolder> implements PackageListFragment.ContinueWork {
     private static final String TAG = "PackageListAdapter";
     private IDbInteractor dbInteractor;
     private Context context;
@@ -42,10 +45,13 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
     private SharedPreferences sharedPreferences;
     private Call<PackageStatusInfo> packageStatusInfoCall;
     private IApiInteractor apiInteractor;
+    private String packageId, packageIdentifier, packageDetails, packageDuration, packageMedia;
+    private Fragment fragment;
 
-    public PackageListAdapter(Context context, IDbInteractor dbInteractor) {
+    public PackageListAdapter(Context context, IDbInteractor dbInteractor, Fragment fragment) {
         this.dbInteractor = dbInteractor;
         this.context = context;
+        this.fragment = fragment;
         AppPresenter appPresenter = new AppPresenter();
         this.sharedPreferences = appPresenter.getSharedPrefInterface(context);
         this.apiInteractor = appPresenter.getApiInterface();
@@ -61,43 +67,43 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
 
     @Override
     public void onBindViewHolder(final PackageListAdapter.ViewHolder holder, int position) {
-        final String packageId = packageList.get(position).getPkgId();
-        final String packageIdentifier = packageList.get(position).getPkgid();
-        final String packageDetails = packageList.get(position).getPackageDetails();
-        final String packageDuration = packageList.get(position).getPkgDuration();
-        final String packageMedia = packageList.get(position).getMedia();
+
         //holder.packageNameTextView.setText(packageIdentifier);
-        holder.packageNameTextView.setText(packageDetails);
+        holder.packageNameTextView.setText(packageList.get(position).getPackageDetails());
 
         holder.packageListRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String endUserRegId = sharedPreferences.getString(SharedPrefUtils._PACKAGE_IDENTIFIER, "");
-                if (endUserRegId.isEmpty()) {
+                loadPackageDetails(position);
+                ((PackageListFragment)fragment).setPackageTextAcToAmount(packageList.get(position).getPackageDetails());
+            }
+        });
+    }
+
+    @Override
+    public void loadMoveToPurchase(){
+        String endUserRegId = sharedPreferences.getString(SharedPrefUtils._PACKAGE_IDENTIFIER, "");
+        if (endUserRegId.isEmpty()) {
+            moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
+            return;
+        }
+
+        PackageStatusQuery packageStatusQuery = new PackageStatusQuery();
+        packageStatusQuery.setEndUserRegId(endUserRegId);
+        packageStatusInfoCall = apiInteractor.getPackageStatus(packageStatusQuery);
+        packageStatusInfoCall.enqueue(new Callback<PackageStatusInfo>() {
+            @Override
+            public void onResponse(retrofit2.Call<PackageStatusInfo> rCall, Response<PackageStatusInfo> response) {
+                if (response.code() == HttpStatusCodes.OK) {
+                    Toast.makeText(context, "Package already purchased", Toast.LENGTH_SHORT).show();
+                } else {
                     moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
-                    return;
                 }
+            }
 
-                PackageStatusQuery packageStatusQuery = new PackageStatusQuery();
-                packageStatusQuery.setEndUserRegId(endUserRegId);
-                packageStatusInfoCall = apiInteractor.getPackageStatus(packageStatusQuery);
-                packageStatusInfoCall.enqueue(new Callback<PackageStatusInfo>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<PackageStatusInfo> rCall, Response<PackageStatusInfo> response) {
-                        if (response.code() == HttpStatusCodes.OK) {
-                            Toast.makeText(context, "Package already purchased", Toast.LENGTH_SHORT).show();
-                        } else {
-                            moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(retrofit2.Call<PackageStatusInfo> rCall, Throwable t) {
-                        moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
-                    }
-                });
-
-
+            @Override
+            public void onFailure(retrofit2.Call<PackageStatusInfo> rCall, Throwable t) {
+                moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
             }
         });
     }
@@ -112,6 +118,15 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
 
     public void setPackageList(List<PackageInfo> packageList) {
         this.packageList = packageList;
+        if(this.packageList != null && packageList.size() > 0) loadPackageDetails(0);
+    }
+
+    private void loadPackageDetails(int position){
+        packageId = packageList.get(position).getPkgId();
+        packageIdentifier = packageList.get(position).getPkgid();
+        packageDetails = packageList.get(position).getPackageDetails();
+        packageDuration = packageList.get(position).getPkgDuration();
+        packageMedia = packageList.get(position).getMedia();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

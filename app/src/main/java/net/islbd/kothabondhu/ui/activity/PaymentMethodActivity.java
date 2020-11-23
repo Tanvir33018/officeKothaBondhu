@@ -57,6 +57,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
         packageMedia = getIntent().getStringExtra(GlobalConstants.EXT_TAG_PACKAGE_MEDIA);
         packageDuration = getIntent().getStringExtra(GlobalConstants.EXT_TAG_PACKAGE_DURATION);
         packageDetails = getIntent().getStringExtra(GlobalConstants.EXT_TAG_PACKAGE_DETAILS);
+        Toast.makeText(context, packageDetails, Toast.LENGTH_SHORT).show();
         AppPresenter appPresenter = new AppPresenter();
         apiInteractor = appPresenter.getApiInterface();
         sharedPref = appPresenter.getSharedPrefInterface(this);
