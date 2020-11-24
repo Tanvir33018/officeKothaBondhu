@@ -11,6 +11,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.ActionBar;
 import android.os.Bundle;
+import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,34 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_verify);
+        if(alreadyRead()) loadActivityWork();
+        else loadAboutActivity();
+        //afterReadComplete();
+    }
+
+    public boolean alreadyRead(){
+        SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
+        //SharedPreferences.Editor sharedPreferencesEdit = sharedPreferences.edit();
+        boolean alreadyRead = sharedPreferences.getBoolean("Read", false);
+        return alreadyRead;
+    }
+
+    private void loadAboutActivity(){
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        }, 2000);
+    }
+
+    private void loadActivityWork(){
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();

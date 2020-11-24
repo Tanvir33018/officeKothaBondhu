@@ -18,4 +18,8 @@
         android:id="@+id/my_account"
         android:icon="@drawable/my_account"
         android:title="@string/nav_item_my_account" />
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_about"
+        android:title="@string/nav_item_about" />
 </menu>

@@ -1,12 +1,6 @@
 <component name="libraryTable">
   <library name="Gradle: com.mikhaellopez:circularimageview:3.2.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d5e7e9db9b1676a0d8bb8f64652a6181/jetified-circularimageview-3.2.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d5e7e9db9b1676a0d8bb8f64652a6181/jetified-circularimageview-3.2.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d5e7e9db9b1676a0d8bb8f64652a6181/jetified-circularimageview-3.2.0/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0bc8643ce7ee55ea66caa98568166671/jetified-circularimageview-3.2.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0bc8643ce7ee55ea66caa98568166671/jetified-circularimageview-3.2.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0bc8643ce7ee55ea66caa98568166671/jetified-circularimageview-3.2.0/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7f1bdc1ce34a2a136432d5ef90c5fdb5/jetified-circularimageview-3.2.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7f1bdc1ce34a2a136432d5ef90c5fdb5/jetified-circularimageview-3.2.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7f1bdc1ce34a2a136432d5ef90c5fdb5/jetified-circularimageview-3.2.0/AndroidManifest.xml" />

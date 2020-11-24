@@ -40,6 +40,7 @@
     <string name="nav_item_love_tips">Love Tips</string>
     <string name="nav_item_jokes">Jokes</string>
     <string name="nav_item_home">Home</string>
+    <string name="nav_item_about">About</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
     <string name="media_url_mp3">http://storage.googleapis.com/exoplayer-test-media-0/play.mp3</string>
@@ -53,9 +54,19 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="continue_button">CONTINUE</string>
-    <string name="amount_40">We will charge 40 Tk from your balance for your desire package. After purchasing this package we will add 20 minute into your kotha bondhu app balance. After purchasing we will not refund the money. We deduct the minute from your kotha bondu app balance for every minute you talking with our agent. This is not a recurring charge. You have to buy package again after finishing your balance.</string>
-    <string name="amount_100">We will charge 100 Tk from your balance for your desire package. After purchasing this package we will add 50 minute into your kotha bondhu app balance. After purchasing we will not refund the money. We deduct the minute from your kotha bondu app balance for every minute you talking with our agent. This is not a recurring charge. You have to buy package again after finishing your balance.</string>
-    <string name="amount_190">We will charge 190 Tk from your balance for your desire package. After purchasing this package we will add 100 minute into your kotha bondhu app balance. After purchasing we will not refund the money. We deduct the minute from your kotha bondu app balance for every minute you talking with our agent. This is not a recurring charge. You have to buy package again after finishing your balance.</string>
-    <string name="amount_380">We will charge 380 Tk from your balance for your desire package. After purchasing this package we will add 200 minute into your kotha bondhu app balance. After purchasing we will not refund the money. We deduct the minute from your kotha bondu app balance for every minute you talking with our agent. This is not a recurring charge. You have to buy package again after finishing your balance.</string>
+    <string name="amount_40">We will be charge 40 Tk from your balance for your desire package purchase. After purchasing this package you will get 20 minutes into your kotha bondhu app balance. After successful purchase there is no refund policy. Minute will be deduct automatically from your kotha bondu app balance after talk with our agent. This is not a recurring charge. You need to buy package again after finish your app minute balance.  </string>
+    <string name="amount_100">We will be charge 100 Tk from your balance for your desire package purchase. After purchasing this package you will get 50 minutes into your kotha bondhu app balance. After successful purchase there is no refund policy. Minute will be deduct automatically from your kotha bondu app balance after talk with our agent. This is not a recurring charge. You need to buy package again after finish your app minute balance.  </string>
+    <string name="amount_190">We will be charge 190 Tk from your balance for your desire package purchase. After purchasing this package you will get 100 minutes into your kotha bondhu app balance. After successful purchase there is no refund policy. Minute will be deduct automatically from your kotha bondu app balance after talk with our agent. This is not a recurring charge. You need to buy package again after finish your app minute balance.  </string>
+    <string name="amount_380">We will be charge 380 Tk from your balance for your desire package purchase. After purchasing this package you will get 200 minutes into your kotha bondhu app balance. After successful purchase there is no refund policy. Minute will be deduct automatically from your kotha bondu app balance after talk with our agent. This is not a recurring charge. You need to buy package again after finish your app minute balance.  </string>
     <string name="_20_min_40_tk">20 min / 40 Tk</string>
+    <string name="what_is_kotha_bondhu">What is Kotha Bondhu:</string>
+    <string name="kotha_bondhu_is_a">\u0020\u0020Kotha Bondhu is a supportive apps for it’s users. User can get information from this app. This is a voice interactive app. User can connect with our real customer care executive by this app.</string>
+    <string name="what_information_user_will_get">What information user will get:</string>
+    <string name="user_will_get_online_support">\u0020User will get online support for various matters like travel information, Nutrition tips, Beauty Tips, Cooking Tips etc. Also user can do interceptive voice chat with our customer care agent directly.</string>
+    <string name="payment">Payment:</string>
+    <string name="user_have_to_pay_for_our_support">\u0020User have to pay for our support. We will charge for every single minute. Customs have to by minute from us using local and international payment gateway.</string>
+    <string name="how_to_pay">How to Pay:</string>
+    <string name="user_can_buy_minute_by">\u0020User can buy minute by clicking into package tab. User can purchase desire package according to our given package option.</string>
+    <string name="test_text">–4,\u00205,\u0020–5,\u00206,\u0020–6</string>
+
 </resources>

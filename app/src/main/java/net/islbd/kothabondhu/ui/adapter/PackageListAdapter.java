@@ -47,6 +47,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
     private IApiInteractor apiInteractor;
     private String packageId, packageIdentifier, packageDetails, packageDuration, packageMedia;
     private Fragment fragment;
+    private int selected_position = 0;
 
     public PackageListAdapter(Context context, IDbInteractor dbInteractor, Fragment fragment) {
         this.dbInteractor = dbInteractor;
@@ -68,12 +69,17 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
     @Override
     public void onBindViewHolder(final PackageListAdapter.ViewHolder holder, int position) {
 
+        if(position == selected_position) holder.setPackageTextColorToGreen();
+        else holder.setPackageTextColorToBlack();
+
         //holder.packageNameTextView.setText(packageIdentifier);
         holder.packageNameTextView.setText(packageList.get(position).getPackageDetails());
 
         holder.packageListRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                selected_position = position;
+                notifyDataSetChanged();
                 loadPackageDetails(position);
                 ((PackageListFragment)fragment).setPackageTextAcToAmount(packageList.get(position).getPackageDetails());
             }
@@ -129,7 +135,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
         packageMedia = packageList.get(position).getMedia();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         protected TextView packageNameTextView;
         protected RelativeLayout packageListRelativeLayout;
 
@@ -141,6 +147,14 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
         private void initializeWidgets(View itemView) {
             packageNameTextView = itemView.findViewById(R.id.package_details_textView);
             packageListRelativeLayout = itemView.findViewById(R.id.package_item_relativeLayout);
+        }
+
+        private void setPackageTextColorToGreen(){
+            packageNameTextView.setTextColor(context.getResources().getColor(R.color.green_500));
+        }
+
+        private void setPackageTextColorToBlack(){
+            packageNameTextView.setTextColor(context.getResources().getColor(R.color.black));
         }
     }
 

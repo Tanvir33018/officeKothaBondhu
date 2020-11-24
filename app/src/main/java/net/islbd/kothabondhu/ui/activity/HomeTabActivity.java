@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
@@ -39,7 +41,7 @@ import net.islbd.kothabondhu.utility.SharedPrefUtils;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeTabActivity extends BaseActivity implements IPackageSelectListener, NavigationView.OnNavigationItemSelectedListener {
+public class HomeTabActivity extends BaseActivity implements IPackageSelectListener, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
     //private HomeTabAdapter mSectionsPagerAdapter;
     //private ViewPager mViewPager;
     private Context context;
@@ -92,6 +94,8 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
         sharedPreferences = new AppPresenter().getSharedPrefInterface(context);
@@ -189,14 +193,16 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         int id = item.getItemId();
         Fragment fragment = null;
         Intent intent = null;
-        if (id == R.id.home) {
+        if (id == R.id.home || id == R.id.bottom_home) {
             fragment = new AgentListFragment();
-        } else if (id == R.id.my_account) {
+        } else if (id == R.id.my_account || id == R.id.bottom_my_account) {
             intent = new Intent(this, MyAccountActivity.class);
-        } else if (id == R.id.settings) {
+        } else if (id == R.id.settings || id == R.id.bottom_settings) {
             intent = new Intent(this, SettingsActivity.class);
-        } else if (id == R.id.subscription_package) {
+        } else if (id == R.id.subscription_package || id == R.id.bottom_package) {
             intent = new Intent(this, PackagesActivity.class);
+        } else if(id == R.id.about || id == R.id.bottom_about){
+            intent = new Intent(this, AboutActivity.class);
         }
 
         if (intent != null) {
