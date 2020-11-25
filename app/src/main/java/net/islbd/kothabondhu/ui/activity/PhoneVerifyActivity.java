@@ -7,12 +7,21 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.ActionBar;
 import android.os.Bundle;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +37,8 @@ import retrofit2.Response;
 
 import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
+import net.islbd.kothabondhu.model.pojo.RegisterInfo;
+import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.model.pojo.UserStatusDetails;
 import net.islbd.kothabondhu.presenter.AppPresenter;
@@ -42,7 +53,8 @@ import net.islbd.kothabondhu.utility.SharedPrefUtils;
  */
 public class PhoneVerifyActivity extends BaseActivity implements SinchService.StartFailedListener {
     private Splashy splashy;
-    private Call<UserStatusDetails> verifyCall;
+    private Call<RegisterInfo> verifyCall;
+    private Call<UserStatusDetails> verifyCall2;
     private SharedPreferences sharedPref;
     private Context context;
     private IApiInteractor apiInteractor;
@@ -51,16 +63,79 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     private TextInputLayout textInputLayout;
     private Button verifyButton;
     private ImageView splashLogo;
+    private UserGmailInfo userGmailInfo;
 
     private static final int REQUEST_CODE_PERMISSION = 2000;
 
+    private GoogleSignInClient mSignInClient;
+    private static final int SIGN_IN = 1;
+    private static final String TAG = "PhoneVerifyActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_verify);
         if(alreadyRead()) loadActivityWork();
         else loadAboutActivity();
+        //verifyUser(null);
         //afterReadComplete();
+    }
+
+    private void signInWork(){
+        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestId()
+                .build();
+        mSignInClient = GoogleSignIn.getClient(this, options);
+        verifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = mSignInClient.getSignInIntent();
+                startActivityForResult(intent, SIGN_IN);
+                /*String phone = phoneEditText.getText().toString().trim();
+                if (phone.isEmpty()) {
+                    Toast.makeText(context, "Please insert phone Number", Toast.LENGTH_SHORT).show();
+                    return;
+                }*/
+                //verifyUser(phone);
+            }
+        });
+    }
+
+    private UserGmailInfo getUserInfoFromGMail(){
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this); //It will return null on sign out condition
+        if(googleSignInAccount != null){
+            String name = googleSignInAccount.getDisplayName();
+            String email = googleSignInAccount.getEmail();
+            String id = googleSignInAccount.getId();
+            return new UserGmailInfo(name, email, id);
+            //Log.d(TAG, "onCreate: " + email);
+        }
+        return null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            if (task.isSuccessful()) {
+                // Sign in succeeded, proceed with account
+                Toast.makeText(this, "Sign in successful!", Toast.LENGTH_SHORT).show();
+                restartActivity();
+                //GoogleSignInAccount acct = task.getResult();
+                //System.out.println("helo");
+            } else {
+                Toast.makeText(this, "Sign in failed!", Toast.LENGTH_SHORT).show();
+                // Sign in failed, handle failure and update UI
+                // ...
+            }
+        }
+    }
+
+    private void restartActivity(){
+        Intent intent = getIntent();
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     public boolean alreadyRead(){
@@ -109,17 +184,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
             initializeData();
         }
 
-        verifyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String phone = phoneEditText.getText().toString().trim();
-                if (phone.isEmpty()) {
-                    Toast.makeText(context, "Please insert phone Number", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                verifyUser(phone);
-            }
-        });
+        signInWork();
     }
 
     private void initializeData() {
@@ -130,25 +195,57 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
         apiInteractor = appPresenter.getApiInterface();
         sharedPref = appPresenter.getSharedPrefInterface(this);
 
-        new Handler().postDelayed(new Runnable() {
+        /*new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 String phone = getPhoneNumber();
                 verifyUser(phone);
             }
-        }, 1000);
+        }, 1000);*/
+        String phone = getPhoneNumber();
+        verifyUser(phone);
     }
 
     private void verifyUser(String phone) {
+        userGmailInfo = getUserInfoFromGMail();
+        if(userGmailInfo == null){
+            Toast.makeText(this, "Please log in", Toast.LENGTH_SHORT).show();
+            showVerifyButton(true);
+            return;
+        }
+        Log.d(TAG, "verifyUser: " + userGmailInfo.toString());
         final UserQuery userQuery = new UserQuery();
         userQuery.setEndUserId(phone);
-        verifyCall = apiInteractor.getUserStatus(userQuery);
-        verifyCall.enqueue(new Callback<UserStatusDetails>() {
+        verifyCall = apiInteractor.getUserAccountInfoGMail(userGmailInfo);
+        verifyCall.enqueue(new Callback<RegisterInfo>() {
+            @Override
+            public void onResponse(Call<RegisterInfo> call, Response<RegisterInfo> response) {
+                if(response.code() == HttpStatusCodes.OK){
+                    RegisterInfo registerInfo = response.body();
+                    if(registerInfo.getStatusCode() != null && registerInfo.getDescription() != null){
+                        sharedPref.edit().putInt(SharedPrefUtils._STATUS_CODE, Integer.parseInt(registerInfo.getStatusCode())).apply();
+                        if (!getSinchServiceInterface().isStarted()) {
+                            getSinchServiceInterface().startClient(userGmailInfo.getId());
+                        } else {
+                            logIntoHomeScreen();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterInfo> call, Throwable t) {
+
+            }
+        });
+        /*verifyCall2 = apiInteractor.getUserStatus(userQuery);
+        verifyCall2.enqueue(new Callback<UserStatusDetails>() {
             @Override
             public void onResponse(Call<UserStatusDetails> call, Response<UserStatusDetails> response) {
                 if (response.code() == HttpStatusCodes.OK) {
                     UserStatusDetails userStatusDetails = response.body();
-                    if (userStatusDetails.getEndUserRegId() != null && userStatusDetails.getEndUserId() != null) {
+                    //if (userStatusDetails.getEndUserRegId() != null && userStatusDetails.getEndUserId() != null)
+                    if (userStatusDetails.getEndUserId() != null) {
                         sharedPref.edit().putInt(SharedPrefUtils._USER_PHONE, Integer.parseInt(userStatusDetails.getEndUserId())).apply();
                         if (!getSinchServiceInterface().isStarted()) {
                             getSinchServiceInterface().startClient(userStatusDetails.getEndUserId());
@@ -166,7 +263,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
             public void onFailure(Call<UserStatusDetails> call, Throwable t) {
                 Toast.makeText(PhoneVerifyActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
     }
 
     private void logIntoHomeScreen() {
@@ -184,9 +281,9 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     private void showVerifyButton(boolean isShow) {
         if (isShow) {
             verifyButton.setVisibility(View.VISIBLE);
-            phoneEditText.setVisibility(View.VISIBLE);
-            textInputLayout.setVisibility(View.VISIBLE);
-            splashLogo.setVisibility(View.GONE);
+            phoneEditText.setVisibility(View.GONE);
+            textInputLayout.setVisibility(View.GONE);
+            splashLogo.setVisibility(View.VISIBLE);
         } else {
             verifyButton.setVisibility(View.GONE);
             phoneEditText.setVisibility(View.GONE);

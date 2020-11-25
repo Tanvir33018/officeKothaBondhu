@@ -13,4 +13,9 @@ public final class SharedPrefUtils {
     public static final String _PACKAGE_IDENTIFIER = "PACKAGE_IDENTIFIER";
     public static final String _PACKAGE_DETAILS = "PACKAGE_DETAILS";
     public static final String _PACKAGE_DURATION = "PACKAGE_DURATION";
+
+    public static final String _STATUS_CODE = "STATUS_CODE";
+    public static final String _GMAIL_ID = "GMAIL_ID";
+    public static final String _GMAIL_NAME = "GMAIL_NAME";
+    public static final String _GMAIL_EMAIL = "GMAIL_EMAIL";
 }

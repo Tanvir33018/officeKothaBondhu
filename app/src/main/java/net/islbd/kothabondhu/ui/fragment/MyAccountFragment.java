@@ -16,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,6 +29,7 @@ import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.CallHistoryDetails;
 import net.islbd.kothabondhu.model.pojo.PackageHistoryDetails;
 import net.islbd.kothabondhu.model.pojo.UserAccountInfo;
+import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
@@ -47,11 +51,15 @@ public class MyAccountFragment extends Fragment {
     private PackageHistoryListAdapter packageHistoryListAdapter;
     private TextView nameTextView, ageTextView, sexTextView, locationTextView,
             phoneTextView, timeLeftTextView, lastCallDurationTextView;
+    private String phone;
+
+    private UserGmailInfo userGmailInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_account, container, false);
+        userGmailInfo = getUserInfoFromGMail();
         initializeWidgets(view);
         initializeData();
         eventListeners();
@@ -129,7 +137,8 @@ public class MyAccountFragment extends Fragment {
     }*/
 
     private void downLoadUserAccountInfo() {
-        String phone = "0" + String.valueOf(sharedPref.getInt(SharedPrefUtils._USER_PHONE, 0));
+        //phone = "0" + String.valueOf(sharedPref.getInt(SharedPrefUtils._USER_PHONE, 0));
+        phone = userGmailInfo.getId();
         UserQuery userQuery = new UserQuery();
         userQuery.setEndUserId(phone);
         userAccountInfoCall = apiInteractor.getUserAccountInfo(userQuery);
@@ -141,7 +150,8 @@ public class MyAccountFragment extends Fragment {
                         return;
 
                     UserAccountInfo userAccountInfo = response.body();
-                    String userName = userAccountInfo.getUserInfo().getName();
+                    //String userName = userAccountInfo.getUserInfo().getName();
+                    String userName = userGmailInfo.getEmail();
                     String userGender = "Sex : " + userAccountInfo.getUserInfo().getUsergender();
                     String userAge = "Age : " + userAccountInfo.getUserInfo().getUserAge();
                     String userLocation = "From : " + userAccountInfo.getUserInfo().getUserLocation();
@@ -178,6 +188,18 @@ public class MyAccountFragment extends Fragment {
 
             }
         });
+    }
+
+    private UserGmailInfo getUserInfoFromGMail(){
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(getContext()); //It will return null on sign out condition
+        if(googleSignInAccount != null){
+            String name = googleSignInAccount.getDisplayName();
+            String email = googleSignInAccount.getEmail();
+            String id = googleSignInAccount.getId();
+            return new UserGmailInfo(name, email, id);
+            //Log.d(TAG, "onCreate: " + email);
+        }
+        return null;
     }
 
 

@@ -36,7 +36,6 @@
                     android:id="@+id/setting_phone_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:drawableLeft="@drawable/ic_email"
                     android:drawableStart="@drawable/ic_email"
                     android:ems="10"
@@ -49,6 +48,7 @@
                 android:id="@+id/input_layout_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:layout_margin="2dp">
 
                 <EditText

@@ -22,6 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import java.io.ByteArrayOutputStream;
 
 import retrofit2.Call;
@@ -30,6 +33,7 @@ import retrofit2.Response;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.StatusInfo;
 import net.islbd.kothabondhu.model.pojo.UserDetails;
+import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
@@ -44,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
     private IApiInteractor apiInteractor;
     private Context context;
     private SharedPreferences sharedPref;
+    private UserGmailInfo userGmailInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +61,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void initializeWidgets() {
+        userGmailInfo = getUserInfoFromGMail();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Settings");
         userNameEditText = findViewById(R.id.settings_username_EditText);
+        userNameEditText.setText(userGmailInfo.getName());
         phoneEditText = findViewById(R.id.setting_phone_EditText);
         ageEditText = findViewById(R.id.settings_age_EditText);
         genderAutoComp = findViewById(R.id.settings_gender_AutoCompleteTextView);
@@ -79,6 +86,18 @@ public class SettingsActivity extends AppCompatActivity {
         sharedPref = appPresenter.getSharedPrefInterface(context);
         String phone = String.valueOf("0" + sharedPref.getInt(SharedPrefUtils._USER_PHONE, 0));
         phoneEditText.setText(phone);
+    }
+
+    private UserGmailInfo getUserInfoFromGMail(){
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this); //It will return null on sign out condition
+        if(googleSignInAccount != null){
+            String name = googleSignInAccount.getDisplayName();
+            String email = googleSignInAccount.getEmail();
+            String id = googleSignInAccount.getId();
+            return new UserGmailInfo(name, email, id);
+            //Log.d(TAG, "onCreate: " + email);
+        }
+        return null;
     }
 
     private void eventListeners() {
