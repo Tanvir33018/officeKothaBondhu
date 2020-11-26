@@ -305,7 +305,7 @@
                         android:maxLines="1"
                         android:paddingTop="@dimen/margin2"
                         android:paddingBottom="@dimen/margin2"
-                        android:text="Package Duration"
+                        android:text="Package Expire Date"
                         android:textColor="@color/white" />
 
                     <TextView
@@ -322,7 +322,7 @@
                         android:paddingLeft="@dimen/margin4"
                         android:paddingTop="@dimen/margin2"
                         android:paddingBottom="@dimen/margin2"
-                        android:text="Package Exp Date"
+                        android:text="Package Duration"
                         android:textColor="@color/white" />
                 </RelativeLayout>
 

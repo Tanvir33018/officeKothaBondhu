@@ -24,6 +24,7 @@ import net.islbd.kothabondhu.model.pojo.RegisterInfo;
 import net.islbd.kothabondhu.model.pojo.StatusInfo;
 import net.islbd.kothabondhu.model.pojo.UserAccountInfo;
 import net.islbd.kothabondhu.model.pojo.UserDetails;
+import net.islbd.kothabondhu.model.pojo.UserDetailsSecond;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.model.pojo.UserStatusDetails;
@@ -65,6 +66,9 @@ public interface IApiInteractor {
 
     @POST("api/setUserRegistration.php")
     Call<StatusInfo> setUserRegistration(@Body UserDetails userDetails);
+
+    @POST("api/setUserRegUp.php")
+    Call<StatusInfo> setUserRegistrationSecond(@Body UserDetailsSecond userDetailsSecond);
 
     @POST("api/getUserStatus.php")
     Call<UserStatusDetails> getUserStatus(@Body UserQuery userQuery);

@@ -195,15 +195,13 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
         apiInteractor = appPresenter.getApiInterface();
         sharedPref = appPresenter.getSharedPrefInterface(this);
 
-        /*new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 String phone = getPhoneNumber();
                 verifyUser(phone);
             }
-        }, 1000);*/
-        String phone = getPhoneNumber();
-        verifyUser(phone);
+        }, 1000);
     }
 
     private void verifyUser(String phone) {

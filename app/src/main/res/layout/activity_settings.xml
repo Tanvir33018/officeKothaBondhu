@@ -27,22 +27,25 @@
                 android:src="@drawable/ic_person" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_phone"
+                android:id="@+id/input_layout_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp">
 
                 <EditText
-                    android:id="@+id/setting_phone_EditText"
+                    android:id="@+id/setting_id_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_email"
                     android:drawableStart="@drawable/ic_email"
                     android:ems="10"
-                    android:hint="PHONE"
+                    android:hint="ID"
+                    android:visibility="gone"
                     android:inputType="number"
+                    android:enabled="false"
                     android:textColor="@color/black_overlay" />
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_username"
@@ -59,7 +62,26 @@
                     android:drawableStart="@drawable/ic_person"
                     android:ems="10"
                     android:hint="USER NAME"
+                    android:enabled="false"
                     android:inputType="textEmailAddress"
+                    android:textColor="@color/black_overlay" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp">
+
+                <EditText
+                    android:id="@+id/setting_phone_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_email"
+                    android:drawableStart="@drawable/ic_email"
+                    android:ems="10"
+                    android:hint="PHONE"
+                    android:inputType="number"
                     android:textColor="@color/black_overlay" />
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,6 +22,7 @@ import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.BuyPack;
 import net.islbd.kothabondhu.model.pojo.PackageInfo;
 import net.islbd.kothabondhu.model.pojo.PackageStatusInfo;
+import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.utility.GlobalConstants;
@@ -33,6 +37,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private IApiInteractor apiInteractor;
     private SharedPreferences sharedPref;
     private Context context;
+    private UserGmailInfo userGmailInfo;
+    private BuyPack buyPack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,18 @@ public class PaymentMethodActivity extends AppCompatActivity {
         initializeWidgets();
         initializeData();
         eventListeners();
+    }
+
+    private UserGmailInfo getUserInfoFromGMail(){
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this); //It will return null on sign out condition
+        if(googleSignInAccount != null){
+            String name = googleSignInAccount.getDisplayName();
+            String email = googleSignInAccount.getEmail();
+            String id = googleSignInAccount.getId();
+            return new UserGmailInfo(name, email, id);
+            //Log.d(TAG, "onCreate: " + email);
+        }
+        return null;
     }
 
     private void initializeWidgets() {
@@ -52,8 +70,10 @@ public class PaymentMethodActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Payment");
         context = this;
+        userGmailInfo = getUserInfoFromGMail();
         packageID = getIntent().getStringExtra(GlobalConstants.EXT_TAG_PACKAGE_ID);
-        packageIdentifier = getIntent().getStringExtra(GlobalConstants.EXT_TAG_PACKAGE_IDENTIFIER);
+        //packageIdentifier = getIntent().getStringExtra(GlobalConstants.EXT_TAG_PACKAGE_IDENTIFIER);
+        packageIdentifier = userGmailInfo.getId();
         packageMedia = getIntent().getStringExtra(GlobalConstants.EXT_TAG_PACKAGE_MEDIA);
         packageDuration = getIntent().getStringExtra(GlobalConstants.EXT_TAG_PACKAGE_DURATION);
         packageDetails = getIntent().getStringExtra(GlobalConstants.EXT_TAG_PACKAGE_DETAILS);
@@ -119,7 +139,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
             }
         });*/
 
-        final BuyPack buyPack = new BuyPack();
+        buyPack = new BuyPack();
         buyPack.setEndUserRegId(packageIdentifier);
         buyPack.setPackBuyMedia(packageMedia);
         buyPack.setPackId(packageID);

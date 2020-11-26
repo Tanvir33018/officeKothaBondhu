@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -23,6 +26,7 @@ import retrofit2.Response;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.PackageInfo;
 import net.islbd.kothabondhu.model.pojo.PackageInfoQuery;
+import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.presenter.IDbInteractor;
@@ -40,6 +44,7 @@ public class PackageListFragment extends Fragment {
     private PackageListAdapter packageListAdapter;
     private TextView textViewAll, textViewTitle;
     private Button buttonContinue;
+    private UserGmailInfo userGmailInfo;
 
     private static final String FORTY_TAKA = "20 min / 40 TK";
     private static final String HUNDRED_TAKA = "50 min / 100 TK";
@@ -68,6 +73,18 @@ public class PackageListFragment extends Fragment {
         initializeData();
         eventListener();
         return view;
+    }
+
+    private UserGmailInfo getUserInfoFromGMail(){
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(getContext()); //It will return null on sign out condition
+        if(googleSignInAccount != null){
+            String name = googleSignInAccount.getDisplayName();
+            String email = googleSignInAccount.getEmail();
+            String id = googleSignInAccount.getId();
+            return new UserGmailInfo(name, email, id);
+            //Log.d(TAG, "onCreate: " + email);
+        }
+        return null;
     }
 
     private void initializeWidgets(View view) {
@@ -123,8 +140,9 @@ public class PackageListFragment extends Fragment {
     private void downloadPackages() {
         PackageInfoQuery packageInfoQuery = new PackageInfoQuery();
         packageInfoQuery.setQ("19");
-        packageInfoQuery.setMobilenumber(String.valueOf(sharedPref.getInt(SharedPrefUtils._USER_PHONE, 0)));
-        packageInfoQuery.setMobilenumber("01888014");
+        userGmailInfo = getUserInfoFromGMail();
+        //packageInfoQuery.setMobilenumber(String.valueOf(sharedPref.getInt(SharedPrefUtils._USER_PHONE, 0)));
+        packageInfoQuery.setMobilenumber(userGmailInfo.getId());
         packageListCall = apiInteractor.getPackageList(packageInfoQuery);
         packageListCall.enqueue(new Callback<List<PackageInfo>>() {
             @Override

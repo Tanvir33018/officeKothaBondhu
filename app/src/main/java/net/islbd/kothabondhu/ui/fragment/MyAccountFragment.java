@@ -155,12 +155,14 @@ public class MyAccountFragment extends Fragment {
                     String userGender = "Sex : " + userAccountInfo.getUserInfo().getUsergender();
                     String userAge = "Age : " + userAccountInfo.getUserInfo().getUserAge();
                     String userLocation = "From : " + userAccountInfo.getUserInfo().getUserLocation();
-                    String userPhone = "Phone : " + userAccountInfo.getUserInfo().getEndUserId();
+                    //String userPhone = "Phone : " + userAccountInfo.getUserInfo().getEndUserId();
+                    String userPhone = "Name : " + userAccountInfo.getUserInfo().getName();
                     String activationDate = userAccountInfo.getUserInfo().getActiveDate();
                     String timeLeft = "Time Left : ";
                     String lastCallDuration = "Last Call Duration : ";
                     List<CallHistoryDetails> callHistoryDetailsList = userAccountInfo.getCallHistory();
                     List<PackageHistoryDetails> packageHistoryDetailsList = userAccountInfo.getPackageHistoryDetailsList();
+
 
                     nameTextView.setText(userName);
                     ageTextView.setText(userAge);
@@ -185,7 +187,7 @@ public class MyAccountFragment extends Fragment {
 
             @Override
             public void onFailure(Call<UserAccountInfo> call, Throwable t) {
-
+                Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }

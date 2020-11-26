@@ -19,7 +19,7 @@ public class PackageInfo {
     private String media;
 
     public String getPkgId() {
-        return pkgId;
+        return pkgid;
     }
 
     public void setPkgId(String pkgId) {

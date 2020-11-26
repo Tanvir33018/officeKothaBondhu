@@ -33,6 +33,7 @@ import retrofit2.Response;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.StatusInfo;
 import net.islbd.kothabondhu.model.pojo.UserDetails;
+import net.islbd.kothabondhu.model.pojo.UserDetailsSecond;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
@@ -40,7 +41,7 @@ import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
 public class SettingsActivity extends AppCompatActivity {
-    private EditText phoneEditText, userNameEditText, ageEditText;
+    private EditText phoneEditText, userNameEditText, ageEditText, idEditText;
     private AutoCompleteTextView genderAutoComp, locationAutoComp;
     private Button cancelButton, saveButton;
     private ImageView userImageView;
@@ -49,6 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Context context;
     private SharedPreferences sharedPref;
     private UserGmailInfo userGmailInfo;
+    private UserDetailsSecond userDetailsSecond;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
         userNameEditText = findViewById(R.id.settings_username_EditText);
         userNameEditText.setText(userGmailInfo.getName());
         phoneEditText = findViewById(R.id.setting_phone_EditText);
+        idEditText = findViewById(R.id.setting_id_EditText);
         ageEditText = findViewById(R.id.settings_age_EditText);
         genderAutoComp = findViewById(R.id.settings_gender_AutoCompleteTextView);
         locationAutoComp = findViewById(R.id.settings_location_AutoCompleteTextView);
@@ -84,8 +87,9 @@ public class SettingsActivity extends AppCompatActivity {
         AppPresenter appPresenter = new AppPresenter();
         apiInteractor = appPresenter.getApiInterface();
         sharedPref = appPresenter.getSharedPrefInterface(context);
-        String phone = String.valueOf("0" + sharedPref.getInt(SharedPrefUtils._USER_PHONE, 0));
-        phoneEditText.setText(phone);
+        idEditText.setText(userGmailInfo.getId());
+        //String phone = String.valueOf("0" + sharedPref.getInt(SharedPrefUtils._USER_PHONE, 0));
+        //phoneEditText.setText(phone);
     }
 
     private UserGmailInfo getUserInfoFromGMail(){
@@ -117,18 +121,20 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void saveUserData() {
-        String userName = userNameEditText.getText().toString();
+        //String userName = userNameEditText.getText().toString();
         String userAge = ageEditText.getText().toString();
         String phone = phoneEditText.getText().toString();
+        String id = idEditText.getText().toString();
         String userLocation = locationAutoComp.getText().toString();
         String userGender = genderAutoComp.getText().toString();
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUserName(userName);
-        userDetails.setEndUserId(userAge);
-        userDetails.setAge(phone);
-        userDetails.setLocation(userLocation);
-        userDetails.setGender(userGender);
-        statusInfoCall = apiInteractor.setUserRegistration(userDetails);
+        userDetailsSecond = new UserDetailsSecond();
+        userDetailsSecond.setEndUserId(phone);
+        userDetailsSecond.setAge(userAge);
+        userDetailsSecond.setLocation(userLocation);
+        userDetailsSecond.setGender(userGender);
+        userDetailsSecond.setId(id);
+        userDetailsSecond.setEmail(userGmailInfo.getEmail());
+        statusInfoCall = apiInteractor.setUserRegistrationSecond(userDetailsSecond);
         statusInfoCall.enqueue(new Callback<StatusInfo>() {
             @Override
             public void onResponse(Call<StatusInfo> call, Response<StatusInfo> response) {
