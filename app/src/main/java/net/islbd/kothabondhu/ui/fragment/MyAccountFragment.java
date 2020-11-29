@@ -27,6 +27,7 @@ import retrofit2.Response;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.CallHistoryDetails;
+import net.islbd.kothabondhu.model.pojo.CallHistoryDetailsSecond;
 import net.islbd.kothabondhu.model.pojo.PackageHistoryDetails;
 import net.islbd.kothabondhu.model.pojo.UserAccountInfo;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
@@ -160,7 +161,7 @@ public class MyAccountFragment extends Fragment {
                     String activationDate = userAccountInfo.getUserInfo().getActiveDate();
                     String timeLeft = "Time Left : ";
                     String lastCallDuration = "Last Call Duration : ";
-                    List<CallHistoryDetails> callHistoryDetailsList = userAccountInfo.getCallHistory();
+                    List<CallHistoryDetailsSecond> callHistoryDetailsList = userAccountInfo.getCallHistory();
                     List<PackageHistoryDetails> packageHistoryDetailsList = userAccountInfo.getPackageHistoryDetailsList();
 
 

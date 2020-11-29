@@ -14,6 +14,7 @@ public final class GlobalConstants {
     public static final String EXT_TAG_FROM_USER_ID = "_from_user_id";
     public static final String EXT_TAG_TO_USER_ID = "_to_user_id";
     public static final String EXT_TAG_OLD_STATUS = "_old_status";
+    public static final String F_CALL_ID = "f_call_id";
 
     public static final String EXT_TAG_PACKAGE_ID = "_package_id";
     public static final String EXT_TAG_PACKAGE_IDENTIFIER = "_package_identifier";

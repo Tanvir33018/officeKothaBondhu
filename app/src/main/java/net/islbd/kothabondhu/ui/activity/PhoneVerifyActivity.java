@@ -12,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -220,7 +221,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
             public void onResponse(Call<RegisterInfo> call, Response<RegisterInfo> response) {
                 if(response.code() == HttpStatusCodes.OK){
                     RegisterInfo registerInfo = response.body();
-                    if(registerInfo.getStatusCode() != null && registerInfo.getDescription() != null){
+                    if(registerInfo.getStatusCode() != null){
                         sharedPref.edit().putInt(SharedPrefUtils._STATUS_CODE, Integer.parseInt(registerInfo.getStatusCode())).apply();
                         if (!getSinchServiceInterface().isStarted()) {
                             getSinchServiceInterface().startClient(userGmailInfo.getId());
@@ -233,7 +234,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
 
             @Override
             public void onFailure(Call<RegisterInfo> call, Throwable t) {
-
+                Toast.makeText(context, "Some problem occurs !", Toast.LENGTH_SHORT).show();
             }
         });
         /*verifyCall2 = apiInteractor.getUserStatus(userQuery);

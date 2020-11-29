@@ -11,6 +11,7 @@ import java.util.List;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.CallHistoryDetails;
+import net.islbd.kothabondhu.model.pojo.CallHistoryDetailsSecond;
 
 
 /**
@@ -19,7 +20,7 @@ import net.islbd.kothabondhu.model.pojo.CallHistoryDetails;
 
 public class CallLogListAdapter extends RecyclerView.Adapter<CallLogListAdapter.ViewHolder> {
     private Context context;
-    private List<CallHistoryDetails> callHistoryDetailsList;
+    private List<CallHistoryDetailsSecond> callHistoryDetailsList;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -33,7 +34,7 @@ public class CallLogListAdapter extends RecyclerView.Adapter<CallLogListAdapter.
         final int currentPosition = position;
         final String name = callHistoryDetailsList.get(position).getAgentName();
         final String callDate = callHistoryDetailsList.get(position).getCallDate();
-        final String duration = callHistoryDetailsList.get(position).getDuration();
+        final String duration = callHistoryDetailsList.get(position).getCallDuration() + " second";
 
         if (name != null) {
             holder.nameTextView.setText(name);
@@ -54,11 +55,11 @@ public class CallLogListAdapter extends RecyclerView.Adapter<CallLogListAdapter.
         return callHistoryDetailsList.size();
     }
 
-    public List<CallHistoryDetails> getCallHistoryDetailsList() {
+    public List<CallHistoryDetailsSecond> getCallHistoryDetailsList() {
         return callHistoryDetailsList;
     }
 
-    public void setCallHistoryDetailsList(List<CallHistoryDetails> callHistoryDetailsList) {
+    public void setCallHistoryDetailsList(List<CallHistoryDetailsSecond> callHistoryDetailsList) {
         this.callHistoryDetailsList = callHistoryDetailsList;
     }
 

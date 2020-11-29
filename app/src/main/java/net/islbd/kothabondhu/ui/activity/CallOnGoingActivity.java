@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.sinch.android.rtc.PushPair;
 import com.sinch.android.rtc.calling.Call;
@@ -32,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.CallHistoryDetails;
 import net.islbd.kothabondhu.model.pojo.StatusInfo;
+import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.service.SinchService;
@@ -67,6 +70,8 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
     private AudioManager audioManager;
 
     private boolean isMicOn = true, isSpeakerOn = false;
+
+    private CallHistoryDetails callHistoryDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -313,12 +318,15 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
     private void postCallHistory(Call call) {
         Date date = new Date(TimeUnit.SECONDS.toMillis(call.getDetails().getStartedTime()));
-        CallHistoryDetails callHistoryDetails = new CallHistoryDetails();
-        callHistoryDetails.setAgentId(call.getCallId());
+        callHistoryDetails = new CallHistoryDetails();
+        //callHistoryDetails.setAgentId(call.getCallId());
+        callHistoryDetails.setAgentId(getIntent().getStringExtra(GlobalConstants.F_CALL_ID));
         callHistoryDetails.setAgentName("");
         callHistoryDetails.setCallDate(date.toString());
         callHistoryDetails.setDuration(String.valueOf(call.getDetails().getDuration()));
-        callHistoryDetails.setUserId(String.valueOf(sharedPreferences.getInt(SharedPrefUtils._USER_PHONE, 0)));
+        UserGmailInfo userGmailInfo = getUserInfoFromGMail();
+        //callHistoryDetails.setUserId(String.valueOf(sharedPreferences.getInt(SharedPrefUtils._USER_PHONE, 0)));
+        callHistoryDetails.setUserId(userGmailInfo.getId());
         callToSetHistory = apiInteractor.setCallHistory(callHistoryDetails);
         callToSetHistory.enqueue(new retrofit2.Callback<StatusInfo>() {
             @Override
@@ -336,6 +344,18 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
             }
         });
+    }
+
+    private UserGmailInfo getUserInfoFromGMail(){
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this); //It will return null on sign out condition
+        if(googleSignInAccount != null){
+            String name = googleSignInAccount.getDisplayName();
+            String email = googleSignInAccount.getEmail();
+            String id = googleSignInAccount.getId();
+            return new UserGmailInfo(name, email, id);
+            //Log.d(TAG, "onCreate: " + email);
+        }
+        return null;
     }
 
     @Override

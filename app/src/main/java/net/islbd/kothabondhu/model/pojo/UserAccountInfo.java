@@ -12,7 +12,7 @@ public class UserAccountInfo {
     @SerializedName("UserInfo")
     private UserInfo userInfo;
     @SerializedName("callHistory")
-    private List<CallHistoryDetails> callHistory = null;
+    private List<CallHistoryDetailsSecond> callHistory = null;
     @SerializedName("packageDetails")
     private List<PackageHistoryDetails> packageHistoryDetailsList = null;
 
@@ -24,11 +24,11 @@ public class UserAccountInfo {
         this.userInfo = userInfo;
     }
 
-    public List<CallHistoryDetails> getCallHistory() {
+    public List<CallHistoryDetailsSecond> getCallHistory() {
         return callHistory;
     }
 
-    public void setCallHistory(List<CallHistoryDetails> callHistory) {
+    public void setCallHistory(List<CallHistoryDetailsSecond> callHistory) {
         this.callHistory = callHistory;
     }
 

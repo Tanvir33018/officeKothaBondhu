@@ -167,6 +167,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
                     Intent intent = new Intent(HomeTabActivity.this, CallOnGoingActivity.class);
                     intent.putExtra(SinchService.CALL_ID, call.getCallId());
                     intent.putExtra(GlobalConstants.EXT_TAG_URL, fImageUrl);
+                    intent.putExtra(GlobalConstants.F_CALL_ID, fCallId);
                     startActivity(intent);
                 } else {
                     Toast.makeText(context, "Please subscribe to a package", Toast.LENGTH_SHORT).show();

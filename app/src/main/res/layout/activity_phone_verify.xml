@@ -38,9 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin5"
         android:padding="15dp"
-        android:text="Log In with GMail"
+        android:text="LOG IN WITH GMAIL"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        android:visibility="gone" />
+        android:textStyle="bold" />
 
 </LinearLayout>
