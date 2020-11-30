@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
+import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.CallHistoryDetails;
 import net.islbd.kothabondhu.model.pojo.StatusInfo;
@@ -287,7 +288,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
             callStateChronoMeter.stop();
             callStateChronoMeter.setVisibility(View.GONE);
             callStateTextView.setVisibility(View.VISIBLE);
-            postCallHistory(call);
+            if (BuildConfig.TYPE.equals(GlobalConstants.TYPE_USER)) postCallHistory(call);
             endCall();
         }
 
@@ -341,7 +342,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
             @Override
             public void onFailure(retrofit2.Call<StatusInfo> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(), "Post failed", Toast.LENGTH_SHORT).show();
             }
         });
     }

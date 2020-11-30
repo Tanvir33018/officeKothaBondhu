@@ -50,6 +50,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
     private SharedPreferences sharedPreferences;
     private retrofit2.Call<PackageStatusInfo> packageStatusInfoCall;
     private IApiInteractor apiInteractor;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
@@ -186,6 +187,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
     @Override
     protected void onResume() {
+        bottomNavigationView.setSelectedItemId(R.id.bottom_home);
         super.onResume();
     }
 
