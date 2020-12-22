@@ -38,6 +38,7 @@ import retrofit2.Response;
 
 import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
+import net.islbd.kothabondhu.document.DocumentActivity;
 import net.islbd.kothabondhu.model.pojo.RegisterInfo;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
@@ -213,8 +214,8 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
             return;
         }
         Log.d(TAG, "verifyUser: " + userGmailInfo.toString());
-        final UserQuery userQuery = new UserQuery();
-        userQuery.setEndUserId(phone);
+        //final UserQuery userQuery = new UserQuery();
+        //userQuery.setEndUserId(phone);
         verifyCall = apiInteractor.getUserAccountInfoGMail(userGmailInfo);
         verifyCall.enqueue(new Callback<RegisterInfo>() {
             @Override
@@ -266,13 +267,13 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     }
 
     private void logIntoHomeScreen() {
-        Intent intent = new Intent(PhoneVerifyActivity.this, HomeTabActivity.class);
+        Intent intent = new Intent(PhoneVerifyActivity.this, DocumentActivity.class);
         startActivity(intent);
         finish();
     }
 
     private void openAgentLogInScreen() {
-        Intent intent = new Intent(PhoneVerifyActivity.this, LoginActivity.class);
+        Intent intent = new Intent(PhoneVerifyActivity.this, DocumentActivity.class);
         startActivity(intent);
         finish();
     }

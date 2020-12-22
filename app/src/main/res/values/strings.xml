@@ -68,5 +68,25 @@
     <string name="how_to_pay">How to Pay:</string>
     <string name="user_can_buy_minute_by">\u0020User can buy minute by clicking into package tab. User can purchase desire package according to our given package option.</string>
     <string name="test_text">–4,\u00205,\u0020–5,\u00206,\u0020–6</string>
-
+    <string name="bangla_text">আপনার প্রয়োজনীয় সাহায্য চাইতে পারেন</string>
+    <string name="bangla_text_second">কথাবন্ধুর অভিজ্ঞ টীম আপনাকে যেকোনো সাহায্য করতে প্রস্তুত। এটি ব্যবহার নিরাপদ এবং সহজ।</string>
+    <string name="login_register_bangla">লগইন অথবা রেজিস্ট্রেশন করুন</string>
+    <string name="back_bangla">ফিরে আসুন</string>
+    <string name="ghure_dekhun">ঘুরে দেখুন</string>
+    <string name="proyojon_nei">প্রয়োজন নেই</string>
+    <string name="somporko">* সম্পর্ক</string>
+    <string name="valobashar_kothamala">* ভালোবাসার কথামালা</string>
+    <string name="premer_somporko">* প্রেমের সম্পর্ক</string>
+    <string name="nijer_unnoti">* নিজের উন্নতি</string>
+    <string name="sondorjo_tok">* সৌন্দর্য ও ত্বক</string>
+    <string name="sadharon_sastho">* সাধারণ স্বাস্থ্য</string>
+    <string name="ki_paben">কথা বন্ধুতে আপনি কি পাবেন ?</string>
+    <string name="vromon">*  ভ্রমণ</string>
+    <string name="bujte_peresi">আচ্ছা, বুজতে পেরেছি </string>
+    <string name="mon_khule_kotha_bolun">মন খুলে আমাদের সদস্যদের সাথে কথা বলুন!</string>
+    <string name="pochonder_package_kinun">এইখান থেকে আপনি আপনার পছন্দের প্যাকেজ কিনুন</string>
+    <string name="ekhane_sokol_tottho_paben">এইখানে আপনার সকল তথ্য দেখতে পারেন</string>
+    <string name="cholun_suru_kora_jak">চলুন শুরু করা যাক</string>
+    <string name="thik_ase">ঠিক আছে</string>
+    <string name="druto_kotha_bolun">দ্রুত উত্তর পেতে কথা বলুন</string>
 </resources>

@@ -19,7 +19,7 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         Button buttonContinue = findViewById(R.id.buttonContinueAbout);
         boolean alReadyRead = alreadyRead();
-        if(alReadyRead) buttonContinue.setText("BACK");
+        if(alReadyRead) buttonContinue.setText(getString(R.string.back_bangla));
         buttonContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

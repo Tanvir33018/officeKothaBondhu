@@ -6,111 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.AboutActivity">
 
-    <ScrollView
-        android:id="@+id/scrollViewAbout"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp">
 
-        <RelativeLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            android:layout_centerHorizontal="true"
+            android:id="@+id/first_text"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:justificationMode="inter_word"
+            android:text="@string/bangla_text"/>
 
-            <TextView
-                android:id="@+id/text1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/baloo_regular"
-                android:justificationMode="inter_word"
-                android:text="@string/what_is_kotha_bondhu"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@id/text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text1"
-                android:fontFamily="@font/baloo_regular"
-                android:justificationMode="inter_word"
-                android:text="@string/kotha_bondhu_is_a"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/text3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text2"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/baloo_regular"
-                android:justificationMode="inter_word"
-                android:text="@string/what_information_user_will_get"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/text4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text3"
-                android:fontFamily="@font/baloo_regular"
-                android:justificationMode="inter_word"
-                android:text="@string/user_will_get_online_support"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/text5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text4"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/baloo_regular"
-                android:justificationMode="inter_word"
-                android:text="@string/payment"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/text6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text5"
-                android:fontFamily="@font/baloo_regular"
-                android:justificationMode="inter_word"
-                android:text="@string/user_have_to_pay_for_our_support"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/text7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text6"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/baloo_regular"
-                android:justificationMode="inter_word"
-                android:text="@string/how_to_pay"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/text8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text7"
-                android:fontFamily="@font/baloo_regular"
-                android:justificationMode="inter_word"
-                android:text="@string/user_can_buy_minute_by"
-                android:textColor="@color/black" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bangla_text_second"
+            android:layout_below="@+id/first_text"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:justificationMode="inter_word"
+            android:textStyle="bold"/>
 
 
-        </RelativeLayout>
-
-
-    </ScrollView>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/buttonContinueAbout"
@@ -120,7 +44,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:background="@drawable/c_button"
-        android:text="@string/continue_button"
+        android:text="@string/login_register_bangla"
         android:textColor="@color/white"
         android:textStyle="bold" />
 

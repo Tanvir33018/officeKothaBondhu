@@ -27,9 +27,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.activity.AboutActivity"
-            android:theme="@style/AppThemeSecond"/>
-
+        <activity android:name=".document.DocumentActivity"></activity>
+        <activity
+            android:name=".ui.activity.AboutActivity"
+            android:theme="@style/AppThemeSecond" />
         <activity android:name=".ui.activity.AgentProfileActivity" />
         <activity android:name=".ui.activity.AgentHomeActivity" />
         <activity android:name=".ui.activity.MainActivity">
