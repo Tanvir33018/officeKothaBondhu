@@ -3,11 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Fragment"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewSagotom"
+            android:text="@string/sagotom"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_below="@id/textViewSagotom"
+            android:lineSpacingMultiplier="1.0"
+            android:includeFontPadding="false"
+            android:text="@string/dhonnobad" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

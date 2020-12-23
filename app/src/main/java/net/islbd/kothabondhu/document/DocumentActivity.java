@@ -13,6 +13,8 @@ import net.islbd.kothabondhu.document.docfragment.WelcomeFragment;
 import net.islbd.kothabondhu.ui.activity.HomeTabActivity;
 
 public class DocumentActivity extends AppCompatActivity {
+    public static boolean[] selection = new boolean[7];
+    public static String queryURL = "getContent.php?tipscat=";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
