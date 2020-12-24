@@ -283,4 +283,16 @@
     <color name="black_overlay">#66000000</color>
     <color name="white">#ffffff</color>
     <color name="text_color_primary">#0b0102</color>
+
+
+    <color name="blue">#2196F3</color>
+    <color name="pink">#E6155C</color>
+    <color name="green">#48AC4C</color>
+    <color name="lightgreen">#C0F6C1</color>
+    <color name="red">#D51515</color>
+    <color name="lightred">#FFC8C8</color>
+    <color name="grey">#90969B</color>
+    <color name="yellow">#D3BF15</color>
+    <color name="mycolor">#FF5722</color>
+
 </resources>

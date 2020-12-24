@@ -3,10 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/sagotom_small"
+        android:scaleType="fitXY"/>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_marginTop="55dp"
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -14,14 +21,19 @@
             android:id="@+id/textViewSagotom"
             android:text="@string/sagotom"
             android:textStyle="bold"
+            android:justificationMode="inter_word"
+            android:textColor="@color/white"
             android:layout_centerHorizontal="true"
             android:textSize="20sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
+            android:textSize="20sp"
+            android:justificationMode="inter_word"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/white"
             android:layout_below="@id/textViewSagotom"
             android:lineSpacingMultiplier="1.0"
             android:includeFontPadding="false"

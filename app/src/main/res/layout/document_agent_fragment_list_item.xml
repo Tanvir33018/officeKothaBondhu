@@ -5,22 +5,29 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="5dp"
-        android:id="@+id/agentFragmentImageView"
-        android:src="@drawable/agent_scr_shot"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/vector_message"
+        android:scaleType="fitXY" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/mon_khule_kotha_bolun"
-        android:layout_below="@id/agentFragmentImageView"
         android:layout_centerHorizontal="true"
+        android:id="@+id/monkhuleTextView"
+        android:textColor="@color/white"
         android:layout_marginTop="20dp"
         android:textSize="20sp"/>
+
+    <ImageView
+        android:layout_width="362dp"
+        android:layout_height="535dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="5dp"
+        android:id="@+id/agentFragmentImageView"
+        android:src="@drawable/agent_scr_shot_second"/>
 
     <LinearLayout
         android:layout_width="match_parent"

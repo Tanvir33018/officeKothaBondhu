@@ -3,6 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/vector_selection"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/somporko"
+                android:textColor="@color/white"
                 android:textSize="25sp"/>
 
             <RelativeLayout
@@ -31,6 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/checkBoxSomporko"
+                    android:theme="@style/SwitchTheme"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"/>
 
@@ -43,12 +51,14 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:weightSum="2"
+            android:textColor="@color/white"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/valobashar_kothamala"
+                android:textColor="@color/white"
                 android:textSize="25sp"/>
 
             <RelativeLayout
@@ -57,6 +67,7 @@
 
                 <CheckBox
                     android:id="@+id/checkboxValobasharKotha"
+                    android:theme="@style/SwitchTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true" />
@@ -76,6 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/premer_somporko"
+                android:textColor="@color/white"
                 android:textSize="25sp"/>
 
             <RelativeLayout
@@ -86,6 +98,7 @@
                     android:id="@+id/checkboxPremerSomporko"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:theme="@style/SwitchTheme"
                     android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
@@ -103,6 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nijer_unnoti"
+                android:textColor="@color/white"
                 android:textSize="25sp"/>
 
             <RelativeLayout
@@ -113,6 +127,7 @@
                     android:id="@+id/checkBoxNijerUnnoti"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:theme="@style/SwitchTheme"
                     android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
@@ -130,6 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/vromon"
+                android:textColor="@color/white"
                 android:textSize="25sp"/>
 
             <RelativeLayout
@@ -140,6 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/checkBoxVromon"
+                    android:theme="@style/SwitchTheme"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"/>
 
@@ -158,6 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sondorjo_tok"
+                android:textColor="@color/white"
                 android:textSize="25sp"/>
 
             <RelativeLayout
@@ -168,6 +186,7 @@
                     android:id="@+id/checkboxSundorjoTok"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:theme="@style/SwitchTheme"
                     android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
@@ -185,6 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sadharon_sastho"
+                android:textColor="@color/white"
                 android:textSize="25sp"/>
 
             <RelativeLayout
@@ -195,6 +215,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/checkboxSadharonSastho"
+                    android:theme="@style/SwitchTheme"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"/>
 

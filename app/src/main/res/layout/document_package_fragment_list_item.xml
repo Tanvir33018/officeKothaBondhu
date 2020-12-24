@@ -5,25 +5,32 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="5dp"
-        android:id="@+id/packageFragmentImageView"
-        android:src="@drawable/package_scr_shot"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/vector_message"
+        android:scaleType="fitXY" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/poconderPackageText"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
         android:text="@string/pochonder_package_kinun"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:textAlignment="center"
-        android:layout_below="@id/packageFragmentImageView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:textSize="20sp"/>
+
+    <ImageView
+        android:layout_width="362dp"
+        android:layout_height="535dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/packageFragmentImageView"
+        android:src="@drawable/package_scr_shot_large"/>
 
     <LinearLayout
         android:layout_width="match_parent"
