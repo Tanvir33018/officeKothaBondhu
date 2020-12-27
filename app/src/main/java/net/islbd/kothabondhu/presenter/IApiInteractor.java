@@ -16,6 +16,7 @@ import net.islbd.kothabondhu.model.pojo.CallHistoryQuery;
 import net.islbd.kothabondhu.model.pojo.Communication;
 import net.islbd.kothabondhu.model.pojo.CommunicationDetails;
 import net.islbd.kothabondhu.model.pojo.CommunicationStatus;
+import net.islbd.kothabondhu.model.pojo.MyDuration;
 import net.islbd.kothabondhu.model.pojo.PackageInfo;
 import net.islbd.kothabondhu.model.pojo.PackageInfoQuery;
 import net.islbd.kothabondhu.model.pojo.PackageStatusInfo;
@@ -25,6 +26,7 @@ import net.islbd.kothabondhu.model.pojo.StatusInfo;
 import net.islbd.kothabondhu.model.pojo.UserAccountInfo;
 import net.islbd.kothabondhu.model.pojo.UserDetails;
 import net.islbd.kothabondhu.model.pojo.UserDetailsSecond;
+import net.islbd.kothabondhu.model.pojo.UserDuration;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.model.pojo.UserStatusDetails;
@@ -36,6 +38,9 @@ import net.islbd.kothabondhu.model.pojo.UserStatusDetails;
 public interface IApiInteractor {
     @GET("api/agent.php")
     Call<List<Agent>> getAgentList();
+
+    @POST("api/getDuration.php")
+    Call<MyDuration> getMyDuration(@Body UserDuration userDuration);
 
     @POST("lumen-bc/public/api/communications")
     Call<CommunicationDetails> postCommunication(@Body Communication communication);

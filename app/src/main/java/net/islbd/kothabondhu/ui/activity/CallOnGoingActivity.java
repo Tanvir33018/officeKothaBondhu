@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
@@ -34,7 +35,9 @@ import java.util.concurrent.TimeUnit;
 import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.CallHistoryDetails;
+import net.islbd.kothabondhu.model.pojo.MyDuration;
 import net.islbd.kothabondhu.model.pojo.StatusInfo;
+import net.islbd.kothabondhu.model.pojo.UserDuration;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
@@ -74,6 +77,8 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
     private CallHistoryDetails callHistoryDetails;
 
+    private UserDuration userDuration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +88,35 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         initializeWidgets();
         initializeData();
         eventListeners();
+
+        balanceCheckingWork();
+
+    }
+
+    private void balanceCheckingWork(){
+        String id = getUserInfoFromGMail().getId();
+        userDuration = new UserDuration(id);
+        retrofit2.Call<MyDuration> myDurationCall = apiInteractor.getMyDuration(userDuration);
+        myDurationCall.enqueue(new retrofit2.Callback<MyDuration>() {
+            @Override
+            public void onResponse(retrofit2.Call<MyDuration> call, Response<MyDuration> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    MyDuration myDuration = response.body();
+                    Toast.makeText(getApplicationContext(), "Remaining Balance" + myDuration.getDuration(), Toast.LENGTH_SHORT).show();
+                    double duration = Double.parseDouble(myDuration.getDuration());
+                    if(duration <= 0.0){
+                        Toast.makeText(getApplicationContext(), "You do not have sufficient balance", Toast.LENGTH_SHORT).show();
+                        endCall();
+                    }
+                }
+                else Toast.makeText(getApplicationContext(), "Some problem occurs", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<MyDuration> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Balance check failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initializeWidgets() {
@@ -240,9 +274,13 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
     private void endCall() {
         mAudioPlayer.stopProgressTone();
-        Call call = getSinchServiceInterface().getCall(mCallId);
-        if (call != null) {
-            call.hangup();
+        try{
+            Call call = getSinchServiceInterface().getCall(mCallId);
+            if (call != null) {
+                call.hangup();
+            }
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Exception occurs", Toast.LENGTH_SHORT).show();
         }
         goBack();
     }
@@ -301,6 +339,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
             //callStateTextView.setText(String.valueOf(mCallStart));
             callStateTextView.setVisibility(View.GONE);
             callStateChronoMeter.setVisibility(View.VISIBLE);
+            callStateChronoMeter.setBase(SystemClock.elapsedRealtime());
             callStateChronoMeter.start();
         }
 
@@ -308,6 +347,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         public void onCallProgressing(Call call) {
             Log.d(TAG, "Call progressing");
             callStateTextView.setText("Contacting.....");
+            //endCall();
             mAudioPlayer.playProgressTone();
         }
 

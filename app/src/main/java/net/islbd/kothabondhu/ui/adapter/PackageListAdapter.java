@@ -101,14 +101,16 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
             @Override
             public void onResponse(retrofit2.Call<PackageStatusInfo> rCall, Response<PackageStatusInfo> response) {
                 if (response.code() == HttpStatusCodes.OK) {
-                    Toast.makeText(context, "Package already purchased", Toast.LENGTH_SHORT).show();
-                } else {
                     moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
+                    //Toast.makeText(context, "Package purchase successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Server error!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<PackageStatusInfo> rCall, Throwable t) {
+                //Toast.makeText(context, "Package purchase failed, please try again later", Toast.LENGTH_LONG).show();
                 moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
             }
         });

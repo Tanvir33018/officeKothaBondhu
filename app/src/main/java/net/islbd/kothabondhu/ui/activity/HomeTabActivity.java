@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -28,8 +30,11 @@ import com.sinch.android.rtc.calling.Call;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.event.IPackageSelectListener;
+import net.islbd.kothabondhu.model.pojo.MyDuration;
 import net.islbd.kothabondhu.model.pojo.PackageStatusInfo;
 import net.islbd.kothabondhu.model.pojo.PackageStatusQuery;
+import net.islbd.kothabondhu.model.pojo.UserDuration;
+import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.service.SinchService;
@@ -51,6 +56,8 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
     private retrofit2.Call<PackageStatusInfo> packageStatusInfoCall;
     private IApiInteractor apiInteractor;
     private BottomNavigationView bottomNavigationView;
+    private MyDuration myDuration;
+    private UserDuration userDuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,30 +166,52 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         final String fImageUrl = imageUrl;
         PackageStatusQuery packageStatusQuery = new PackageStatusQuery();
         packageStatusQuery.setEndUserRegId(endUserRegId);
+
         packageStatusInfoCall = apiInteractor.getPackageStatus(packageStatusQuery);
         packageStatusInfoCall.enqueue(new Callback<PackageStatusInfo>() {
             @Override
             public void onResponse(retrofit2.Call<PackageStatusInfo> rCall, Response<PackageStatusInfo> response) {
                 if (response.code() == HttpStatusCodes.OK) {
-                    Call call = getSinchServiceInterface().callUser(fCallId);
-                    Intent intent = new Intent(HomeTabActivity.this, CallOnGoingActivity.class);
-                    intent.putExtra(SinchService.CALL_ID, call.getCallId());
-                    intent.putExtra(GlobalConstants.EXT_TAG_URL, fImageUrl);
-                    intent.putExtra(GlobalConstants.F_CALL_ID, fCallId);
-                    startActivity(intent);
+                    gotoCallOnGoingActivity(fCallId, fImageUrl);
                 } else {
-                    Toast.makeText(context, "Please subscribe to a package", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(HomeTabActivity.this, PackagesActivity.class);
-                    startActivity(intent);
+                   gotoPackageActivity();
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<PackageStatusInfo> rCall, Throwable t) {
-                Toast.makeText(context, "Please subscribe to a package", Toast.LENGTH_SHORT).show();
+                gotoPackageActivity();
             }
         });
 
+    }
+
+    private void gotoPackageActivity(){
+        Toast.makeText(context, "Please subscribe to a package", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(HomeTabActivity.this, PackagesActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoCallOnGoingActivity(String fCallId, String fImageUrl){
+        Call call = getSinchServiceInterface().callUser(fCallId);
+        Intent intent = new Intent(HomeTabActivity.this, CallOnGoingActivity.class);
+        intent.putExtra(SinchService.CALL_ID, call.getCallId());
+        intent.putExtra(GlobalConstants.EXT_TAG_URL, fImageUrl);
+        intent.putExtra(GlobalConstants.F_CALL_ID, fCallId);
+        //intent.putExtra(GlobalConstants.REMAINING_DURATION, duration);
+        startActivity(intent);
+    }
+
+    private UserGmailInfo getUserInfoFromGMail(){
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this); //It will return null on sign out condition
+        if(googleSignInAccount != null){
+            String name = googleSignInAccount.getDisplayName();
+            String email = googleSignInAccount.getEmail();
+            String id = googleSignInAccount.getId();
+            return new UserGmailInfo(name, email, id);
+            //Log.d(TAG, "onCreate: " + email);
+        }
+        return null;
     }
 
     @Override

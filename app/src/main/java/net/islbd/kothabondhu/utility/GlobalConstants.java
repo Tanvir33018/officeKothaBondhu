@@ -34,4 +34,5 @@ public final class GlobalConstants {
 
     public static final String TYPE_USER = "user";
     public static final String TYPE_AGENT = "agent";
+    public static final String REMAINING_DURATION = "remainig_duration";
 }
