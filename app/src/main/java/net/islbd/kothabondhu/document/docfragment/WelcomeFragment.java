@@ -11,8 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import net.islbd.kothabondhu.R;
+import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.ui.activity.HomeTabActivity;
+import net.islbd.kothabondhu.ui.activity.LoginActivity;
 
 public class WelcomeFragment extends Fragment {
     private Button buttonTour;
@@ -40,9 +45,21 @@ public class WelcomeFragment extends Fragment {
         buttonNotNeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadHomeTabActivity();
+                if(getUserInfoFromGMail() != null) loadHomeTabActivity();
+                else loadLoginActivity();
             }
         });
+    }
+    private UserGmailInfo getUserInfoFromGMail(){
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(getContext()); //It will return null on sign out condition
+        if(googleSignInAccount != null){
+            String name = googleSignInAccount.getDisplayName();
+            String email = googleSignInAccount.getEmail();
+            String id = googleSignInAccount.getId();
+            return new UserGmailInfo(name, email, id);
+            //Log.d(TAG, "onCreate: " + email);
+        }
+        return null;
     }
     private void loadQuestionFragment(){
         getActivity().getSupportFragmentManager().beginTransaction()
@@ -54,5 +71,10 @@ public class WelcomeFragment extends Fragment {
         Intent intent = new Intent(getActivity(), HomeTabActivity.class);
         startActivity(intent);
         getActivity().finish();
+    }
+    private void loadLoginActivity(){
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

@@ -172,9 +172,10 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
             @Override
             public void onResponse(retrofit2.Call<PackageStatusInfo> rCall, Response<PackageStatusInfo> response) {
                 if (response.code() == HttpStatusCodes.OK) {
-                    gotoCallOnGoingActivity(fCallId, fImageUrl);
+                    //gotoCallOnGoingActivity(fCallId, fImageUrl);
+                    balanceCheckingWork(fCallId, fImageUrl);
                 } else {
-                   gotoPackageActivity();
+                   //gotoPackageActivity();
                 }
             }
 
@@ -183,7 +184,37 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
                 gotoPackageActivity();
             }
         });
+    }
 
+    private void balanceCheckingWork(String fCallId, String fImageUrl){
+        String id = getUserInfoFromGMail().getId();
+        userDuration = new UserDuration(id);
+        retrofit2.Call<MyDuration> myDurationCall = apiInteractor.getMyDuration(userDuration);
+        myDurationCall.enqueue(new retrofit2.Callback<MyDuration>() {
+            @Override
+            public void onResponse(retrofit2.Call<MyDuration> call, Response<MyDuration> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    try{
+                        MyDuration myDuration = response.body();
+                        Toast.makeText(getApplicationContext(), "Remaining Balance" + myDuration.getDuration(), Toast.LENGTH_SHORT).show();
+                        gotoCallOnGoingActivity(fCallId, fImageUrl, Double.parseDouble(myDuration.getDuration()));
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Please try again!", Toast.LENGTH_LONG).show();
+                    }
+                    //double duration = Double.parseDouble(myDuration.getDuration());
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Some problem occurs", Toast.LENGTH_SHORT).show();
+                    //finish();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<MyDuration> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Balance check failed", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 
     private void gotoPackageActivity(){
@@ -192,13 +223,13 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         startActivity(intent);
     }
 
-    private void gotoCallOnGoingActivity(String fCallId, String fImageUrl){
+    private void gotoCallOnGoingActivity(String fCallId, String fImageUrl, double duration){
         Call call = getSinchServiceInterface().callUser(fCallId);
         Intent intent = new Intent(HomeTabActivity.this, CallOnGoingActivity.class);
         intent.putExtra(SinchService.CALL_ID, call.getCallId());
         intent.putExtra(GlobalConstants.EXT_TAG_URL, fImageUrl);
         intent.putExtra(GlobalConstants.F_CALL_ID, fCallId);
-        //intent.putExtra(GlobalConstants.REMAINING_DURATION, duration);
+        intent.putExtra(GlobalConstants.REMAINING_DURATION, duration);
         startActivity(intent);
     }
 

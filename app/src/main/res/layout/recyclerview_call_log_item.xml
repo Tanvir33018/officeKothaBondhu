@@ -64,6 +64,7 @@
                 android:paddingStart="@dimen/margin4"
                 android:paddingTop="@dimen/margin2"
                 android:textSize="12dp"
+                android:gravity="center"
                 android:text="00:00:00" />
 
         </RelativeLayout>

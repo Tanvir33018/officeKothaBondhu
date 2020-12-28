@@ -1,6 +1,7 @@
 package net.islbd.kothabondhu.ui.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,8 +29,10 @@ import retrofit2.Response;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.CallHistoryDetails;
 import net.islbd.kothabondhu.model.pojo.CallHistoryDetailsSecond;
+import net.islbd.kothabondhu.model.pojo.MyDuration;
 import net.islbd.kothabondhu.model.pojo.PackageHistoryDetails;
 import net.islbd.kothabondhu.model.pojo.UserAccountInfo;
+import net.islbd.kothabondhu.model.pojo.UserDuration;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
@@ -137,6 +140,27 @@ public class MyAccountFragment extends Fragment {
         });
     }*/
 
+    private void setTimeLeft(){
+        String id = getUserInfoFromGMail().getId();
+        UserDuration userDuration = new UserDuration(id);
+        retrofit2.Call<MyDuration> myDurationCall = apiInteractor.getMyDuration(userDuration);
+        myDurationCall.enqueue(new retrofit2.Callback<MyDuration>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(retrofit2.Call<MyDuration> call, Response<MyDuration> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    String time_left = "Time left:";
+                    timeLeftTextView.setText(time_left + response.body().getDuration());
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<MyDuration> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void downLoadUserAccountInfo() {
         //phone = "0" + String.valueOf(sharedPref.getInt(SharedPrefUtils._USER_PHONE, 0));
         phone = userGmailInfo.getId();
@@ -170,8 +194,11 @@ public class MyAccountFragment extends Fragment {
                     sexTextView.setText(userGender);
                     phoneTextView.setText(userPhone);
                     locationTextView.setText(userLocation);
-                    timeLeftTextView.setText(timeLeft);
-                    lastCallDurationTextView.setText(lastCallDuration);
+                    //timeLeftTextView.setText(timeLeft);
+                    setTimeLeft();
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences("app_settings_mine", Context.MODE_PRIVATE);
+                    lastCallDuration = sharedPreferences.getString("call_duration", "N/A");
+                    lastCallDurationTextView.setText("Last call duration: " + convertTimeFormat(lastCallDuration));
 
 
                     callLogListAdapter.setCallHistoryDetailsList(callHistoryDetailsList);
@@ -191,6 +218,21 @@ public class MyAccountFragment extends Fragment {
                 Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private String convertTimeFormat(String second){
+        if(second.equals("N/A")) return second;
+        long seconds = Long.parseLong(second);
+        long minutes = seconds / 60;
+        seconds %= 60;
+        long hour = minutes / 60;
+        minutes %= 60;
+        return addZero(hour) + ":" + addZero(minutes) + ":" + addZero(seconds);
+    }
+
+    private String addZero(long value){
+        if(value < 10) return "0" + value;
+        else return String.valueOf(value);
     }
 
     private UserGmailInfo getUserInfoFromGMail(){

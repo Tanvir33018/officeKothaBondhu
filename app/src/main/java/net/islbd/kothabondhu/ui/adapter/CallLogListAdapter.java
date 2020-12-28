@@ -34,7 +34,8 @@ public class CallLogListAdapter extends RecyclerView.Adapter<CallLogListAdapter.
         final int currentPosition = position;
         final String name = callHistoryDetailsList.get(position).getAgentName();
         final String callDate = callHistoryDetailsList.get(position).getCallDate();
-        final String duration = callHistoryDetailsList.get(position).getCallDuration() + " second";
+        String duration = callHistoryDetailsList.get(position).getCallDuration();
+        duration = convertTimeFormat(duration);
 
         if (name != null) {
             holder.nameTextView.setText(name);
@@ -45,6 +46,20 @@ public class CallLogListAdapter extends RecyclerView.Adapter<CallLogListAdapter.
         if (duration != null) {
             holder.durationTextView.setText(duration);
         }
+    }
+
+    private String convertTimeFormat(String second){
+        long seconds = Long.parseLong(second);
+        long minutes = seconds / 60;
+        seconds %= 60;
+        long hour = minutes / 60;
+        minutes %= 60;
+        return addZero(hour) + ":" + addZero(minutes) + ":" + addZero(seconds);
+    }
+
+    private String addZero(long value){
+        if(value < 10) return "0" + value;
+        else return String.valueOf(value);
     }
 
     @Override

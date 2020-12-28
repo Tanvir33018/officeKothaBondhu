@@ -34,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
+import net.islbd.kothabondhu.document.MyVariableStore;
 import net.islbd.kothabondhu.model.pojo.CallHistoryDetails;
 import net.islbd.kothabondhu.model.pojo.MyDuration;
 import net.islbd.kothabondhu.model.pojo.StatusInfo;
@@ -45,7 +46,6 @@ import net.islbd.kothabondhu.service.SinchService;
 import net.islbd.kothabondhu.utility.AudioPlayer;
 import net.islbd.kothabondhu.utility.GlobalConstants;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
-import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
 import retrofit2.Response;
 
@@ -79,18 +79,25 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
     private UserDuration userDuration;
 
+    private AppPresenter appPresenter;
+
+    private Thread limitControlThread;
+
+    private boolean threadIsRunning;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.NoActionBar);
         setContentView(R.layout.activity_call_on_going);
+        //balanceCheckingWork();
+        initAll();
+    }
 
+    private void initAll(){
         initializeWidgets();
         initializeData();
         eventListeners();
-
-        balanceCheckingWork();
-
     }
 
     private void balanceCheckingWork(){
@@ -106,15 +113,20 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
                     double duration = Double.parseDouble(myDuration.getDuration());
                     if(duration <= 0.0){
                         Toast.makeText(getApplicationContext(), "You do not have sufficient balance", Toast.LENGTH_SHORT).show();
-                        endCall();
+                        finish();
                     }
+                    else initAll();
                 }
-                else Toast.makeText(getApplicationContext(), "Some problem occurs", Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(getApplicationContext(), "Some problem occurs", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
 
             @Override
             public void onFailure(retrofit2.Call<MyDuration> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Balance check failed", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
@@ -147,7 +159,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager != null ? powerManager.newWakeLock(field, getLocalClassName()) : null;
 
-        AppPresenter appPresenter = new AppPresenter();
+        appPresenter = new AppPresenter();
         apiInteractor = appPresenter.getApiInterface();
         sharedPreferences = appPresenter.getSharedPrefInterface(this);
 
@@ -273,6 +285,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
     }
 
     private void endCall() {
+        threadIsRunning = false;
         mAudioPlayer.stopProgressTone();
         try{
             Call call = getSinchServiceInterface().getCall(mCallId);
@@ -341,6 +354,31 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
             callStateChronoMeter.setVisibility(View.VISIBLE);
             callStateChronoMeter.setBase(SystemClock.elapsedRealtime());
             callStateChronoMeter.start();
+            if (BuildConfig.TYPE.equals(GlobalConstants.TYPE_USER)) {
+                threadIsRunning = true;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        double remaining = getIntent().getDoubleExtra(GlobalConstants.REMAINING_DURATION, 0);
+                        long remainInMillisecond = (long)remaining * 1000 * 60;
+                        //long remainInMillisecond = 10000;
+                        Log.d(TAG, "Call established" + remainInMillisecond);
+                        while(remainInMillisecond != 0){
+                            if(threadIsRunning){
+                                try{ Thread.sleep(remainInMillisecond); }
+                                catch (Exception e){ }
+                                remainInMillisecond = 0;
+                            }
+                            else return;
+                        }
+                        if(remainInMillisecond == 0){
+                            Log.d(TAG, "Call establishedxx" + remainInMillisecond);
+                            MyVariableStore.balance_empty = true;
+                            endCall();
+                        }
+                    }
+                }).start();
+            }
         }
 
         @Override
@@ -362,9 +400,13 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         callHistoryDetails = new CallHistoryDetails();
         //callHistoryDetails.setAgentId(call.getCallId());
         callHistoryDetails.setAgentId(getIntent().getStringExtra(GlobalConstants.F_CALL_ID));
-        callHistoryDetails.setAgentName("");
         callHistoryDetails.setCallDate(date.toString());
-        callHistoryDetails.setDuration(String.valueOf(call.getDetails().getDuration()));
+        String duration = String.valueOf(call.getDetails().getDuration());
+        callHistoryDetails.setDuration(duration);
+        SharedPreferences sharedPreferences = getSharedPreferences("app_settings_mine", Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPreferencesEdit = sharedPreferences.edit();
+        sharedPreferencesEdit.putString("call_duration", duration);
+        sharedPreferencesEdit.apply();
         UserGmailInfo userGmailInfo = getUserInfoFromGMail();
         //callHistoryDetails.setUserId(String.valueOf(sharedPreferences.getInt(SharedPrefUtils._USER_PHONE, 0)));
         callHistoryDetails.setUserId(userGmailInfo.getId());
@@ -375,7 +417,12 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
                 if (response.code() == HttpStatusCodes.OK) {
                     if (response.body() != null) {
                         StatusInfo statusInfo = response.body();
-                        Toast.makeText(CallOnGoingActivity.this, statusInfo.getDescrption(), Toast.LENGTH_LONG).show();
+
+                        if(MyVariableStore.balance_empty){
+                            Toast.makeText(getApplicationContext(), "YOU DO NOT HAVE SUFFICIENT BALANCE!", Toast.LENGTH_LONG).show();
+                            MyVariableStore.balance_empty = false;
+                        }
+                        else Toast.makeText(CallOnGoingActivity.this, statusInfo.getDescrption(), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -409,6 +456,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         callStateChronoMeter.setVisibility(View.GONE);
         callStateTextView.setVisibility(View.VISIBLE);
         initializeMicAndSpeaker();
+
     }
 
     @Override

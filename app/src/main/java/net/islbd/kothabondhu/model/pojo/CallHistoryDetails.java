@@ -9,8 +9,6 @@ import com.google.gson.annotations.SerializedName;
 public class CallHistoryDetails {
     @SerializedName("agentId")
     private String agentId;
-    @SerializedName("agentName")
-    private String agentName;
     @SerializedName("duration")
     private String duration;
     @SerializedName("callDate")
@@ -24,14 +22,6 @@ public class CallHistoryDetails {
 
     public void setAgentId(String agentId) {
         this.agentId = agentId;
-    }
-
-    public String getAgentName() {
-        return agentName;
-    }
-
-    public void setAgentName(String agentName) {
-        this.agentName = agentName;
     }
 
     public String getDuration() {
