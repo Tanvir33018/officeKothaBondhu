@@ -6,11 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.AboutActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/about_background"
+        android:scaleType="fitXY"/>
+
+    <ImageView
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:id="@+id/kotha_about_imageView"
+        android:src="@drawable/vector_kotha_logo"/>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="5dp">
+        android:layout_margin="10dp"
+        android:layout_below="@id/kotha_about_imageView">
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,7 +32,9 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/first_text"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="22sp"
+            android:fontFamily="@font/solaiman_lipi"
+            android:textColor="@color/white"
             android:justificationMode="inter_word"
             android:text="@string/bangla_text"/>
 
@@ -29,9 +45,10 @@
             android:layout_below="@+id/first_text"
             android:layout_centerHorizontal="true"
             android:textAlignment="center"
-            android:textSize="15sp"
-            android:justificationMode="inter_word"
-            android:textStyle="bold"/>
+            android:textSize="20sp"
+            android:fontFamily="@font/solaiman_lipi"
+            android:textColor="@color/white"
+            android:justificationMode="inter_word" />
 
 
     </RelativeLayout>

@@ -20,6 +20,7 @@ import java.util.HashMap;
 public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyViewHolder> {
     private ArrayList<MyContent> myContentArrayList;
     private HashMap<String, Integer> hashMap;
+    private final int first_position = 0;
 
     public DocumentAdapter() {
         myContentArrayList = new ArrayList<>();
@@ -63,21 +64,25 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         private final TextView title, body;
+        private final View view;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.messageTitle);
             body = itemView.findViewById(R.id.messageBody);
+            view = itemView.findViewById(R.id.messageListView);
         }
         private void loadContentToViewHolder(int position){
             String cat_name = myContentArrayList.get(position).getCat_name();
             String decontent = myContentArrayList.get(position).getDecontent();
             title.setVisibility(View.GONE);
+            view.setVisibility(View.GONE);
             if(hashMap.get(cat_name) == null){
                 hashMap.put(cat_name, position);
             }
             if(hashMap.get(cat_name) == position) {
                 title.setText(cat_name);
                 title.setVisibility(View.VISIBLE);
+                if(position != first_position) view.setVisibility(View.VISIBLE);
             }
             body.setText(decontent);
         }

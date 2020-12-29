@@ -2,12 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:layout_margin="10dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:id="@+id/messageListView"
+        android:background="@color/white"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:layout_below="@id/messageListView"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:justificationMode="inter_word"
