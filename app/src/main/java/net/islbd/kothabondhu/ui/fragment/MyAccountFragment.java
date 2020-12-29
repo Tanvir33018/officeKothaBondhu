@@ -149,8 +149,14 @@ public class MyAccountFragment extends Fragment {
             @Override
             public void onResponse(retrofit2.Call<MyDuration> call, Response<MyDuration> response) {
                 if(response.isSuccessful() && response.body() != null) {
-                    String time_left = "Time left:";
-                    timeLeftTextView.setText(time_left + response.body().getDuration());
+                    String time_left = "Time left: ";
+                    String duration = response.body().getDuration();
+                    double durationDouble = Double.parseDouble(duration);
+                    durationDouble *= 60;
+                    durationDouble = Math.ceil(durationDouble);
+                    int durationInt = (int)durationDouble;
+                    String durationString = String.valueOf(durationInt);
+                    timeLeftTextView.setText(time_left + convertTimeFormat(durationString));
                 }
             }
 

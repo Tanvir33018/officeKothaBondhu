@@ -154,7 +154,8 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
     @Override
     public void onPackageSelection(final String callId, final String imageUrl) {
-        String endUserRegId = sharedPreferences.getString(SharedPrefUtils._PACKAGE_IDENTIFIER, "");
+        //String endUserRegId = sharedPreferences.getString(SharedPrefUtils._PACKAGE_IDENTIFIER, "");
+        String endUserRegId = getUserInfoFromGMail().getId();
         if (endUserRegId.isEmpty()) {
             Toast.makeText(context, "Please subscribe to a package", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(HomeTabActivity.this, PackagesActivity.class);
@@ -212,7 +213,6 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
             @Override
             public void onFailure(retrofit2.Call<MyDuration> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Balance check failed", Toast.LENGTH_SHORT).show();
-                finish();
             }
         });
     }
