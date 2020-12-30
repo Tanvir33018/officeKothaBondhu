@@ -199,7 +199,10 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
                         MyDuration myDuration = response.body();
                         Toast.makeText(getApplicationContext(), "Remaining Balance" + myDuration.getDuration(), Toast.LENGTH_SHORT).show();
                         double duration = Double.parseDouble(myDuration.getDuration());
-                        if(duration <= 0.0) Toast.makeText(getApplicationContext(), "You do not have sufficient balance!", Toast.LENGTH_LONG).show();
+                        if(duration <= 0.0){
+                            Toast.makeText(getApplicationContext(), "You do not have sufficient balance!", Toast.LENGTH_LONG).show();
+                            gotoPackageActivity();
+                        }
                         else gotoCallOnGoingActivity(fCallId, fImageUrl, Double.parseDouble(myDuration.getDuration()));
                     }catch (Exception e){
                         Toast.makeText(getApplicationContext(), "Server value error", Toast.LENGTH_LONG).show();

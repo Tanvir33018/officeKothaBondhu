@@ -48,6 +48,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
     private String packageId, packageIdentifier, packageDetails, packageDuration, packageMedia;
     private Fragment fragment;
     private int selected_position = 0;
+    private PackageStatusQuery packageStatusQuery;
 
     public PackageListAdapter(Context context, IDbInteractor dbInteractor, Fragment fragment) {
         this.dbInteractor = dbInteractor;
@@ -94,7 +95,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
             return;
         }
 
-        PackageStatusQuery packageStatusQuery = new PackageStatusQuery();
+        packageStatusQuery = new PackageStatusQuery();
         packageStatusQuery.setEndUserRegId(endUserRegId);
         packageStatusInfoCall = apiInteractor.getPackageStatus(packageStatusQuery);
         packageStatusInfoCall.enqueue(new Callback<PackageStatusInfo>() {
