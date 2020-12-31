@@ -22,8 +22,8 @@
         android:id="@+id/bottom_my_account"/>
 
     <item
-        android:title="@string/nav_item_about"
-        android:icon="@drawable/ic_about"
-        android:id="@+id/bottom_about" />
+        android:title="@string/category"
+        android:icon="@drawable/ic_cat_bottom"
+        android:id="@+id/bottom_category" />
 
 </menu>

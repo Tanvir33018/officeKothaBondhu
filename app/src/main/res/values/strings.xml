@@ -54,6 +54,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="continue_button">CONTINUE</string>
+    <string name="category">Category</string>
     <string name="amount_40">We will be charge 40 Tk from your balance for your desire package purchase. After purchasing this package you will get 20 minutes into your kotha bondhu app balance. After successful purchase there is no refund policy. Minute will be deduct automatically from your kotha bondu app balance after talk with our agent. This is not a recurring charge. You need to buy package again after finish your app minute balance.  </string>
     <string name="amount_100">We will be charge 100 Tk from your balance for your desire package purchase. After purchasing this package you will get 50 minutes into your kotha bondhu app balance. After successful purchase there is no refund policy. Minute will be deduct automatically from your kotha bondu app balance after talk with our agent. This is not a recurring charge. You need to buy package again after finish your app minute balance.  </string>
     <string name="amount_190">We will be charge 190 Tk from your balance for your desire package purchase. After purchasing this package you will get 100 minutes into your kotha bondhu app balance. After successful purchase there is no refund policy. Minute will be deduct automatically from your kotha bondu app balance after talk with our agent. This is not a recurring charge. You need to buy package again after finish your app minute balance.  </string>
@@ -90,5 +91,6 @@
     <string name="thik_ase">ঠিক আছে</string>
     <string name="druto_kotha_bolun">দ্রুত উত্তর পেতে কথা বলুন</string>
     <string name="sagotom">কথাবন্ধুতে আপনাকে স্বাগতম</string>
+    <string name="pochonder_nirbachon">পছন্দের বিষয় নির্বাচন করুন</string>
     <string name="dhonnobad">আমাদের সাথে যুক্ত হবার জন্য ধন্যবাদ। আমাদের সেবা সম্পর্কে জানতে আপনি “ঘুরে দেখুন” অপশন দেখতে পারেন। কথা বন্ধু হলো এটির ব্যবহারকারীদের জন্য একটি সহায়ক অ্যাপস। ব্যবহারকারীগন  এই অ্যাপস থেকে বিভিন্ন তথ্য পাবেন। এটি একটি ভয়েস ইন্টারেক্টিভ অ্যাপস। ব্যবহারকারীরা আমাদের অভিজ্ঞ টীম মেম্বার এর সাথে সরাসরি কথা বলে দ্রুত সেবা নিতে পারবেন।</string>
 </resources>

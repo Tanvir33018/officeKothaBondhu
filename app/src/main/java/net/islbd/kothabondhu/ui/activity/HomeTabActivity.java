@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.sinch.android.rtc.calling.Call;
 
 import net.islbd.kothabondhu.R;
+import net.islbd.kothabondhu.document.DocumentActivity;
+import net.islbd.kothabondhu.document.DocumentAdapter;
 import net.islbd.kothabondhu.event.IPackageSelectListener;
 import net.islbd.kothabondhu.model.pojo.MyDuration;
 import net.islbd.kothabondhu.model.pojo.PackageStatusInfo;
@@ -269,8 +271,12 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
             intent = new Intent(this, SettingsActivity.class);
         } else if (id == R.id.subscription_package || id == R.id.bottom_package) {
             intent = new Intent(this, PackagesActivity.class);
-        } else if(id == R.id.about || id == R.id.bottom_about){
+        } else if(id == R.id.about){
             intent = new Intent(this, AboutActivity.class);
+        }
+        else if(id == R.id.bottom_category){
+            intent = new Intent(this, DocumentActivity.class);
+            intent.putExtra("from_home_tab", 1);
         }
 
         if (intent != null) {
