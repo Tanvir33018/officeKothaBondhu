@@ -23,7 +23,13 @@ public class UserInfo {
     private String userLocation;
     @SerializedName("usergender")
     private String usergender;
+    @SerializedName("mobileno")
+    private String phoneNumber;
 
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
     public String getEndUserRegId() {
         return endUserRegId;

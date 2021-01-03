@@ -75,11 +75,13 @@ public class SettingsActivity extends AppCompatActivity {
         apiInteractor.getUserAccountInfo(userQuery).enqueue(new Callback<UserAccountInfo>() {
             @Override
             public void onResponse(Call<UserAccountInfo> call, Response<UserAccountInfo> response) {
-                UserAccountInfo userAccountInfo = response.body();
-                Toast.makeText(context, "Getting", Toast.LENGTH_LONG).show();
 
+                if(!response.isSuccessful()){
+                    Toast.makeText(context, "Having Problem", Toast.LENGTH_SHORT).show();
+                }
+                UserAccountInfo userAccountInfo = response.body();
                 userNameEditText.setText(userAccountInfo.getUserInfo().getName());
-                phoneEditText.setText("Nai");
+                phoneEditText.setText(userAccountInfo.getUserInfo().getPhoneNumber());
                 ageEditText.setText(userAccountInfo.getUserInfo().getUserAge());
                 genderAutoComp.setText(userAccountInfo.getUserInfo().getUsergender());
                 locationAutoComp.setText(userAccountInfo.getUserInfo().getUserLocation());
@@ -176,19 +178,17 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<StatusInfo> call, Response<StatusInfo> response) {
                 if (response.code() == HttpStatusCodes.OK) {
-                    if (response.body() == null)
-                        return;
+                    if (response.body() == null) return;
 
-                   // String description = response.body().getDescrption();
-                    //Toast.makeText(context, description, Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
                     finish();
+
                 }
             }
 
             @Override
             public void onFailure(Call<StatusInfo> call, Throwable t) {
-
+                Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
