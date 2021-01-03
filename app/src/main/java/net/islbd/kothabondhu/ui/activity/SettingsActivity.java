@@ -32,9 +32,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.StatusInfo;
+import net.islbd.kothabondhu.model.pojo.UserAccountInfo;
 import net.islbd.kothabondhu.model.pojo.UserDetails;
 import net.islbd.kothabondhu.model.pojo.UserDetailsSecond;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
+import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
@@ -57,9 +59,41 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+
+
         initializeWidgets();
         initializeData();
         eventListeners();
+
+        getData();
+    }
+
+    private void getData(){
+    UserQuery userQuery = new UserQuery();
+    String id = getUserInfoFromGMail().getId();
+    userQuery.setEndUserId(id);
+    userQuery.setEndUserId(getUserInfoFromGMail().getId());
+        apiInteractor.getUserAccountInfo(userQuery).enqueue(new Callback<UserAccountInfo>() {
+            @Override
+            public void onResponse(Call<UserAccountInfo> call, Response<UserAccountInfo> response) {
+                UserAccountInfo userAccountInfo = response.body();
+                Toast.makeText(context, "Getting", Toast.LENGTH_LONG).show();
+
+                userNameEditText.setText(userAccountInfo.getUserInfo().getName());
+                phoneEditText.setText("Nai");
+                ageEditText.setText(userAccountInfo.getUserInfo().getUserAge());
+                genderAutoComp.setText(userAccountInfo.getUserInfo().getUsergender());
+                locationAutoComp.setText(userAccountInfo.getUserInfo().getUserLocation());
+
+            }
+
+            @Override
+            public void onFailure(Call<UserAccountInfo> call, Throwable t) {
+                Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
+            }
+
+
+        });
     }
 
     private void initializeWidgets() {
@@ -142,8 +176,9 @@ public class SettingsActivity extends AppCompatActivity {
                     if (response.body() == null)
                         return;
 
-                    String description = response.body().getDescrption();
-                    Toast.makeText(context, description, Toast.LENGTH_SHORT).show();
+                   // String description = response.body().getDescrption();
+                    //Toast.makeText(context, description, Toast.LENGTH_SHORT).show();
+
                     finish();
                 }
             }
@@ -235,4 +270,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
     }
+
+
 }
