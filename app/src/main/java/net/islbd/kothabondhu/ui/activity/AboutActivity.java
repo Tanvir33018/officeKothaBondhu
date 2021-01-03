@@ -16,6 +16,7 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //MR TANVIR
         setContentView(R.layout.activity_about);
         Button buttonContinue = findViewById(R.id.buttonContinueAbout);
         boolean alReadyRead = alreadyRead();
