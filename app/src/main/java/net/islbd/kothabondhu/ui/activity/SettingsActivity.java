@@ -33,14 +33,12 @@ import retrofit2.Response;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.StatusInfo;
 import net.islbd.kothabondhu.model.pojo.UserAccountInfo;
-import net.islbd.kothabondhu.model.pojo.UserDetails;
 import net.islbd.kothabondhu.model.pojo.UserDetailsSecond;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
-import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
 public class SettingsActivity extends AppCompatActivity {
     private EditText phoneEditText, userNameEditText, ageEditText, idEditText;
@@ -65,10 +63,11 @@ public class SettingsActivity extends AppCompatActivity {
         initializeData();
         eventListeners();
 
-        getData();
+        from_getUserAccountInfo();
     }
 
-    private void getData(){
+    //------------Getting Data From getUserAccountInfo API--------
+    private void from_getUserAccountInfo(){
     UserQuery userQuery = new UserQuery();
     String id = getUserInfoFromGMail().getId();
     userQuery.setEndUserId(id);
@@ -149,12 +148,16 @@ public class SettingsActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveUserData();
+                saveButtonClick();
             }
         });
     }
 
-    private void saveUserData() {
+
+
+    //--------Save Button Function-----------
+
+    private void saveButtonClick() {
         //String userName = userNameEditText.getText().toString();
         String userAge = ageEditText.getText().toString();
         String phone = phoneEditText.getText().toString();

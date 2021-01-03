@@ -24,6 +24,7 @@ public class UserInfo {
     @SerializedName("usergender")
     private String usergender;
 
+
     public String getEndUserRegId() {
         return endUserRegId;
     }
