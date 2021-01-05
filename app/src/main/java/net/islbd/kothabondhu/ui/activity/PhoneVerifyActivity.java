@@ -39,6 +39,7 @@ import retrofit2.Response;
 import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.DocumentActivity;
+import net.islbd.kothabondhu.document.docfragment.SelectedFragment;
 import net.islbd.kothabondhu.model.pojo.RegisterInfo;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
@@ -146,7 +147,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
         boolean alreadyRead = sharedPreferences.getBoolean("Read", false);
         return alreadyRead;
     }
-
+   //---- Call from onCreate
     private void loadAboutActivity(){
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -162,6 +163,8 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
         }, 2000);
     }
 
+
+    //---- call from onCreate
     private void loadActivityWork(){
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -267,7 +270,9 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     }
 
     private void logIntoHomeScreen() {
+
         Intent intent = new Intent(PhoneVerifyActivity.this, DocumentActivity.class);
+
         startActivity(intent);
         finish();
     }

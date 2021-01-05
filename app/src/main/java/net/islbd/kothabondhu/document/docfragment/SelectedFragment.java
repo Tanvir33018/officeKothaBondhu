@@ -1,6 +1,8 @@
 package net.islbd.kothabondhu.document.docfragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,13 @@ public class SelectedFragment extends Fragment {
     private Button buttonBack;
     private RecyclerView recyclerView;
     private DocumentAdapter documentAdapter;
+    private String modifiedUrl;
+
+    //-----SharedPreferences Variable-----
+    /*public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String TEXT = "text";
+    public static String GET_TEXT = "get_text";
+*/
 
     @Nullable
     @Override
@@ -43,6 +52,7 @@ public class SelectedFragment extends Fragment {
         eventListeners();
         return view;
     }
+
     private String modifyQueryUrl(String url){
         for(int i = 0; i < DocumentActivity.selection.length; ++i){
             if(DocumentActivity.selection[i]) url += makeCid(i);
@@ -61,7 +71,10 @@ public class SelectedFragment extends Fragment {
             default: return null;
         }
     }
+
+    //----- Get SElected checkboxlist-----
     private void getList(){
+
         String modifiedUrl = modifyQueryUrl(DocumentActivity.queryURL);
         ApiClient apiClient = ApiUtilities.getApiClient();
         apiClient.getMyContent(modifiedUrl).enqueue(new Callback<ArrayList<MyContent>>() {
@@ -79,8 +92,14 @@ public class SelectedFragment extends Fragment {
             }
         });
     }
+
+
+
+
+
     private void displayToast(String message){
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+       // if(message != null)
+              //Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
     private void init(View view){
         buttonDrutoKothaBolun = view.findViewById(R.id.buttonDrutoKothaBolunSelectedFragment);
@@ -113,6 +132,7 @@ public class SelectedFragment extends Fragment {
     }
     private void loadHomeTabActivity(){
         Intent intent = new Intent(getActivity(), HomeTabActivity.class);
+        //intent.putExtra("from_selected_fragment",1);
         startActivity(intent);
         getActivity().finish();
     }

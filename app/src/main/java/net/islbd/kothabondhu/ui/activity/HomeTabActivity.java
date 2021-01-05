@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
@@ -31,6 +32,8 @@ import com.sinch.android.rtc.calling.Call;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.DocumentActivity;
 import net.islbd.kothabondhu.document.DocumentAdapter;
+import net.islbd.kothabondhu.document.docfragment.SelectedFragment;
+import net.islbd.kothabondhu.document.docfragment.SelectionFragment;
 import net.islbd.kothabondhu.event.IPackageSelectListener;
 import net.islbd.kothabondhu.model.pojo.MyDuration;
 import net.islbd.kothabondhu.model.pojo.PackageStatusInfo;
@@ -48,27 +51,41 @@ import net.islbd.kothabondhu.utility.SharedPrefUtils;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+
+
 public class HomeTabActivity extends BaseActivity implements IPackageSelectListener, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
     //private HomeTabAdapter mSectionsPagerAdapter;
     //private ViewPager mViewPager;
     private Context context;
     private Toolbar toolbar;
     //private TabLayout tabLayout;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences
+            sharedPreferences;
     private retrofit2.Call<PackageStatusInfo> packageStatusInfoCall;
     private IApiInteractor apiInteractor;
     private BottomNavigationView bottomNavigationView;
     private MyDuration myDuration;
     private UserDuration userDuration;
+    public FloatingActionButton fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tab);
+
+
         initializeWidgets();
         initializeData();
         eventListeners();
     }
+
+   /* private void open(){
+        intent = new Intent(this,DocumentActivity.class);
+        intent.putExtra("for_fab_button",2);
+        startActivity(intent);
+    }*/
 
     private void initializeWidgets() {
         toolbar = findViewById(R.id.toolbar);
@@ -115,8 +132,9 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         apiInteractor = appPresenter.getApiInterface();
     }
 
+
     private void eventListeners() {
-        //event listeners here
+
     }
 
     @Override
@@ -260,14 +278,22 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        Fragment fragment = null;
         Intent intent = null;
-        if (id == R.id.home || id == R.id.bottom_home) {
+        int id = item.getItemId();
+        Fragment fragment = null ;
+
+        if( id == R.id.home || id == R.id.bottom_home){
             fragment = new AgentListFragment();
-        } else if (id == R.id.my_account || id == R.id.bottom_my_account) {
+        }else if (id == R.id.bottom_dailer) {
+            /*intent = new Intent(this, DocumentActivity.class);
+            intent.putExtra("from_home_tab_home", 2);*/
+           // DocumentActivity.loadData();
+            fragment = new SelectedFragment();
+
+
+        }else if (id == R.id.my_account || id == R.id.bottom_my_account) {
             intent = new Intent(this, MyAccountActivity.class);
-        } else if (id == R.id.settings || id == R.id.bottom_settings) {
+        } else if (id == R.id.settings ) {
             intent = new Intent(this, SettingsActivity.class);
         } else if (id == R.id.subscription_package || id == R.id.bottom_package) {
             intent = new Intent(this, PackagesActivity.class);
@@ -309,4 +335,6 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
             packageStatusInfoCall.cancel();
         }
     }
+
+
 }
