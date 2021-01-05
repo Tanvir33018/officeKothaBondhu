@@ -1,5 +1,6 @@
 package net.islbd.kothabondhu.document.docfragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.Gson;
+
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.DocumentActivity;
+import net.islbd.kothabondhu.presenter.AppPresenter;
 
 import java.util.Arrays;
 
@@ -31,6 +35,9 @@ public class SelectionFragment extends Fragment {
         eventListeners();
         return view;
     }
+
+
+
     private void init(View view){
         buttonBack = view.findViewById(R.id.buttonBackSelectionFragment);
         buttonUnderstand = view.findViewById(R.id.buttonUnderstandSelectionFragment);
@@ -43,22 +50,27 @@ public class SelectionFragment extends Fragment {
         sadharonsastho = view.findViewById(R.id.checkboxSadharonSastho);
         resetWork();
     }
+
     private void resetWork(){
         resetDocumentSelectionArray();
         resetQueryArray();
     }
+
     private void resetQueryArray(){
         DocumentActivity.queryURL = "getContent.php?tipscat=";
     }
+
     private void resetDocumentSelectionArray(){
         Arrays.fill(DocumentActivity.selection, false);
     }
+
     private boolean atLeastOneItemIsSelected(){
         for(int i = 0; i < DocumentActivity.selection.length; ++i){
             if(DocumentActivity.selection[i]) return true;
         }
         return false;
     }
+
     private void eventListeners(){
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +81,10 @@ public class SelectionFragment extends Fragment {
         buttonUnderstand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(atLeastOneItemIsSelected()) loadSelectedFragment();
+                if(atLeastOneItemIsSelected()) {
+                   // saveOnSharedPreference();
+                    loadSelectedFragment();
+                }
                 else Toast.makeText(getContext(), "You have to select at least one item", Toast.LENGTH_SHORT).show();
             }
         });
@@ -116,12 +131,24 @@ public class SelectionFragment extends Fragment {
             }
         });
     }
+
     private void loadSelectedFragment(){
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out)
                 .replace(R.id.fragmentContainerDocument, new SelectedFragment())
                 .commit();
     }
+
+    /// ------ Shared Preferences--------
+    /*public void saveOnSharedPreference(){
+        Gson gson = new Gson();
+        String jSon = gson.toJson(DocumentActivity.selection);
+        SharedPreferences sharedPreferences = new AppPresenter().getSharedPrefInterface(getActivity());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Selection Array", jSon);
+        editor.apply();
+    }*/
+
     private void loadAccountFragment(){
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.fragment_in_un, R.anim.fragment_out_un)
