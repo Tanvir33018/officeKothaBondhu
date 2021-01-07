@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/newSelectedItemView">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="Catagory"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="3dp"
+        android:padding="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:justificationMode="inter_word"
+        android:background="@drawable/rounded_corner_shape"
+        android:id="@+id/newMessageCatagory"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:text="This Title"
+        android:padding="5dp"
+        android:background="@drawable/rounded_corner_shape"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="3dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/newMessageTitle"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Body"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:layout_below="@id/newMessageTitle"
+        android:id="@+id/newMessageBody"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/newMessageBody"
+        android:src="@drawable/ic_arrow_back_24"
+        android:id="@+id/image_button"
+        android:alpha="0.25"/>
+
+</RelativeLayout>

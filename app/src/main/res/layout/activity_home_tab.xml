@@ -30,17 +30,17 @@
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/home_fab_icon"
+        android:src="@drawable/ic_call"
         android:contentDescription="@string/home_fab_button"
         android:layout_above="@+id/bottomNavigationView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="16dp" />-->
+        android:layout_margin="16dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

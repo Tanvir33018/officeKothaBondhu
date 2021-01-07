@@ -38,6 +38,7 @@ public class SelectionFragment extends Fragment {
 
 
 
+
     private void init(View view){
         buttonBack = view.findViewById(R.id.buttonBackSelectionFragment);
         buttonUnderstand = view.findViewById(R.id.buttonUnderstandSelectionFragment);

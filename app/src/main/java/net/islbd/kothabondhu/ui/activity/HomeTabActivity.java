@@ -75,6 +75,16 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tab);
 
+        FloatingActionButton fab = findViewById(R.id.fab_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Fragment fragment = new AgentListFragment();
+                Bundle bundle = new Bundle();
+                fragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+            }
+        });
 
         initializeWidgets();
         initializeData();

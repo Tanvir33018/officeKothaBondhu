@@ -23,10 +23,12 @@ import net.islbd.kothabondhu.ui.activity.HomeTabActivity;
 
 import java.lang.reflect.Type;
 
-public class DocumentActivity extends AppCompatActivity {
+public class DocumentActivity extends AppCompatActivity  {
     public static boolean[] selection = new boolean[7];
     public static String queryURL = "getContent.php?tipscat=";
     public int Val;
+    public SharedPreferences mPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,18 @@ public class DocumentActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPreferences = getSharedPreferences("Selection", MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPreferences.edit();
+        if(selection != null){
+            for(int i=0; i<selection.length;i++ ){
+                if(selection[i])editor.putBoolean(i+"KeY", true);
+            }
+            editor.apply();
+        }
+    }
     /*public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -75,9 +89,12 @@ public class DocumentActivity extends AppCompatActivity {
                 .commit();
     }
     private void loadSelectedFragment(){
+
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out)
                 .replace(R.id.fragmentContainerDocument, new SelectedFragment())
                 .commit();
     }
+
+
 }

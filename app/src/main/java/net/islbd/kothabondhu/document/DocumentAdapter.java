@@ -1,17 +1,28 @@
 package net.islbd.kothabondhu.document;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.Api.MyContent;
+import net.islbd.kothabondhu.document.docfragment.SelectedFragment;
+import net.islbd.kothabondhu.ui.activity.HomeTabActivity;
+import net.islbd.kothabondhu.ui.fragment.NewSelectedItem;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,10 +32,13 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
     private ArrayList<MyContent> myContentArrayList;
     private HashMap<String, Integer> hashMap;
     private final int first_position = 0;
+    public Context context;
+    public Fragment fragment;
 
     public DocumentAdapter() {
         myContentArrayList = new ArrayList<>();
         hashMap = new HashMap<>();
+        fragment = new NewSelectedItem();
     }
 
     public void setMyContentArrayList(ArrayList<MyContent> myContentArrayList) {
@@ -44,12 +58,16 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(context == null){
+            context=parent.getContext();
+        }
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.document_message_list_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.loadContentToViewHolder(position);
+        holder.parent.setBackgroundColor(Color.parseColor("#7FF6FC"));
     }
 
     @Override
@@ -62,29 +80,66 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
         super.onViewRecycled(holder);
     }
 
+
+
     class MyViewHolder extends RecyclerView.ViewHolder{
-        private final TextView title, body;
-        private final View view;
+        private final TextView catagory, title;
+        private final ExpandableTextView  body;
+        //private final TextView body;
+        public RelativeLayout parent;
+        //public Context context;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.messageTitle);
+            catagory = itemView.findViewById(R.id.messageCatagory);
             body = itemView.findViewById(R.id.messageBody);
-            view = itemView.findViewById(R.id.messageListView);
+            title = itemView.findViewById(R.id.messageTitle);
+            parent = itemView.findViewById(R.id.parentLayout2);
+           // view = itemView.findViewById(R.id.messageListView);
         }
         private void loadContentToViewHolder(int position){
             String cat_name = myContentArrayList.get(position).getCat_name();
             String decontent = myContentArrayList.get(position).getDecontent();
-            title.setVisibility(View.GONE);
-            view.setVisibility(View.GONE);
-            if(hashMap.get(cat_name) == null){
+            String titleString = myContentArrayList.get(position).getTitle();
+
+
+           // catagory.setVisibility(View.GONE);
+           // view.setVisibility(View.GONE);
+
+            /*if(hashMap.get(cat_name) == null){
                 hashMap.put(cat_name, position);
             }
             if(hashMap.get(cat_name) == position) {
-                title.setText(cat_name);
-                title.setVisibility(View.VISIBLE);
-                if(position != first_position) view.setVisibility(View.VISIBLE);
-            }
+                catagory.setText(cat_name);
+                catagory.setVisibility(View.VISIBLE);
+               // if(position != first_position) view.setVisibility(View.VISIBLE);
+            }*/
+
+            catagory.setText(cat_name);
+            //catagory.setBackgroundColor(Color.parseColor("#8CF5EA"));
+            title.setText(titleString);
+            //title.setBackgroundColor(Color.parseColor("#8CF5EA"));
             body.setText(decontent);
+            String getName = myContentArrayList.get(position).getCat_name();
+            String getTitle = myContentArrayList.get(position).getTitle();
+            parent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Catagory",myContentArrayList.get(position).getCat_name());
+                    bundle.putString("Title",myContentArrayList.get(position).getTitle());
+                    bundle.putString("Content",myContentArrayList.get(position).getDecontent());
+                    NewSelectedItem newSelectedItem = new NewSelectedItem();
+                    newSelectedItem.setArguments(bundle);
+
+                    //Toast.makeText( context,"Title is"+myContentArrayList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                    ((DocumentActivity)context).getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out)
+                            .replace(R.id.fragmentContainerDocument, newSelectedItem)
+                            .commit();
+                }
+            });
         }
     }
+
 }

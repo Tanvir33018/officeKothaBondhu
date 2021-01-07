@@ -36,6 +36,7 @@ public class SelectedFragment extends Fragment {
     private RecyclerView recyclerView;
     private DocumentAdapter documentAdapter;
     private String modifiedUrl;
+    private View view;
 
     //-----SharedPreferences Variable-----
     /*public static final String SHARED_PREFS = "sharedPrefs";
@@ -46,7 +47,8 @@ public class SelectedFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.document_selected_fragment_list_item, container,false);
+        if(view != null) return view;
+        view = inflater.inflate(R.layout.document_selected_fragment_list_item, container,false);
         getList();
         init(view);
         eventListeners();
@@ -59,6 +61,7 @@ public class SelectedFragment extends Fragment {
         }
         return url.substring(0, url.length() - 1);
     }
+
     private String makeCid(int cid){
         switch (cid){
             case 0: return "101,";
@@ -72,7 +75,7 @@ public class SelectedFragment extends Fragment {
         }
     }
 
-    //----- Get SElected checkboxlist-----
+
     private void getList(){
 
         String modifiedUrl = modifyQueryUrl(DocumentActivity.queryURL);
