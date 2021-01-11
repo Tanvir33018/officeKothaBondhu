@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin5"
         android:padding="15dp"
+        android:visibility="invisible"
         android:text="LOG IN WITH GMAIL"
         android:textColor="@color/white"
         android:textStyle="bold" />

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class NewSelectedItem extends Fragment {
     private RecyclerView recyclerView;
     private SelectedAdapter selectedAdapter;
     private Fragment fragment;
-    private ImageButton imageButton;
+    private Button imageButton;
 
     @Nullable
     @Override
@@ -52,7 +53,7 @@ public class NewSelectedItem extends Fragment {
         catagoryName = view.findViewById(R.id.newMessageCatagory);
         contentName = view.findViewById(R.id.newMessageBody);
 
-        view.setBackgroundColor(Color.parseColor("#31E6D4"));
+
 
         Bundle bundle= getArguments();
         if(bundle != null){
@@ -83,64 +84,6 @@ public class NewSelectedItem extends Fragment {
     }
 
 
-    /*private String modifyQueryUrl(String url){
-        for(int i = 0; i < DocumentActivity.selection.length; ++i){
-            if(DocumentActivity.selection[i]) url += makeCid(i);
-        }
-        return url.substring(0, url.length() - 1);
-    }
 
-    private String makeCid(int cid){
-        switch (cid){
-            case 0: return "101,";
-            case 1: return "102,";
-            case 2: return "103,";
-            case 3: return "104,";
-            case 4: return "105,";
-            case 5: return "106,";
-            case 6: return "107,";
-            default: return null;
-        }
-    }
-
-
-    private void getList(){
-
-        String modifiedUrl = modifyQueryUrl(DocumentActivity.queryURL);
-        ApiClient apiClient = ApiUtilities.getApiClient();
-        apiClient.getMyContent(modifiedUrl).enqueue(new Callback<ArrayList<MyContent>>() {
-            @Override
-            public void onResponse(Call<ArrayList<MyContent>> call, Response<ArrayList<MyContent>> response) {
-                if(response.isSuccessful() && response.body() != null){
-                    selectedAdapter.setNewContentArrayList(response.body());
-                }
-                else displayToast("Server problem");
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<MyContent>> call, Throwable t) {
-                displayToast("Some problem occurs !");
-            }
-        });
-    }
-
-    private void displayToast(String message){
-        //if(message != null)
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void init(View view){
-        *//*buttonDrutoKothaBolun = view.findViewById(R.id.buttonDrutoKothaBolunSelectedFragment);
-        buttonBack = view.findViewById(R.id.buttonBackSelectedFragment);*//*
-        recyclerView = view.findViewById(R.id.recyclerViewSelectedFragment);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        selectedAdapter = new SelectedAdapter();
-        recyclerView.setAdapter(selectedAdapter);
-        imageButton = view.findViewById(R.id.image_button);
-    }
-
-
-    */
 
 }

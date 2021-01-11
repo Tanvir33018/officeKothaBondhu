@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
+    android:background="@drawable/layout_rounded_corner"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ExapandableTextView="http://schemas.android.com/tools"
     android:id="@+id/parentLayout2">
@@ -18,11 +19,13 @@
         android:textSize="10sp"
         android:text="Catagory"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="3dp"
+        android:layout_marginRight="5dp"
         android:padding="5dp"
+        android:fontFamily="@font/borson_rrr_ansi_v2"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:justificationMode="inter_word"
+        android:textColor="#FFFFFF"
         android:background="@drawable/rounded_corner_shape"
         android:id="@+id/messageCatagory"/>
 
@@ -31,10 +34,12 @@
         android:layout_height="wrap_content"
         android:textSize="13sp"
         android:text="This Title"
+        android:fontFamily="@font/borson_rrr_ansi_v2"
         android:padding="5dp"
+        android:textColor="#FFFFFF"
         android:background="@drawable/rounded_corner_shape"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -46,14 +51,21 @@
     <!--android:layout_below="@id/messageListView"-->
 
 
-    <!--<TextView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Body"
         android:layout_marginTop="20dp"
+        android:ems="3"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:padding="10dp"
         android:textColor="@color/white"
         android:layout_below="@id/messageTitle"
-        android:id="@+id/messageBody"/>-->
+        android:id="@+id/messageBody"/>
+
+    <!--android:lines="2"-->
+
     <!--<com.borjabravo.readmoretextview.ReadMoreTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,7 +87,7 @@
 
 
 
-
+<!--
     <com.ms.square.android.expandabletextview.ExpandableTextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
@@ -92,8 +104,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:paddingTop="5dp"
+            android:fontFamily="@font/borson_rrr_ansi_v2"
+            android:padding="10dp"
             android:textSize="13sp"
-            android:textColor="#666666" />
+            android:textColor="#FFFFFF" />
         <ImageButton
             android:id="@id/expand_collapse"
             android:layout_width="wrap_content"
@@ -101,7 +116,7 @@
             android:padding="16dp"
             android:layout_gravity="right"
             android:background="@android:color/transparent"/>
-    </com.ms.square.android.expandabletextview.ExpandableTextView>
+    </com.ms.square.android.expandabletextview.ExpandableTextView>-->
 
 
 </RelativeLayout>

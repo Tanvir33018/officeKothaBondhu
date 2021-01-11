@@ -10,6 +10,6 @@
     <!--<stroke android:width="2dp" android:color="#ccc" />-->
 
     <!--- This is the background color -->
-    <solid android:color="#00CCCC" />
+    <solid android:color="#009900" />
 
 </shape>

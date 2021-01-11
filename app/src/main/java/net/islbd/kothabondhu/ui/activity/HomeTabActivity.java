@@ -60,14 +60,13 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
     private Context context;
     private Toolbar toolbar;
     //private TabLayout tabLayout;
-    private SharedPreferences
-            sharedPreferences;
+    private SharedPreferences sharedPreferences;
     private retrofit2.Call<PackageStatusInfo> packageStatusInfoCall;
     private IApiInteractor apiInteractor;
     private BottomNavigationView bottomNavigationView;
     private MyDuration myDuration;
     private UserDuration userDuration;
-    public FloatingActionButton fab;
+    /*public FloatingActionButton fab;*/
 
 
     @Override
@@ -75,8 +74,8 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tab);
 
-        FloatingActionButton fab = findViewById(R.id.fab_button);
-        fab.setOnClickListener(new View.OnClickListener() {
+       /* FloatingActionButton fab = findViewById(R.id.fab_button);*/
+        /*fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                Fragment fragment = new AgentListFragment();
@@ -84,7 +83,12 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
                 fragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
             }
-        });
+        });*/
+
+        /*if(getIntent().getIntExtra("From_Selection_Fragment",-1) == 1){
+            //loadData();
+
+        }*/
 
         initializeWidgets();
         initializeData();
@@ -295,10 +299,10 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         if( id == R.id.home || id == R.id.bottom_home){
             fragment = new AgentListFragment();
         }else if (id == R.id.bottom_dailer) {
-            /*intent = new Intent(this, DocumentActivity.class);
-            intent.putExtra("from_home_tab_home", 2);*/
-           // DocumentActivity.loadData();
-            fragment = new SelectedFragment();
+            intent = new Intent(this, DocumentActivity.class);
+            intent.putExtra("from_home_tab_home", 2);
+
+           // fragment = new SelectedFragment();
 
 
         }else if (id == R.id.my_account || id == R.id.bottom_my_account) {

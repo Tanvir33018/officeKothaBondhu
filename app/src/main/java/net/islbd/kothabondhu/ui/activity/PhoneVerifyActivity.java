@@ -67,8 +67,10 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     private Button verifyButton;
     private ImageView splashLogo;
     private UserGmailInfo userGmailInfo;
+    private Button log_in_gmail;
 
     private static final int REQUEST_CODE_PERMISSION = 2000;
+    int i=0;
 
     private GoogleSignInClient mSignInClient;
     private static final int SIGN_IN = 1;
@@ -76,9 +78,14 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        log_in_gmail = findViewById(R.id.verify_login_button);
         setContentView(R.layout.activity_phone_verify);
         if(alreadyRead()) loadActivityWork();
         else loadAboutActivity();
+
+
+
+
         //verifyUser(null);
         //afterReadComplete();
     }
@@ -147,6 +154,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
         boolean alreadyRead = sharedPreferences.getBoolean("Read", false);
         return alreadyRead;
     }
+
    //---- Call from onCreate
     private void loadAboutActivity(){
         ActionBar actionBar = getSupportActionBar();

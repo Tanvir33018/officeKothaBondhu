@@ -73,8 +73,8 @@
     <string name="bangla_text_second">কথাবন্ধুর অভিজ্ঞ টীম আপনাকে যেকোনো সাহায্য করতে প্রস্তুত। এটি ব্যবহার নিরাপদ এবং সহজ।</string>
     <string name="login_register_bangla">লগইন অথবা রেজিস্ট্রেশন করুন</string>
     <string name="back_bangla">ফিরে আসুন</string>
-    <string name="ghure_dekhun">ঘুরে দেখুন</string>
-    <string name="proyojon_nei">প্রয়োজন নেই</string>
+    <string name="ghure_dekhun">ঘুরে দেখুন -></string>
+    <string name="proyojon_nei">X প্রয়োজন নেই</string>
     <string name="somporko">সম্পর্ক</string>
     <string name="valobashar_kothamala">ভালোবাসার কথামালা</string>
     <string name="premer_somporko">প্রেমের সম্পর্ক</string>

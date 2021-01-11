@@ -20,6 +20,7 @@ import net.islbd.kothabondhu.document.docfragment.SelectedFragment;
 import net.islbd.kothabondhu.document.docfragment.SelectionFragment;
 import net.islbd.kothabondhu.document.docfragment.WelcomeFragment;
 import net.islbd.kothabondhu.ui.activity.HomeTabActivity;
+import net.islbd.kothabondhu.utility.MySharedPreferences;
 
 import java.lang.reflect.Type;
 
@@ -27,7 +28,8 @@ public class DocumentActivity extends AppCompatActivity  {
     public static boolean[] selection = new boolean[7];
     public static String queryURL = "getContent.php?tipscat=";
     public int Val;
-    public SharedPreferences mPreferences;
+    public SelectionFragment selectionFragment;
+    public SharedPreferences mPreferences, selectionSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class DocumentActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_document);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-
+        selectionSharedPref = getSharedPreferences("SharedPref", MODE_PRIVATE);
         if(getIntent().getIntExtra("from_home_tab",-1) == 1){
             //loadData();
             loadSelectionFragment();
@@ -43,7 +45,27 @@ public class DocumentActivity extends AppCompatActivity  {
         else if(getIntent().getIntExtra("from_home_tab_home", -2) == 2) {
             loadSelectedFragment();
         }
-        else loadWelcomeFragment();
+        else if(selectionSharedPref.getBoolean("Somporko",false) ||
+                selectionSharedPref.getBoolean("Valobasa",false) ||
+                selectionSharedPref.getBoolean("PremerSomporko",false) ||
+                selectionSharedPref.getBoolean("NijerUnnoti",false) ||
+                selectionSharedPref.getBoolean("vromon",false) ||
+                selectionSharedPref.getBoolean("Sundorjo",false) ||
+                selectionSharedPref.getBoolean("SadharonSastho",false)) {
+
+            if(selectionSharedPref.getBoolean("Somporko",false)) selection[0] = true;
+            if(selectionSharedPref.getBoolean("Valobasa",false)) selection[1] = true;
+            if(selectionSharedPref.getBoolean("PremerSomporko",false)) selection[2] = true;
+            if(selectionSharedPref.getBoolean("NijerUnnoti",false)) selection[3] = true;
+            if(selectionSharedPref.getBoolean("vromon",false)) selection[4] = true;
+            if(selectionSharedPref.getBoolean("Sundorjo",false)) selection[5] = true;
+            if(selectionSharedPref.getBoolean("SadharonSastho",false)) selection[6] = true;
+
+            loadSelectedFragment();
+        }
+        else{
+            loadWelcomeFragment();
+        }
 
        /* int val = getIntent().getIntExtra("from_home_tab", -1);
         if(val == 1) loadSelectionFragment();

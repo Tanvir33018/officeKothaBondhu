@@ -67,7 +67,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.loadContentToViewHolder(position);
-        holder.parent.setBackgroundColor(Color.parseColor("#7FF6FC"));
+        //holder.parent.setBackgroundColor(Color.parseColor("#00CC66"));
     }
 
     @Override
@@ -84,8 +84,8 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         private final TextView catagory, title;
-        private final ExpandableTextView  body;
-        //private final TextView body;
+        //private final ExpandableTextView  body;
+        private final TextView body;
         public RelativeLayout parent;
         //public Context context;
 
