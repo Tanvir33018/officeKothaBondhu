@@ -54,15 +54,21 @@
 
     <Button
         android:id="@+id/image_button"
-        android:layout_width="67dp"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="60dp"
         android:layout_below="@id/newMessageBody"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="7dp"
-        android:alpha="0.25"
+        android:layout_marginTop="-20dp"
+        android:layout_marginRight="1dp"
+        android:background="@drawable/new_back_button"
         android:padding="10dp"
-        android:text="Back" />
+        android:stateListAnimator="@anim/slide_from_bottom"
+        android:text="&lt;&lt;&lt;"
+        android:textColor="@color/white"
+
+        />
+
+
 
 
 </RelativeLayout>

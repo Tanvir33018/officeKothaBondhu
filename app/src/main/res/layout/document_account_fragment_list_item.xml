@@ -45,8 +45,10 @@
             android:text="@string/back_bangla"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:padding="10dp"
+            android:fontFamily="@font/solaiman_lipi"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/buttonUnderstandAccount"
@@ -56,8 +58,10 @@
             android:text="@string/cholun_suru_kora_jak"
             android:layout_weight="1"
             android:layout_marginEnd="10dp"
+            android:fontFamily="@font/solaiman_lipi"
+            android:padding="10dp"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textSize="16sp"/>
 
     </LinearLayout>
 

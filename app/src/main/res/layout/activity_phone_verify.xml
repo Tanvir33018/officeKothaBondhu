@@ -34,13 +34,17 @@
 
     <Button
         android:id="@+id/verify_login_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin5"
-        android:padding="15dp"
+        android:padding="10dp"
         android:visibility="invisible"
-        android:text="LOG IN WITH GMAIL"
+        android:layout_marginTop="15dp"
+        android:textSize="13sp"
+        android:text="@string/login_with_gmail_button"
+        android:drawableLeft="@drawable/google2"
         android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:fontFamily="@font/aileronl_ight"
+        android:background="@drawable/login_background">
+    </Button>
 
 </LinearLayout>

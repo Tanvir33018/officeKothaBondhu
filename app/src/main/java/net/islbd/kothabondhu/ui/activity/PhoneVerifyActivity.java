@@ -220,7 +220,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     private void verifyUser(String phone) {
         userGmailInfo = getUserInfoFromGMail();
         if(userGmailInfo == null){
-            Toast.makeText(this, "Please log in", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "Please log in", Toast.LENGTH_SHORT).show();
             showVerifyButton(true);
             return;
         }

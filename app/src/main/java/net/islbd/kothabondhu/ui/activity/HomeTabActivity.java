@@ -286,7 +286,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
     @Override
     protected void onResume() {
-        bottomNavigationView.setSelectedItemId(R.id.bottom_home);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_dailer);
         super.onResume();
     }
 
@@ -296,9 +296,12 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         int id = item.getItemId();
         Fragment fragment = null ;
 
-        if( id == R.id.home || id == R.id.bottom_home){
+        if( id == R.id.home){
+            intent = new Intent(this, DocumentActivity.class);
+            intent.putExtra("from_home_tab_home", 2);
+        }else if(id == R.id.bottom_dailer || id == R.id.dailer){
             fragment = new AgentListFragment();
-        }else if (id == R.id.bottom_dailer) {
+        }else if (id == R.id.bottom_home) {
             intent = new Intent(this, DocumentActivity.class);
             intent.putExtra("from_home_tab_home", 2);
 

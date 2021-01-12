@@ -21,13 +21,13 @@
         android:textSize="20sp"/>
 
     <ImageView
-        android:layout_width="362dp"
-        android:layout_height="535dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="5dp"
         android:id="@+id/agentFragmentImageView"
-        android:src="@drawable/agent_scr_shot_second"/>
+        android:layout_width="367dp"
+        android:layout_height="493dp"
+        android:layout_below="@+id/monkhuleTextView"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/agent_scr_shot_second" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,8 +46,10 @@
             android:text="@string/back_bangla"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:padding="10dp"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:fontFamily="@font/solaiman_lipi"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/buttonUnderstandAgent"
@@ -57,8 +59,10 @@
             android:text="@string/bujte_peresi"
             android:layout_weight="1"
             android:layout_marginEnd="10dp"
+            android:padding="10dp"
+            android:fontFamily="@font/solaiman_lipi"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 

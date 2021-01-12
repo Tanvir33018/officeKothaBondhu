@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
     <item
+        android:id="@+id/dailer"
+        android:icon="@drawable/phone"
+        android:visible="false"
+        android:title="Call Log"/>
+    <item
         android:id="@+id/home"
         android:icon="@drawable/home"
         android:title="@string/nav_item_home" />
