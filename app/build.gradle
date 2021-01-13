@@ -89,6 +89,8 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.12.0'
     implementation 'com.rbddevs.splashy:splashy:1.3.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.20'
+
+
     // https://mvnrepository.com/artifact/com.clxcommunications/sdk-xms
     implementation group: 'com.clxcommunications', name: 'sdk-xms', version: '1.0.2'
     implementation(name: 'sinch-android-rtc', version: '+', ext: 'aar')

@@ -8,7 +8,7 @@
 
 
     <item
-        android:title = "@string/nav__item_dailer"
+        android:title = "@string/nav__item_call"
         android:icon="@drawable/ic_call_home"
         android:id="@+id/bottom_dailer"
         />

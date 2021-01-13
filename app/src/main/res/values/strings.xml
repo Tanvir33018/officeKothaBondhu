@@ -94,7 +94,7 @@
     <string name="pochonder_nirbachon">পছন্দের বিষয় নির্বাচন করুন</string>
     <string name="dhonnobad">আমাদের সাথে যুক্ত হবার জন্য ধন্যবাদ। আমাদের সেবা সম্পর্কে জানতে আপনি “ঘুরে দেখুন” অপশন দেখতে পারেন। কথা বন্ধু হলো এটির ব্যবহারকারীদের জন্য একটি সহায়ক অ্যাপস। ব্যবহারকারীগন  এই অ্যাপস থেকে বিভিন্ন তথ্য পাবেন। এটি একটি ভয়েস ইন্টারেক্টিভ অ্যাপস। ব্যবহারকারীরা আমাদের অভিজ্ঞ টীম মেম্বার এর সাথে সরাসরি কথা বলে দ্রুত সেবা নিতে পারবেন।</string>
     <string name="home_fab_button">Home</string>
-    <string name="nav__item_dailer">Dailer</string>
+    <string name="nav__item_call">Call</string>
     <string name="posondr_bisoy">&#x25c0; পছন্দের বিষয়</string>
     <string name="login_with_gmail_button">\u0020\u0020 Sign Up with Google</string>
 </resources>
