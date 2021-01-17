@@ -147,12 +147,24 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { loadAccountActivity(); }
+        });
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveButtonClick();
             }
         });
+    }
+
+
+    private void loadAccountActivity() {
+        Intent intent = new Intent(this,MyAccountActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 
