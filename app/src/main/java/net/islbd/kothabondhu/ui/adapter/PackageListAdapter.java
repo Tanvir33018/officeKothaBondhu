@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +15,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.softbd.aamarpay.PayByAamarPay;
+import com.softbd.aamarpay.interfaces.OnPaymentRequestListener;
+import com.softbd.aamarpay.model.OptionalFields;
+import com.softbd.aamarpay.model.PaymentResponse;
+import com.softbd.aamarpay.model.RequiredFields;
+import com.softbd.aamarpay.utils.Params;
+
 import java.util.List;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.PackageInfo;
 import net.islbd.kothabondhu.model.pojo.PackageStatusInfo;
 import net.islbd.kothabondhu.model.pojo.PackageStatusQuery;
+import net.islbd.kothabondhu.model.pojo.UserAccountInfo;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.presenter.IDbInteractor;
@@ -45,10 +55,13 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
     private SharedPreferences sharedPreferences;
     private Call<PackageStatusInfo> packageStatusInfoCall;
     private IApiInteractor apiInteractor;
-    private String packageId, packageIdentifier, packageDetails, packageDuration, packageMedia;
+    public String packageId, packageIdentifier, packageDetails, packageDuration, packageMedia;
     private Fragment fragment;
     private int selected_position = 0;
     private PackageStatusQuery packageStatusQuery;
+    public String amount = "40";
+    public String payStatus = "Null";
+
 
     public PackageListAdapter(Context context, IDbInteractor dbInteractor, Fragment fragment) {
         this.dbInteractor = dbInteractor;
@@ -83,6 +96,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
                 notifyDataSetChanged();
                 loadPackageDetails(position);
                 ((PackageListFragment)fragment).setPackageTextAcToAmount(packageList.get(position).getPackageDetails());
+                amount = packageList.get(position).getPackageDetails();
             }
         });
     }
@@ -103,7 +117,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
             public void onResponse(retrofit2.Call<PackageStatusInfo> rCall, Response<PackageStatusInfo> response) {
                 if (response.code() == HttpStatusCodes.OK) {
                     moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
-                    //Toast.makeText(context, "Package purchase successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Package purchase successful", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "Server error!", Toast.LENGTH_SHORT).show();
                 }
@@ -168,6 +182,8 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
         intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_MEDIA, packageMedia);
         intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_DURATION, packageDuration);
         intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_DETAILS, packageDetails);
+        intent.putExtra("PaymentReport", PackageListFragment.payStatus);
         context.startActivity(intent);
     }
+
 }

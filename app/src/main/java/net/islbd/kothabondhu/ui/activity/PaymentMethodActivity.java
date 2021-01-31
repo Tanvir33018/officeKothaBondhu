@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -30,7 +34,7 @@ import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
 public class PaymentMethodActivity extends AppCompatActivity {
-    private ImageView bkashImageView, rocketImageView;
+   // private ImageView bkashImageView, rocketImageView;
     private String packageID, packageIdentifier, packageMedia, packageDuration, packageDetails;
     private Call<PackageInfo> packageInfoCall;
     private Call<PackageStatusInfo> buyPackCall;
@@ -39,11 +43,16 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private Context context;
     private UserGmailInfo userGmailInfo;
     private BuyPack buyPack;
+    private TextView paySuccessText;
+    private Button goHomeButton;
+    private String payStatus;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_method_package);
+        payStatus = getIntent().getStringExtra("PaymentReport");
         initializeWidgets();
         initializeData();
         eventListeners();
@@ -62,8 +71,12 @@ public class PaymentMethodActivity extends AppCompatActivity {
     }
 
     private void initializeWidgets() {
-        bkashImageView = findViewById(R.id.payment_bkash_imageView);
-        rocketImageView = findViewById(R.id.payment_rocket_imageView);
+        /*bkashImageView = findViewById(R.id.payment_bkash_imageView);
+        rocketImageView = findViewById(R.id.payment_rocket_imageView);*/
+        imageView = findViewById(R.id.payment_imageView);
+        paySuccessText = findViewById(R.id.payment_success_textview);
+        goHomeButton = findViewById(R.id.payment_success_button);
+
     }
 
     private void initializeData() {
@@ -81,14 +94,20 @@ public class PaymentMethodActivity extends AppCompatActivity {
         AppPresenter appPresenter = new AppPresenter();
         apiInteractor = appPresenter.getApiInterface();
         sharedPref = appPresenter.getSharedPrefInterface(this);
+
+        if(payStatus == "Successful"){
+            imageView.setImageResource(R.drawable.right_sign);
+            paySuccessText.setText("স্বাগতম, আপনার প্যাকেজ ক্রয় সম্পূর্ণ হয়েছে");
+        }else{
+            paySuccessText.setText("দুঃখিত, আপনার প্যাকেজ ক্রয় সম্পূর্ণ হয়নি");
+        }
+
     }
 
     private void eventListeners() {
-        bkashImageView.setOnClickListener(new View.OnClickListener() {
+        /*bkashImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                purchasePackage(GlobalConstants.PAYMENT_TAG_BKASH);
-            }
+            public void onClick(View view) { purchasePackage(GlobalConstants.PAYMENT_TAG_BKASH); }
         });
 
         rocketImageView.setOnClickListener(new View.OnClickListener() {
@@ -96,18 +115,22 @@ public class PaymentMethodActivity extends AppCompatActivity {
             public void onClick(View view) {
                 purchasePackage(GlobalConstants.PAYMENT_TAG_ROCKET);
             }
+        });*/
+        goHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { purchasePackage(); }
         });
     }
 
-    private void purchasePackage(Integer gateway) {
-        switch (gateway) {
+    private void purchasePackage() {
+        /*switch (gateway) {
             case GlobalConstants.PAYMENT_TAG_ROCKET:
                 // TODO: implement gateway for rocket
                 break;
             case GlobalConstants.PAYMENT_TAG_BKASH:
-                // TODO: implement gateway for bkash
+
                 break;
-        }
+        }*/
 
         /*final PackageInfoQuery packageInfoQuery = new PackageInfoQuery();
         packageInfoQuery.setQ(packageMedia);
@@ -158,6 +181,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
                     Intent intent = new Intent(PaymentMethodActivity.this, HomeTabActivity.class);
                     startActivity(intent);
                     finish();
+
+
                 } else {
                     Toast.makeText(context, "Something went wrong! Please try again.", Toast.LENGTH_SHORT).show();
                 }

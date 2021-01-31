@@ -74,32 +74,12 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tab);
 
-       /* FloatingActionButton fab = findViewById(R.id.fab_button);*/
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Fragment fragment = new AgentListFragment();
-                Bundle bundle = new Bundle();
-                fragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-            }
-        });*/
-
-        /*if(getIntent().getIntExtra("From_Selection_Fragment",-1) == 1){
-            //loadData();
-
-        }*/
-
         initializeWidgets();
         initializeData();
         eventListeners();
     }
 
-   /* private void open(){
-        intent = new Intent(this,DocumentActivity.class);
-        intent.putExtra("for_fab_button",2);
-        startActivity(intent);
-    }*/
+
 
     private void initializeWidgets() {
         toolbar = findViewById(R.id.toolbar);

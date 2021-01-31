@@ -13,11 +13,6 @@
         android:id="@+id/bottom_dailer"
         />
 
-    <!--<item
-        android:title="@string/nav_item_settings"
-        android:icon="@drawable/setting"
-        android:id="@+id/bottom_settings"/>-->
-
     <item
         android:title="@string/nav_item_packages"
         android:icon="@drawable/subscription"

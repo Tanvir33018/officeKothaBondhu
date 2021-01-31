@@ -210,6 +210,8 @@ public class SettingsActivity extends AppCompatActivity {
         alertDialogBuilder.setMessage("Select Photo Via");
 
         alertDialogBuilder.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+
+
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);

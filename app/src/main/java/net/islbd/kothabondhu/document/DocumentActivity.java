@@ -1,5 +1,6 @@
 package net.islbd.kothabondhu.document;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -8,10 +9,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -20,16 +23,25 @@ import net.islbd.kothabondhu.document.docfragment.SelectedFragment;
 import net.islbd.kothabondhu.document.docfragment.SelectionFragment;
 import net.islbd.kothabondhu.document.docfragment.WelcomeFragment;
 import net.islbd.kothabondhu.ui.activity.HomeTabActivity;
+import net.islbd.kothabondhu.ui.activity.MyAccountActivity;
+import net.islbd.kothabondhu.ui.activity.PackagesActivity;
 import net.islbd.kothabondhu.utility.MySharedPreferences;
 
 import java.lang.reflect.Type;
 
-public class DocumentActivity extends AppCompatActivity  {
+import static net.islbd.kothabondhu.R.id.bottom_category;
+import static net.islbd.kothabondhu.R.id.bottom_dailer;
+import static net.islbd.kothabondhu.R.id.bottom_home;
+import static net.islbd.kothabondhu.R.id.bottom_my_account;
+import static net.islbd.kothabondhu.R.id.bottom_package;
+
+public class DocumentActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     public static boolean[] selection = new boolean[7];
     public static String queryURL = "getContent.php?tipscat=";
     public int Val;
     public SelectionFragment selectionFragment;
     public SharedPreferences mPreferences, selectionSharedPref;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +49,24 @@ public class DocumentActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_document);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
         selectionSharedPref = getSharedPreferences("SharedPref", MODE_PRIVATE);
         if(getIntent().getIntExtra("from_home_tab",-1) == 1){
             //loadData();
             loadSelectionFragment();
         }
         else if(getIntent().getIntExtra("from_home_tab_home", -2) == 2) {
+            loadSelectedFragment();
+        }else if(getIntent().getIntExtra("From MyAccountActivity", -2) == 1) {
+            loadSelectedFragment();
+        }else if(getIntent().getIntExtra("From MyAccountActivity", -2) == 2) {
+            loadSelectionFragment();
+        }else if(getIntent().getIntExtra("From PackageActivity", -2) == 2) {
+            loadSelectionFragment();
+        }else if(getIntent().getIntExtra("From PackageActivity", -2) == 1) {
             loadSelectedFragment();
         }
         else if(selectionSharedPref.getBoolean("Somporko",false) ||
@@ -66,12 +90,6 @@ public class DocumentActivity extends AppCompatActivity  {
         else{
             loadWelcomeFragment();
         }
-
-       /* int val = getIntent().getIntExtra("from_home_tab", -1);
-        if(val == 1) loadSelectionFragment();
-        else loadWelcomeFragment();*/
-
-
     }
 
     @Override
@@ -86,17 +104,6 @@ public class DocumentActivity extends AppCompatActivity  {
             editor.apply();
         }
     }
-    /*public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("task list", null);
-        Type type = new TypeToken<boolean[]>() {}.getType();
-        boolean[] selectS = gson.fromJson(json, type);
-        *//*if (selection == null) {
-            selection = selectS;
-        }*//*
-
-    }*/
 
     private void loadWelcomeFragment(){
         getSupportFragmentManager().beginTransaction()
@@ -119,4 +126,26 @@ public class DocumentActivity extends AppCompatActivity  {
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == bottom_dailer){
+            Intent intent = new Intent(this,HomeTabActivity.class);
+            startActivity(intent);
+        }else if(id==bottom_my_account){
+            Intent intent = new Intent(this, MyAccountActivity.class);
+            startActivity(intent);
+        }else if(id==bottom_package){
+            Intent intent = new Intent(this, PackagesActivity.class);
+            startActivity(intent);
+        }
+        else if(id==bottom_category){
+            loadSelectionFragment();
+        }
+        else if(id==bottom_home){
+            loadSelectedFragment();
+        }
+        return true;
+    }
 }

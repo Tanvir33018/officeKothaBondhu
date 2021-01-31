@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ms.square.android.expandabletextview.ExpandableTextView;
+import com.softbd.aamarpay.model.RequiredFields;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.Api.MyContent;
@@ -102,18 +103,6 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
             String decontent = myContentArrayList.get(position).getDecontent();
             String titleString = myContentArrayList.get(position).getTitle();
 
-
-           // catagory.setVisibility(View.GONE);
-           // view.setVisibility(View.GONE);
-
-            /*if(hashMap.get(cat_name) == null){
-                hashMap.put(cat_name, position);
-            }
-            if(hashMap.get(cat_name) == position) {
-                catagory.setText(cat_name);
-                catagory.setVisibility(View.VISIBLE);
-               // if(position != first_position) view.setVisibility(View.VISIBLE);
-            }*/
 
             catagory.setText(cat_name);
             //catagory.setBackgroundColor(Color.parseColor("#8CF5EA"));
