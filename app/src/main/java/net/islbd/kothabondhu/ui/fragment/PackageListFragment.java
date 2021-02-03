@@ -1,6 +1,7 @@
 package net.islbd.kothabondhu.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -40,6 +41,7 @@ import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.presenter.IDbInteractor;
+import net.islbd.kothabondhu.ui.activity.HomeTabActivity;
 import net.islbd.kothabondhu.ui.activity.PaymentMethodActivity;
 import net.islbd.kothabondhu.ui.adapter.PackageListAdapter;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
@@ -200,11 +202,19 @@ public class PackageListFragment extends Fragment {
                     paymentResponse) {
                 //Handle your response here like
                 //textView.setText(paymentResponse.getPayStatus());
+                if(paymentResponse.getPayStatus() == "Successful"){
                     Log.d("TAG", "This is PaymentResponse: "+paymentResponse.getPayStatus());
                     Toast.makeText(context, paymentResponse.getPayStatus(), Toast.LENGTH_SHORT).show();
 
                     payStatus = paymentResponse.getPayStatus();
                     continueWork.loadMoveToPurchase();
+                }
+                else{
+                    Intent intent = new Intent(getContext(), PaymentMethodActivity.class);
+                    startActivity(intent);
+                    //finish();
+                }
+
             }
         });
     }

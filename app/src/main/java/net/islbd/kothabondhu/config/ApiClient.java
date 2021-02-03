@@ -1,5 +1,8 @@
 package net.islbd.kothabondhu.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -15,7 +18,13 @@ public class ApiClient {
     private static OkHttpClient okHttpClient = null;
 
 
+
+
+
     public static Retrofit getClient(String baseUrl, Long requestTimeout) {
+        /*Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();*/
         if (retrofit == null) {
             retrofit = new Retrofit
                     .Builder()

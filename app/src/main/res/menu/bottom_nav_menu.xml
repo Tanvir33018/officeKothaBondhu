@@ -10,8 +10,7 @@
     <item
         android:title = "@string/nav__item_call"
         android:icon="@drawable/ic_call_home"
-        android:id="@+id/bottom_dailer"
-        />
+        android:id="@+id/bottom_dailer" />
 
     <item
         android:title="@string/nav_item_packages"

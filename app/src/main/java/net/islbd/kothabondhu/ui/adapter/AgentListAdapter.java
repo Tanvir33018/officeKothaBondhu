@@ -10,6 +10,8 @@ import android.graphics.BitmapFactory;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,6 +113,7 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
         holder.callImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 sharedPref.edit().putInt(SharedPrefUtils._TO_USER_PHONE, Integer.valueOf(id)).apply();
                 packageSelectListener.onPackageSelection(id, url);
                 //showPackageDialog(id, name, url);

@@ -20,6 +20,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -66,7 +68,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
     private BottomNavigationView bottomNavigationView;
     private MyDuration myDuration;
     private UserDuration userDuration;
-    /*public FloatingActionButton fab;*/
+
 
 
     @Override
@@ -117,7 +119,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         navigationView.setNavigationItemSelectedListener(this);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        //onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
         sharedPreferences = new AppPresenter().getSharedPrefInterface(context);
         sharedPreferences.edit().putString(SharedPrefUtils._API_KEY, GlobalConstants.API_KEY).apply();
@@ -188,9 +190,10 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
             public void onResponse(retrofit2.Call<PackageStatusInfo> rCall, Response<PackageStatusInfo> response) {
                 if (response.code() == HttpStatusCodes.OK) {
                     //gotoCallOnGoingActivity(fCallId, fImageUrl);
+
                     balanceCheckingWork(fCallId, fImageUrl);
                 } else {
-                   //gotoPackageActivity();
+                   // gotoPackageActivity();
                 }
             }
 
@@ -203,12 +206,16 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
     private void balanceCheckingWork(String fCallId, String fImageUrl){
         String id = getUserInfoFromGMail().getId();
+
         userDuration = new UserDuration(id);
         retrofit2.Call<MyDuration> myDurationCall = apiInteractor.getMyDuration(userDuration);
         myDurationCall.enqueue(new retrofit2.Callback<MyDuration>() {
             @Override
             public void onResponse(retrofit2.Call<MyDuration> call, Response<MyDuration> response) {
+
+
                 if(response.isSuccessful() && response.body() != null){
+                    Log.d("TAG: home_tab", "onResponse: "+ response.isSuccessful());
                     try{
                         MyDuration myDuration = response.body();
                         Toast.makeText(getApplicationContext(), "Remaining Balance" + myDuration.getDuration(), Toast.LENGTH_SHORT).show();
@@ -231,7 +238,8 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
             @Override
             public void onFailure(retrofit2.Call<MyDuration> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Balance check failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Balance check failed "+t, Toast.LENGTH_SHORT).show();
+
             }
         });
     }

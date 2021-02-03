@@ -41,30 +41,36 @@ public class DocumentActivity extends AppCompatActivity implements BottomNavigat
     public int Val;
     public SelectionFragment selectionFragment;
     public SharedPreferences mPreferences, selectionSharedPref;
-    private BottomNavigationView bottomNavigationView;
+    public static BottomNavigationView bottomNavigationView;
+    public static boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) getWindow().getDecorView();
 
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+       //if(flag == true)bottomNavigationView.setVisibility(View.VISIBLE);
+
         selectionSharedPref = getSharedPreferences("SharedPref", MODE_PRIVATE);
         if(getIntent().getIntExtra("from_home_tab",-1) == 1){
-            //loadData();
+            bottomNavigationView.setSelectedItemId(bottom_category);
             loadSelectionFragment();
         }
         else if(getIntent().getIntExtra("from_home_tab_home", -2) == 2) {
+            bottomNavigationView.setSelectedItemId(bottom_home);
             loadSelectedFragment();
         }else if(getIntent().getIntExtra("From MyAccountActivity", -2) == 1) {
             loadSelectedFragment();
         }else if(getIntent().getIntExtra("From MyAccountActivity", -2) == 2) {
+            bottomNavigationView.setSelectedItemId(bottom_category);
             loadSelectionFragment();
         }else if(getIntent().getIntExtra("From PackageActivity", -2) == 2) {
+            bottomNavigationView.setSelectedItemId(bottom_category);
             loadSelectionFragment();
         }else if(getIntent().getIntExtra("From PackageActivity", -2) == 1) {
             loadSelectedFragment();
@@ -84,10 +90,10 @@ public class DocumentActivity extends AppCompatActivity implements BottomNavigat
             if(selectionSharedPref.getBoolean("vromon",false)) selection[4] = true;
             if(selectionSharedPref.getBoolean("Sundorjo",false)) selection[5] = true;
             if(selectionSharedPref.getBoolean("SadharonSastho",false)) selection[6] = true;
-
             loadSelectedFragment();
         }
         else{
+            bottomNavigationView.setVisibility(View.INVISIBLE);
             loadWelcomeFragment();
         }
     }

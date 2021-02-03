@@ -35,16 +35,20 @@ public class PackagesActivity extends AppCompatActivity implements BottomNavigat
     }
 
     private void initializeWidgets() {
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Packages");
         Fragment fragment = new PackageListFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.packages_constraint_layout, fragment).commit();
+
     }
 
     private void initializeData() {
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_package);
+
 
     }
 
@@ -68,6 +72,7 @@ public class PackagesActivity extends AppCompatActivity implements BottomNavigat
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -79,10 +84,10 @@ public class PackagesActivity extends AppCompatActivity implements BottomNavigat
         }else if(id==bottom_my_account){
             Intent intent = new Intent(this, MyAccountActivity.class);
             startActivity(intent);
-        }else if(id==bottom_package){
+        }/*else if(id==bottom_package){
             Intent intent = new Intent(this, PackagesActivity.class);
             startActivity(intent);
-        }
+        }*/
         else if(id==bottom_category){
             Intent intent = new Intent(this, DocumentActivity.class);
             intent.putExtra("From PackageActivity", 2);
@@ -95,7 +100,5 @@ public class PackagesActivity extends AppCompatActivity implements BottomNavigat
         }
         return true;
     }
-
-
 }
 

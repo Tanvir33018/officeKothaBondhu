@@ -19,8 +19,11 @@ import net.islbd.kothabondhu.ui.fragment.MyAccountFragment;
 
 import org.webrtc.EglBase;
 
+import static net.islbd.kothabondhu.R.id.bottom_category;
+import static net.islbd.kothabondhu.R.id.bottom_my_account;
+
 public class MyAccountActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView;
     private Context context;
 
     @Override
@@ -42,6 +45,7 @@ public class MyAccountActivity extends AppCompatActivity implements BottomNaviga
     private void initializeData() {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_my_account);
     }
 
     private void eventListeners() {

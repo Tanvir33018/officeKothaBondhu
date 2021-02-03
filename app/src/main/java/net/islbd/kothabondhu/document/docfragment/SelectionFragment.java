@@ -39,6 +39,7 @@ public class SelectionFragment extends Fragment {
     public final String VROMON = "vromon";
     public final String SUNDORJO = "Sundorjo";
     public final String SHADHARONSASTHO = "SadharonSastho";
+    private DocumentActivity documentActivity;
 
 
     @Nullable
@@ -154,9 +155,18 @@ public class SelectionFragment extends Fragment {
                     if(vromon.isChecked()) editor.putBoolean(VROMON, vromon.isChecked());
                     if(sundorjotok.isChecked()) editor.putBoolean(SUNDORJO, sundorjotok.isChecked());
                     if(sadharonsastho.isChecked()) editor.putBoolean(SHADHARONSASTHO, sadharonsastho.isChecked());
+
+                    if(!somporko.isChecked()) editor.putBoolean(SOMPORKO,false);
+                    if(!valobasha.isChecked()) editor.putBoolean(VALOBASA, false);
+                    if(!premersomoporko.isChecked()) editor.putBoolean(PREMERSOMPORKO, false);
+                    if(!nijerunnoti.isChecked()) editor.putBoolean(NIJERUNNOTI, false);
+                    if(!vromon.isChecked()) editor.putBoolean(VROMON, false);
+                    if(!sundorjotok.isChecked()) editor.putBoolean(SUNDORJO, false);
+                    if(!sadharonsastho.isChecked()) editor.putBoolean(SHADHARONSASTHO, false);
+
                     editor.apply();
-
-
+                    DocumentActivity.bottomNavigationView.setVisibility(View.VISIBLE);
+                    DocumentActivity.bottomNavigationView.setSelectedItemId(R.id.bottom_home);
                     loadSelectedFragment();
                 }
                 else Toast.makeText(getContext(), "You have to select at least one item", Toast.LENGTH_SHORT).show();

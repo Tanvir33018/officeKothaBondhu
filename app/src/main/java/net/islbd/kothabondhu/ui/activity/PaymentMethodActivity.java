@@ -98,6 +98,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
         if(payStatus == "Successful"){
             imageView.setImageResource(R.drawable.right_sign);
             paySuccessText.setText("স্বাগতম, আপনার প্যাকেজ ক্রয় সম্পূর্ণ হয়েছে");
+
         }else{
             paySuccessText.setText("দুঃখিত, আপনার প্যাকেজ ক্রয় সম্পূর্ণ হয়নি");
         }
@@ -118,7 +119,14 @@ public class PaymentMethodActivity extends AppCompatActivity {
         });*/
         goHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { purchasePackage(); }
+            public void onClick(View view) {
+                if(payStatus == "Successful")purchasePackage();
+                else {
+                    Intent intent = new Intent(PaymentMethodActivity.this, HomeTabActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
         });
     }
 
