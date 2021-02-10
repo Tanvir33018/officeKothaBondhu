@@ -27,14 +27,14 @@ public class PackageHistoryListAdapter extends RecyclerView.Adapter<PackageHisto
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final int currentPosition = position;
         final String packDetails = packageHistoryDetailsList.get(position).getPackDetails();
-        final String packDuration = packageHistoryDetailsList.get(position).getPackDuration() + " minutes";
+        final String packDuration = packageHistoryDetailsList.get(position).getPackDuration();
         final String packExpireDate = packageHistoryDetailsList.get(position).getPackExpireDate();
 
         if (packDetails != null) {
             holder.packageDetailsTextView.setText(packDetails);
         }
         if (packDuration != null) {
-            holder.packageDurationTextView.setText(packDuration);
+            holder.packageDurationTextView.setText(packDuration +" munites");
         }
         if (packExpireDate != null) {
             holder.packageExpireTextView.setText(packExpireDate);

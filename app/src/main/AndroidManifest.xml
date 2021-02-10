@@ -20,18 +20,15 @@
     <application
         android:name=".KthBndhApp"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-
-        <activity android:name=".document.DocumentActivity"
-            />
-        <!-- android:theme="@style/FullScreen"-->
+        <activity android:name=".document.DocumentActivity" /> <!-- android:theme="@style/FullScreen" -->
         <activity
             android:name=".ui.activity.AboutActivity"
             android:theme="@style/AppThemeSecond" />

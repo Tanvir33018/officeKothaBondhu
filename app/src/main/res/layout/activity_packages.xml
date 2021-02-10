@@ -7,6 +7,11 @@
     android:id="@+id/packages_constraint_layout"
     tools:context="net.islbd.kothabondhu.ui.activity.PackagesActivity">
 
+    <FrameLayout
+        android:id="@+id/fragmentContainerPackage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

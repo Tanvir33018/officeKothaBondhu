@@ -59,6 +59,7 @@
         android:ems="3"
         android:ellipsize="end"
         android:maxLines="2"
+        android:textSize="14sp"
         android:padding="10dp"
         android:textColor="@color/white"
         android:layout_below="@id/messageTitle"

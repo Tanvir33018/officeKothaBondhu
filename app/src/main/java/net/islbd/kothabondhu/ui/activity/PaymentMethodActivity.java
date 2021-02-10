@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,14 +46,14 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private BuyPack buyPack;
     private TextView paySuccessText;
     private Button goHomeButton;
-    private String payStatus;
+    private boolean payStatus;
     private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_method_package);
-        payStatus = getIntent().getStringExtra("PaymentReport");
+        payStatus = getIntent().getBooleanExtra("abc", false);
         initializeWidgets();
         initializeData();
         eventListeners();
@@ -95,33 +96,26 @@ public class PaymentMethodActivity extends AppCompatActivity {
         apiInteractor = appPresenter.getApiInterface();
         sharedPref = appPresenter.getSharedPrefInterface(this);
 
-        if(payStatus == "Successful"){
+
+        if(payStatus){
             imageView.setImageResource(R.drawable.right_sign);
             paySuccessText.setText("স্বাগতম, আপনার প্যাকেজ ক্রয় সম্পূর্ণ হয়েছে");
 
-        }else{
-            paySuccessText.setText("দুঃখিত, আপনার প্যাকেজ ক্রয় সম্পূর্ণ হয়নি");
         }
 
     }
 
     private void eventListeners() {
-        /*bkashImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { purchasePackage(GlobalConstants.PAYMENT_TAG_BKASH); }
-        });
 
-        rocketImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                purchasePackage(GlobalConstants.PAYMENT_TAG_ROCKET);
-            }
-        });*/
         goHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(payStatus == "Successful")purchasePackage();
-                else {
+
+                Log.d("TAG", "initializeData: ");
+
+                if(payStatus){
+                    purchasePackage();
+                }else {
                     Intent intent = new Intent(PaymentMethodActivity.this, HomeTabActivity.class);
                     startActivity(intent);
                     finish();
@@ -131,44 +125,6 @@ public class PaymentMethodActivity extends AppCompatActivity {
     }
 
     private void purchasePackage() {
-        /*switch (gateway) {
-            case GlobalConstants.PAYMENT_TAG_ROCKET:
-                // TODO: implement gateway for rocket
-                break;
-            case GlobalConstants.PAYMENT_TAG_BKASH:
-
-                break;
-        }*/
-
-        /*final PackageInfoQuery packageInfoQuery = new PackageInfoQuery();
-        packageInfoQuery.setQ(packageMedia);
-        packageInfoQuery.setMobilenumber(String.valueOf(sharedPref.getInt(SharedPrefUtils._USER_PHONE, 0)));
-        packageInfoQuery.setMobilenumber("01888014");
-        packageInfoCall = apiInteractor.getPackageDetails(packageInfoQuery);
-        packageInfoCall.enqueue(new Callback<PackageInfo>() {
-            @Override
-            public void onResponse(Call<PackageInfo> call, Response<PackageInfo> response) {
-                if (response.code() == HttpStatusCodes.OK) {
-                    PackageInfo packageInfo = response.body();
-
-                    if (packageInfo != null) {
-                        sharedPref.edit().putString(SharedPrefUtils._PACKAGE_MEDIA, packageInfo.getMedia()).apply();
-                        sharedPref.edit().putString(SharedPrefUtils._PACKAGE_DETAILS, packageInfo.getPackageDetails()).apply();
-                        sharedPref.edit().putString(SharedPrefUtils._PACKAGE_ID, packageInfo.getPkgId()).apply();
-                        sharedPref.edit().putString(SharedPrefUtils._PACKAGE_IDENTIFIER, packageInfo.getPkgid()).apply();
-                        sharedPref.edit().putString(SharedPrefUtils._PACKAGE_DURATION, packageInfo.getPkgDuration()).apply();
-                        Toast.makeText(context, "PURCHASED PACKAGE : " + packageInfo.getPackageDetails(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Something went wrong! Please try again", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PackageInfo> call, Throwable t) {
-                Toast.makeText(context, "Something went wrong! Please try again.", Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
         buyPack = new BuyPack();
         buyPack.setEndUserRegId(packageIdentifier);

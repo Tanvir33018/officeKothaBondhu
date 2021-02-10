@@ -79,7 +79,6 @@ public class SelectionFragment extends Fragment {
             DocumentActivity.selection[6] = true;
         }
 
-
         eventListeners();
         return view;
     }

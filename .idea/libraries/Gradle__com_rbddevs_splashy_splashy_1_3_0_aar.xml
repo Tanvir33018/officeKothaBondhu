@@ -1,15 +1,15 @@
 <component name="libraryTable">
   <library name="Gradle: com.rbddevs.splashy:splashy:1.3.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3f996147872f0f4f8bcc97cd460f3f5b/jetified-splashy-1.3.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3f996147872f0f4f8bcc97cd460f3f5b/jetified-splashy-1.3.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3f996147872f0f4f8bcc97cd460f3f5b/jetified-splashy-1.3.0/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../WirelessComChat/gradle/caches/transforms-2/files-2.1/874c531c89752f3f783b5c5e015f4dd4/jetified-splashy-1.3.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../WirelessComChat/gradle/caches/transforms-2/files-2.1/874c531c89752f3f783b5c5e015f4dd4/jetified-splashy-1.3.0/res" />
+      <root url="file://$PROJECT_DIR$/../WirelessComChat/gradle/caches/transforms-2/files-2.1/874c531c89752f3f783b5c5e015f4dd4/jetified-splashy-1.3.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rbddevs.splashy/splashy/1.3.0/c3309d603ada5a30b017463823f22e7badf09ec4/splashy-1.3.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../WirelessComChat/gradle/caches/modules-2/files-2.1/com.rbddevs.splashy/splashy/1.3.0/c3309d603ada5a30b017463823f22e7badf09ec4/splashy-1.3.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rbddevs.splashy/splashy/1.3.0/9e513019ffd9d075be004d228d150f087407e871/splashy-1.3.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../WirelessComChat/gradle/caches/modules-2/files-2.1/com.rbddevs.splashy/splashy/1.3.0/9e513019ffd9d075be004d228d150f087407e871/splashy-1.3.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

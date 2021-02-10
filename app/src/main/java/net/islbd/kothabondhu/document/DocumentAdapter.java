@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ms.square.android.expandabletextview.ExpandableTextView;
-import com.softbd.aamarpay.model.RequiredFields;
+//import com.softbd.aamarpay.model.RequiredFields;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.Api.MyContent;

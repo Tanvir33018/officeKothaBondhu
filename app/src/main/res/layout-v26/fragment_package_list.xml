@@ -10,11 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:padding="10dp"
+        android:id="@+id/package_detail"
         android:layout_below="@id/package_list_recyclerView"
         android:layout_marginTop="10dp">
 
@@ -26,20 +29,24 @@
             android:fontFamily="@font/baloo_regular"
             android:textStyle="bold"
             android:textSize="40sp"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/textViewTitlePackageList">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="17sp"
-            android:layout_centerVertical="true"
-            android:layout_below="@id/textViewTitlePackageList"
-            android:justificationMode="inter_word"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/baloo_regular"
-            android:text="@string/amount_40"
-            android:id="@+id/textViewAllPackageList"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:padding="10dp"
+                android:justificationMode="inter_word"
+                android:fontFamily="@font/baloo_regular"
+                android:text="@string/amount_40"
+                android:id="@+id/textViewAllPackageList"/>
+        </ScrollView>
 
     </RelativeLayout>
+
 
     <Button
         android:layout_width="200dp"
@@ -47,7 +54,7 @@
         android:text="@string/continue_button"
         android:id="@+id/buttonContinuePackageList"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="65dp"
         android:layout_centerHorizontal="true"/>
 
 

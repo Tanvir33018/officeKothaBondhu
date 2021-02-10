@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.joschi.jackson:jackson-datatype-threetenbp:2.12.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../WirelessComChat/gradle/caches/modules-2/files-2.1/com.github.joschi.jackson/jackson-datatype-threetenbp/2.12.1/99b59054c1b26c9831bb0ec27eb83a4fcc3e03ea/jackson-datatype-threetenbp-2.12.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../WirelessComChat/gradle/caches/modules-2/files-2.1/com.github.joschi.jackson/jackson-datatype-threetenbp/2.12.1/c16e9dc17d17233b69ea3f27787c1d60a07e0471/jackson-datatype-threetenbp-2.12.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../WirelessComChat/gradle/caches/modules-2/files-2.1/com.github.joschi.jackson/jackson-datatype-threetenbp/2.12.1/728b7e63a8f78956e293c3b5b12e7e0e92c2b21/jackson-datatype-threetenbp-2.12.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

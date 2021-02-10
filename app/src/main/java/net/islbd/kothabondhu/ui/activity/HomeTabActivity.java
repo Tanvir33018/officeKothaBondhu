@@ -206,7 +206,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
     private void balanceCheckingWork(String fCallId, String fImageUrl){
         String id = getUserInfoFromGMail().getId();
-
+        Log.d("TAG", "balanceCheckingWork: "+id);
         userDuration = new UserDuration(id);
         retrofit2.Call<MyDuration> myDurationCall = apiInteractor.getMyDuration(userDuration);
         myDurationCall.enqueue(new retrofit2.Callback<MyDuration>() {
@@ -292,10 +292,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         }else if (id == R.id.bottom_home) {
             intent = new Intent(this, DocumentActivity.class);
             intent.putExtra("from_home_tab_home", 2);
-
            // fragment = new SelectedFragment();
-
-
         }else if (id == R.id.my_account || id == R.id.bottom_my_account) {
             intent = new Intent(this, MyAccountActivity.class);
         } else if (id == R.id.settings ) {
