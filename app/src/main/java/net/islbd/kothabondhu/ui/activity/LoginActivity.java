@@ -157,6 +157,14 @@ public class LoginActivity extends BaseActivity {
         final String age = agentList.get(0).getAgentAge() + " years";
         final String status = agentList.get(0).getOnlineStatus();
         sharedPref.edit().putInt(SharedPrefUtils._USER_PHONE, Integer.valueOf(id)).apply();
+        sharedPref.edit().putString(SharedPrefUtils.PHOTO_URL_TAG,url).apply();
+        sharedPref.edit().putString(SharedPrefUtils.NAME_TAG, name).apply();
+        sharedPref.edit().putString(SharedPrefUtils.AGE_TAG,age).apply();
+        sharedPref.edit().putString(SharedPrefUtils.STATUS_TAG,status).apply();
+        sharedPref.edit().putString(SharedPrefUtils.LOCATION_TAG,location).apply();
+        sharedPref.edit().putString(SharedPrefUtils.ID_TAG,id).apply();
+
+
 
         Intent intent = new Intent(LoginActivity.this, AgentHomeActivity.class);
         intent.putExtra(PHOTO_URL_TAG, url);

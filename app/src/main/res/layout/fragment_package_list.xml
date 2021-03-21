@@ -44,21 +44,17 @@
         </ScrollView>
 
 
-
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/continue_button"
+            android:id="@+id/buttonContinuePackageList"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="65dp"
+            android:layout_centerHorizontal="true"/>
 
 
     </RelativeLayout>
-
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="@string/continue_button"
-        android:id="@+id/buttonContinuePackageList"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="65dp"
-        android:layout_centerHorizontal="true"/>
-
-
 
 </RelativeLayout>
 

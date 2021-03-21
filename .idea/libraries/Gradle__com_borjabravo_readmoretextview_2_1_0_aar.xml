@@ -1,15 +1,15 @@
 <component name="libraryTable">
   <library name="Gradle: com.borjabravo:readmoretextview:2.1.0@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../WirelessComChat/gradle/caches/transforms-2/files-2.1/5ce76e9103713760d1f2150b2c77c1f4/jetified-readmoretextview-2.1.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../WirelessComChat/gradle/caches/transforms-2/files-2.1/5ce76e9103713760d1f2150b2c77c1f4/jetified-readmoretextview-2.1.0/res" />
-      <root url="file://$PROJECT_DIR$/../WirelessComChat/gradle/caches/transforms-2/files-2.1/5ce76e9103713760d1f2150b2c77c1f4/jetified-readmoretextview-2.1.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/ed71efcf08bbf48690c3184ee95e1567/jetified-readmoretextview-2.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/ed71efcf08bbf48690c3184ee95e1567/jetified-readmoretextview-2.1.0/res" />
+      <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/ed71efcf08bbf48690c3184ee95e1567/jetified-readmoretextview-2.1.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../WirelessComChat/gradle/caches/modules-2/files-2.1/com.borjabravo/readmoretextview/2.1.0/86c0dc811c02cb645bc1e564212ad38809fee700/readmoretextview-2.1.0-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.borjabravo/readmoretextview/2.1.0/86c0dc811c02cb645bc1e564212ad38809fee700/readmoretextview-2.1.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../WirelessComChat/gradle/caches/modules-2/files-2.1/com.borjabravo/readmoretextview/2.1.0/b030287fe2b9fdcfac182285ca166e3e5b1c19e7/readmoretextview-2.1.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.borjabravo/readmoretextview/2.1.0/b030287fe2b9fdcfac182285ca166e3e5b1c19e7/readmoretextview-2.1.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

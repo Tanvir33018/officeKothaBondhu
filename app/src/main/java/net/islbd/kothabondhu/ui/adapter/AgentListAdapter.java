@@ -32,6 +32,7 @@ import net.islbd.kothabondhu.event.IPackageSelectListener;
 import net.islbd.kothabondhu.model.pojo.AgentDetails;
 import net.islbd.kothabondhu.presenter.IDbInteractor;
 import net.islbd.kothabondhu.ui.activity.AgentProfileActivity;
+import net.islbd.kothabondhu.utility.GlobalConstants;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
 /**
@@ -116,6 +117,8 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
 
                 sharedPref.edit().putInt(SharedPrefUtils._TO_USER_PHONE, Integer.valueOf(id)).apply();
                 packageSelectListener.onPackageSelection(id, url);
+                sharedPref.edit().putString(GlobalConstants.EXT_TAG_NAME,name).apply();
+
                 //showPackageDialog(id, name, url);
             }
         });

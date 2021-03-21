@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: :sinch-android-rtc:3.15.0@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../WirelessComChat/gradle/caches/transforms-2/files-2.1/c00f593f7b12320f8e8253e4ff598aaa/jetified-sinch-android-rtc-3.15.0/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../WirelessComChat/gradle/caches/transforms-2/files-2.1/c00f593f7b12320f8e8253e4ff598aaa/jetified-sinch-android-rtc-3.15.0/res" />
-      <root url="file://$PROJECT_DIR$/../WirelessComChat/gradle/caches/transforms-2/files-2.1/c00f593f7b12320f8e8253e4ff598aaa/jetified-sinch-android-rtc-3.15.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/831011a436b055d1711a3f9bb7e7f0ff/jetified-sinch-android-rtc-3.15.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/831011a436b055d1711a3f9bb7e7f0ff/jetified-sinch-android-rtc-3.15.0/res" />
+      <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/831011a436b055d1711a3f9bb7e7f0ff/jetified-sinch-android-rtc-3.15.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

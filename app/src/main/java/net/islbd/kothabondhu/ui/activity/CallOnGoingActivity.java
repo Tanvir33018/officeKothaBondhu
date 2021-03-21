@@ -59,7 +59,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
     private SharedPreferences sharedPreferences;
     private ImageView callDismissImageView, micImageView, speakerImageView;
     private CircularImageView userImageView, agentImageView;
-    private TextView callStateTextView;
+    private TextView callStateTextView, agentname;
     private Chronometer callStateChronoMeter;
     private retrofit2.Call<StatusInfo> callToSetHistory;
     private IApiInteractor apiInteractor;
@@ -84,6 +84,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
     private Thread limitControlThread;
 
     private boolean threadIsRunning;
+    private String agentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +135,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
     private void initializeWidgets() {
         callDismissImageView = findViewById(R.id.call_activity_dismiss_imageview);
         callStateTextView = findViewById(R.id.call_state_textView);
+        agentname = findViewById(R.id.agentNameTextView);
         userImageView = findViewById(R.id.call_contact_imageView);
         agentImageView = findViewById(R.id.call_agent_imageView);
         callStateChronoMeter = findViewById(R.id.call_state_chronoMeter);
@@ -146,7 +148,6 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         isSpeakerOn = false;
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         proximity = sensorManager != null ? sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) : null;
 
@@ -172,7 +173,8 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         mAudioPlayer = new AudioPlayer(this);
         mCallStart = System.currentTimeMillis();
         sharedPreferences = new AppPresenter().getSharedPrefInterface(this);
-
+        //agentName = sharedPreferences.getString(GlobalConstants.EXT_TAG_NAME,"No Name");
+        agentname.setText(sharedPreferences.getString(GlobalConstants.EXT_TAG_NAME,"No Name"));
 
         if (mAgentPhotoUrl != null) {
             loadImage(mAgentPhotoUrl, agentImageView);
