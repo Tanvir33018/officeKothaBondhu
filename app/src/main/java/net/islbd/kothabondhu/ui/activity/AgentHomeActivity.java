@@ -11,21 +11,27 @@ import android.os.PersistableBundle;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.ActionBar;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.sinch.android.rtc.SinchError;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import net.islbd.kothabondhu.R;
+import net.islbd.kothabondhu.SendNotificationPack.Token;
 import net.islbd.kothabondhu.presenter.AppPresenter;
-import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.service.SinchService;
+
 
 public class AgentHomeActivity extends BaseActivity implements SinchService.StartFailedListener {
     private static final int REQUEST_CODE_PERMISSION = 2000;
@@ -33,23 +39,18 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
     private TextView agentNameTextView, locationTextView, ageTextView, sexTextView;
     private CircularImageView photoImageView;
     private ProgressBar agentPhotoProgressBar;
-    private IApiInteractor apiInteractor;
-    private SharedPreferences sharedPref;
-    String name;
-    String photoUrl;
-    String age;
-    String location;
-    String status;
-    String id;
-    String displayName;
-    String displayLocation;
-    String displayAge;
+    /*private IApiInteractor apiInteractor;
+    private SharedPreferences sharedPref;*/
+    private DatabaseReference databaseReference;
+
+    private String name, photoUrl, age, location, status, id, displayName, displayLocation, displayAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_home);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -73,6 +74,14 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
         }
     }
 
+    /*public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }*/
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -90,20 +99,25 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
     private void initializeData() {
         AppPresenter appPresenter = new AppPresenter();
         context = this;
-        sharedPref = appPresenter.getSharedPrefInterface(context);
-        apiInteractor = appPresenter.getApiInterface();
         Intent intent = getIntent();
+        Log.d("TAG", "initializeData: ");
         name = intent.getStringExtra(LoginActivity.NAME_TAG);
         photoUrl = intent.getStringExtra(LoginActivity.PHOTO_URL_TAG);
         age = intent.getStringExtra(LoginActivity.AGE_TAG);
         location = intent.getStringExtra(LoginActivity.LOCATION_TAG);
         status = intent.getStringExtra(LoginActivity.STATUS_TAG);
-        id = intent.getStringExtra(LoginActivity.ID_TAG);
+        id = (intent.getStringExtra(LoginActivity.ID_TAG));
         displayName = "Name: " + name;
         displayLocation = "Location: " + location;
         displayAge = "Age: " + age;
-
+        deviceTokenPush();
         displayData();
+    }
+
+    private void deviceTokenPush() {
+        String refreshToken= FirebaseInstanceId.getInstance().getToken();
+        Token token= new Token(refreshToken);
+        databaseReference.child(id).setValue(token);
     }
 
     private void displayData() {
@@ -128,6 +142,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
                 progressBar.setVisibility(View.GONE);
             }
         });*/
+        Log.d("TAG", "loadImage: ");
         picasso.load(url).error(R.drawable.ic_person).into(imageView, new Callback() {
             @Override
             public void onSuccess() {

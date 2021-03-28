@@ -1,4 +1,4 @@
-package net.islbd.kothabondhu.ui.activity;
+ package net.islbd.kothabondhu.ui.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -66,7 +66,6 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
     private SensorManager sensorManager;
     private Sensor proximity;
-
     private PowerManager powerManager;
     private PowerManager.WakeLock wakeLock;
     private int field = 0x00000020;
@@ -424,7 +423,8 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
                             Toast.makeText(getApplicationContext(), "YOU DO NOT HAVE SUFFICIENT BALANCE!", Toast.LENGTH_LONG).show();
                             MyVariableStore.balance_empty = false;
                         }
-                        else Toast.makeText(CallOnGoingActivity.this, statusInfo.getDescrption(), Toast.LENGTH_LONG).show();
+                        //else Toast.makeText(CallOnGoingActivity.this, statusInfo.getDescrption(), Toast.LENGTH_LONG).show();
+
                     }
                 }
             }

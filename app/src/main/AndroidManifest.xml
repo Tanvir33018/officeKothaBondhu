@@ -53,11 +53,6 @@
         <activity android:name=".ui.activity.NewsActivity" />
         <activity android:name=".ui.activity.RegistrationActivity" />
 
-        <service
-            android:name=".service.SinchService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".ui.activity.MenuActivity"
             android:theme="@style/AppTheme.ActionBar" />
@@ -79,6 +74,31 @@
             android:theme="@style/FullscreenTheme" />
         <activity android:name=".ui.activity.CallOnGoingActivity" />
         <activity android:name=".ui.activity.CallIncomingActivity" />
+
+        <service
+            android:name=".SendNotificationPack.MyFireBaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".SendNotificationPack.MyFirebaseIdService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+
+        <service
+            android:name=".service.SinchService"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>

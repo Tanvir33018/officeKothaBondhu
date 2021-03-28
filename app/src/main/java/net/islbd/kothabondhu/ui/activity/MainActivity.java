@@ -4,7 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
@@ -26,13 +31,16 @@ public class MainActivity extends AppCompatActivity {
     public static final String STATUS_TAG = "_STATUS";
     public static final String ID_TAG = "_ID";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         appPresenter = new AppPresenter();
         preferences = appPresenter.getSharedPrefInterface(context);
         int ID = preferences.getInt(SharedPrefUtils._USER_PHONE,1007);
+        Log.d("TAG", "onCreate: ");
         if (BuildConfig.TYPE.equals(GlobalConstants.TYPE_USER)) {
             Intent intent = new Intent(MainActivity.this, PhoneVerifyActivity.class);
             startActivity(intent);
@@ -41,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }else{
+                Log.d("TAG", "onCreate: ");
                 Intent intent = new Intent(this, AgentHomeActivity.class);
                 intent.putExtra(PHOTO_URL_TAG, preferences.getString(SharedPrefUtils.PHOTO_URL_TAG,""));
                 intent.putExtra(NAME_TAG, preferences.getString(SharedPrefUtils.NAME_TAG,""));

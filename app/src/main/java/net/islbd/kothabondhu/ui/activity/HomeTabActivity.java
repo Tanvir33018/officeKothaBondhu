@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.CaseMap;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -29,9 +30,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sinch.android.rtc.calling.Call;
 
 import net.islbd.kothabondhu.R;
+import net.islbd.kothabondhu.SendNotificationPack.APIService;
+import net.islbd.kothabondhu.SendNotificationPack.Client;
+import net.islbd.kothabondhu.SendNotificationPack.Data;
+import net.islbd.kothabondhu.SendNotificationPack.MyResponse;
+import net.islbd.kothabondhu.SendNotificationPack.NotificationSender;
 import net.islbd.kothabondhu.document.DocumentActivity;
 import net.islbd.kothabondhu.document.DocumentAdapter;
 import net.islbd.kothabondhu.document.docfragment.SelectedFragment;
@@ -71,6 +82,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +92,6 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         initializeData();
         eventListeners();
     }
-
-
 
     private void initializeWidgets() {
         toolbar = findViewById(R.id.toolbar);
@@ -94,16 +104,6 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         setSupportActionBar(toolbar);
 
         context = this;
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-
-        //mSectionsPagerAdapter = new HomeTabAdapter(getSupportFragmentManager(), context);
-
-        //assert mViewPager != null;
-        //mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        //assert tabLayout != null;
-        //tabLayout.setupWithViewPager(mViewPager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -126,6 +126,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
 
         AppPresenter appPresenter = new AppPresenter();
         apiInteractor = appPresenter.getApiInterface();
+
     }
 
 
@@ -190,7 +191,6 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
             public void onResponse(retrofit2.Call<PackageStatusInfo> rCall, Response<PackageStatusInfo> response) {
                 if (response.code() == HttpStatusCodes.OK) {
                     //gotoCallOnGoingActivity(fCallId, fImageUrl);
-
                     balanceCheckingWork(fCallId, fImageUrl);
                 } else {
                    // gotoPackageActivity();
@@ -224,7 +224,10 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
                             Toast.makeText(getApplicationContext(), "You do not have sufficient balance!", Toast.LENGTH_LONG).show();
                             gotoPackageActivity();
                         }
-                        else gotoCallOnGoingActivity(fCallId, fImageUrl, Double.parseDouble(myDuration.getDuration()));
+                        else{
+
+                            gotoCallOnGoingActivity(fCallId, fImageUrl, Double.parseDouble(myDuration.getDuration()));
+                        }
                     }catch (Exception e){
                         Toast.makeText(getApplicationContext(), "Server value error", Toast.LENGTH_LONG).show();
                     }
@@ -243,6 +246,8 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
             }
         });
     }
+
+
 
     private void gotoPackageActivity(){
         Toast.makeText(context, "Please subscribe to a package", Toast.LENGTH_SHORT).show();

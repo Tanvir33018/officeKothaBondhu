@@ -179,6 +179,9 @@ public class SinchService extends Service {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             SinchService.this.startActivity(intent);
         }
+
+
+
     }
 
 }

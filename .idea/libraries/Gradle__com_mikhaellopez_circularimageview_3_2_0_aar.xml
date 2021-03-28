@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.mikhaellopez:circularimageview:3.2.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/c2f299c1e018b39c020045183ccaa7cd/jetified-circularimageview-3.2.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/c2f299c1e018b39c020045183ccaa7cd/jetified-circularimageview-3.2.0/res" />
-      <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/c2f299c1e018b39c020045183ccaa7cd/jetified-circularimageview-3.2.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/7b6927b05d9f6584459e129f16461cf2/jetified-circularimageview-3.2.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/7b6927b05d9f6584459e129f16461cf2/jetified-circularimageview-3.2.0/res" />
+      <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/7b6927b05d9f6584459e129f16461cf2/jetified-circularimageview-3.2.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
