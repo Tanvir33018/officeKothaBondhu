@@ -336,7 +336,6 @@ public class PackageListFragment extends Fragment {
         continueWork = (ContinueWork)packageListAdapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         packageListRecyclerView.setLayoutManager(layoutManager);
-        packageListRecyclerView.setLayoutManager(layoutManager);
         packageListRecyclerView.setItemAnimator(new DefaultItemAnimator());
         packageListRecyclerView.setAdapter(packageListAdapter);
 

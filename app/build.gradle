@@ -4,7 +4,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     signingConfigs {
         release {
-            storeFile file('D:\\key\\key2.jks')
+            storeFile file("key2.jks")
             storePassword '123456789'
             keyAlias 'key2'
             keyPassword '123456789'
@@ -33,7 +33,7 @@ android {
             signingConfig signingConfigs.release
         }*/
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }

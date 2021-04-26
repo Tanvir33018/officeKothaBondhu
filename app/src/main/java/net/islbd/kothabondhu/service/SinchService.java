@@ -52,6 +52,7 @@ public class SinchService extends Service {
 
             mSinchClient.addSinchClientListener(new MySinchClientListener());
             mSinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
+            mSinchClient.setSupportManagedPush(true);
             mSinchClient.start();
         }
     }

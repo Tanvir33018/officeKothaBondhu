@@ -33,7 +33,11 @@
             android:name=".ui.activity.AboutActivity"
             android:theme="@style/AppThemeSecond" />
         <activity android:name=".ui.activity.AgentProfileActivity" />
-        <activity android:name=".ui.activity.AgentHomeActivity" />
+        <activity
+            android:name=".ui.activity.AgentHomeActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true" />
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -79,18 +83,18 @@
             android:name=".SendNotificationPack.MyFireBaseMessagingService"
             android:enabled="true"
             android:exported="true">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
+            </intent-filter>-->
         </service>
 
         <service
             android:name=".SendNotificationPack.MyFirebaseIdService"
             android:enabled="true"
             android:exported="true">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
+            </intent-filter>-->
         </service>
 
 
