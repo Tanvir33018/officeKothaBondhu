@@ -279,7 +279,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         Call call = getSinchServiceInterface().getCall(mCallId);
         if (call != null) {
             call.addCallListener(new SinchCallListener());
-        } else {
+        }else {
             Log.e(TAG, "Started with invalid callId, aborting.");
             goBack();
         }

@@ -22,6 +22,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -35,14 +36,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sinch.android.rtc.ClientRegistration;
+import com.sinch.android.rtc.PushTokenRegistrationCallback;
+import com.sinch.android.rtc.Sinch;
+import com.sinch.android.rtc.SinchError;
+import com.sinch.android.rtc.UserController;
+import com.sinch.android.rtc.UserRegistrationCallback;
 import com.sinch.android.rtc.calling.Call;
 
 import net.islbd.kothabondhu.R;
-import net.islbd.kothabondhu.SendNotificationPack.APIService;
+/*import net.islbd.kothabondhu.SendNotificationPack.APIService;
 import net.islbd.kothabondhu.SendNotificationPack.Client;
 import net.islbd.kothabondhu.SendNotificationPack.Data;
 import net.islbd.kothabondhu.SendNotificationPack.MyResponse;
-import net.islbd.kothabondhu.SendNotificationPack.NotificationSender;
+import net.islbd.kothabondhu.SendNotificationPack.NotificationSender;*/
+import net.islbd.kothabondhu.config.SinchConfig;
 import net.islbd.kothabondhu.document.DocumentActivity;
 import net.islbd.kothabondhu.document.DocumentAdapter;
 import net.islbd.kothabondhu.document.docfragment.SelectedFragment;
@@ -61,13 +69,20 @@ import net.islbd.kothabondhu.utility.GlobalConstants;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
+import java.security.MessageDigest;
+
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
 
 
-public class HomeTabActivity extends BaseActivity implements IPackageSelectListener, NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
+public class HomeTabActivity extends BaseActivity implements
+        IPackageSelectListener,
+        NavigationView.OnNavigationItemSelectedListener,
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        PushTokenRegistrationCallback,
+        UserRegistrationCallback {
     //private HomeTabAdapter mSectionsPagerAdapter;
     //private ViewPager mViewPager;
     private Context context;
@@ -79,6 +94,8 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
     private BottomNavigationView bottomNavigationView;
     private MyDuration myDuration;
     private UserDuration userDuration;
+    private long mSigningSequence = 1;
+    private String mUserId;
 
 
 
@@ -127,6 +144,17 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         AppPresenter appPresenter = new AppPresenter();
         apiInteractor = appPresenter.getApiInterface();
 
+
+        mUserId = getUserInfoFromGMail().getId();
+        UserController uc = Sinch.getUserControllerBuilder()
+                .context(getApplicationContext())
+                .applicationKey(SinchConfig.APPLICATION_KEY)
+                .userId(mUserId)
+                .environmentHost(SinchConfig.APPLICATION_HOST)
+                .build();
+        uc.registerUser(HomeTabActivity.this, HomeTabActivity.this);
+
+
     }
 
 
@@ -172,8 +200,10 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
     @Override
     public void onPackageSelection(final String callId, final String imageUrl) {
         //String endUserRegId = sharedPreferences.getString(SharedPrefUtils._PACKAGE_IDENTIFIER, "");
-        String endUserRegId = getUserInfoFromGMail().getId();
-        if (endUserRegId.isEmpty()) {
+       // String endUserRegId = getUserInfoFromGMail().getId();
+
+
+        if (mUserId.isEmpty()) {
             Toast.makeText(context, "Please subscribe to a package", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(HomeTabActivity.this, PackagesActivity.class);
             startActivity(intent);
@@ -183,7 +213,8 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
         final String fCallId = callId;
         final String fImageUrl = imageUrl;
         PackageStatusQuery packageStatusQuery = new PackageStatusQuery();
-        packageStatusQuery.setEndUserRegId(endUserRegId);
+        packageStatusQuery.setEndUserRegId(mUserId);
+
 
         packageStatusInfoCall = apiInteractor.getPackageStatus(packageStatusQuery);
         packageStatusInfoCall.enqueue(new Callback<PackageStatusInfo>() {
@@ -266,6 +297,7 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
     }
 
     private UserGmailInfo getUserInfoFromGMail(){
+
         GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this); //It will return null on sign out condition
         if(googleSignInAccount != null){
             String name = googleSignInAccount.getDisplayName();
@@ -344,4 +376,47 @@ public class HomeTabActivity extends BaseActivity implements IPackageSelectListe
     }
 
 
+    @Override
+    public void tokenRegistered() {
+        if (!getSinchServiceInterface().isStarted()) {
+            getSinchServiceInterface().startClient(mUserId);
+        }
+        Toast.makeText(context, "Token Registered! HTA", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void tokenRegistrationFailed(SinchError sinchError) {
+        Toast.makeText(context, "Token Reistration Failed HTA", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onCredentialsRequired(ClientRegistration clientRegistration) {
+
+        String toSign = mUserId + SinchConfig.APPLICATION_KEY + mSigningSequence + SinchConfig.APPLICATION_SECRET;
+        String signature;
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-1");
+            byte[] hash = messageDigest.digest(toSign.getBytes("UTF-8"));
+            signature = Base64.encodeToString(hash, Base64.DEFAULT).trim();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+
+        clientRegistration.register(signature, mSigningSequence++);
+        Toast.makeText(context, "Credentials", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onUserRegistered() {
+
+        Toast.makeText(context, "User Registered!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUserRegistrationFailed(SinchError sinchError) {
+
+    }
 }

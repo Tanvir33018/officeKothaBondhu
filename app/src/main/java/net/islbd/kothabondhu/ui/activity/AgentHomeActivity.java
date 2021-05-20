@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.ActionBar;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,17 +24,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.sinch.android.rtc.ClientRegistration;
+import com.sinch.android.rtc.PushTokenRegistrationCallback;
+import com.sinch.android.rtc.Sinch;
 import com.sinch.android.rtc.SinchError;
+import com.sinch.android.rtc.UserController;
+import com.sinch.android.rtc.UserRegistrationCallback;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import net.islbd.kothabondhu.R;
-import net.islbd.kothabondhu.SendNotificationPack.Token;
+import net.islbd.kothabondhu.config.SinchConfig;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.service.SinchService;
 
+import java.security.MessageDigest;
 
-public class AgentHomeActivity extends BaseActivity implements SinchService.StartFailedListener {
+
+public class AgentHomeActivity extends BaseActivity implements SinchService.StartFailedListener, UserRegistrationCallback, PushTokenRegistrationCallback {
     private static final int REQUEST_CODE_PERMISSION = 2000;
     private Context context;
     private TextView agentNameTextView, locationTextView, ageTextView, sexTextView;
@@ -42,6 +50,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
     /*private IApiInteractor apiInteractor;
     private SharedPreferences sharedPref;*/
     private DatabaseReference databaseReference;
+    private long mSigningSequence = 1;
 
     private String name, photoUrl, age, location, status, id, displayName, displayLocation, displayAge;
 
@@ -50,7 +59,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_home);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        //databaseReference = FirebaseDatabase.getInstance().getReference();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -72,6 +81,13 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
             initializeData();
             eventListeners();
         }
+        UserController uc = Sinch.getUserControllerBuilder()
+                .context(getApplicationContext())
+                .applicationKey(SinchConfig.APPLICATION_KEY)
+                .userId(id)
+                .environmentHost(SinchConfig.APPLICATION_HOST)
+                .build();
+        uc.registerUser(this, this);
     }
 
     /*public String getId(){
@@ -106,19 +122,20 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
         age = intent.getStringExtra(LoginActivity.AGE_TAG);
         location = intent.getStringExtra(LoginActivity.LOCATION_TAG);
         status = intent.getStringExtra(LoginActivity.STATUS_TAG);
-        id = (intent.getStringExtra(LoginActivity.ID_TAG));
+        id = intent.getStringExtra(LoginActivity.ID_TAG);
         displayName = "Name: " + name;
         displayLocation = "Location: " + location;
         displayAge = "Age: " + age;
-        deviceTokenPush();
+        //deviceTokenPush();
         displayData();
     }
 
-    private void deviceTokenPush() {
+    /*private void deviceTokenPush() {
         String refreshToken= FirebaseInstanceId.getInstance().getToken();
-        Token token= new Token(refreshToken);
+        Token token= new Token(refreshToken)
         databaseReference.child(id).setValue(token);
-    }
+        Toast.makeText(context, "Token Pushed", Toast.LENGTH_SHORT).show();
+    }*/
 
     private void displayData() {
         loadImage(photoUrl, photoImageView, agentPhotoProgressBar);
@@ -130,18 +147,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
     private void loadImage(String url, ImageView imageView, final ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
         Picasso picasso = Picasso.get();
-        //picasso.setDebugging(true);
-        /*picasso.load(Uri.parse(url)).error(R.drawable.ic_person).into(imageView, new Callback() {
-            @Override
-            public void onSuccess() {
-                progressBar.setVisibility(View.GONE);
-            }
 
-            @Override
-            public void onError(Exception e) {
-                progressBar.setVisibility(View.GONE);
-            }
-        });*/
         Log.d("TAG", "loadImage: ");
         picasso.load(url).error(R.drawable.ic_person).into(imageView, new Callback() {
             @Override
@@ -154,17 +160,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
                 progressBar.setVisibility(View.GONE);
             }
         });
-        /*picasso.load(url).error(R.drawable.ic_person).into(imageView, new Callback() {
-            @Override
-            public void onSuccess() {
-                progressBar.setVisibility(View.GONE);
-            }
 
-            @Override
-            public void onError() {
-                progressBar.setVisibility(View.GONE);
-            }
-        });*/
     }
 
     private void eventListeners() {
@@ -194,7 +190,8 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
 
     @Override
     public void onStartFailed(SinchError error) {
-        Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+        Log.d("TAG", "onStartFailed: ");
+        Toast.makeText(this, "Something went wrong AHA"+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -229,5 +226,51 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
 
         displayData();
     }
+
+    @Override
+    public void onCredentialsRequired(ClientRegistration clientRegistration) {
+        String toSign = id + SinchConfig.APPLICATION_KEY + mSigningSequence + SinchConfig.APPLICATION_SECRET;
+        String signature;
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-1");
+            byte[] hash = messageDigest.digest(toSign.getBytes("UTF-8"));
+            signature = Base64.encodeToString(hash, Base64.DEFAULT).trim();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+
+        clientRegistration.register(signature, mSigningSequence++);
+    }
+
+    @Override
+    public void onUserRegistered() {
+
+    }
+
+    @Override
+    public void onUserRegistrationFailed(SinchError sinchError) {
+
+        Log.d("TAG", "onUserRegistrationFailed: ");
+        Toast.makeText(context, "User Reistration Failed AHA", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void tokenRegistered() {
+        if (!getSinchServiceInterface().isStarted()) {
+            getSinchServiceInterface().startClient(id);
+        }
+
+        Toast.makeText(context, "Token Registred", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void tokenRegistrationFailed(SinchError sinchError) {
+
+        Log.d("TAG", "tokenRegistrationFailed: ");
+        Toast.makeText(context, "Token Reistration Failed AHA", Toast.LENGTH_SHORT).show();
+    }
+
 
 }

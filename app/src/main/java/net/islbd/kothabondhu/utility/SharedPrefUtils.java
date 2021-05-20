@@ -18,6 +18,8 @@ public final class SharedPrefUtils {
     public static final String _GMAIL_ID = "GMAIL_ID";
     public static final String _GMAIL_NAME = "GMAIL_NAME";
     public static final String _GMAIL_EMAIL = "GMAIL_EMAIL";
+    public static final String USER_ID = "USER_ID";
+
 
     public static final String PHOTO_URL_TAG = "_PHOTO";
     public static final String NAME_TAG = "_NAME";

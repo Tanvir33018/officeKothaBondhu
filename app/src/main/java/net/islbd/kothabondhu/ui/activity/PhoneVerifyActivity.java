@@ -235,8 +235,10 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
                     RegisterInfo registerInfo = response.body();
                     if(registerInfo.getStatusCode() != null){
                         sharedPref.edit().putInt(SharedPrefUtils._STATUS_CODE, Integer.parseInt(registerInfo.getStatusCode())).apply();
+                        sharedPref.edit().putString(SharedPrefUtils.USER_ID, userGmailInfo.getId()).apply();
                         if (!getSinchServiceInterface().isStarted()) {
                             getSinchServiceInterface().startClient(userGmailInfo.getId());
+
                         } else {
                             logIntoHomeScreen();
                         }
@@ -362,7 +364,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
 
     @Override
     public void onStartFailed(SinchError error) {
-        Toast.makeText(PhoneVerifyActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+        Toast.makeText(PhoneVerifyActivity.this, "Something went wrong PVA", Toast.LENGTH_LONG).show();
     }
 
     @Override

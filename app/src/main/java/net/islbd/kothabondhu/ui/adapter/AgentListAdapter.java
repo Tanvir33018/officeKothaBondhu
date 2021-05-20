@@ -34,11 +34,6 @@ import java.util.List;
 
 import net.islbd.kothabondhu.MockData;
 import net.islbd.kothabondhu.R;
-import net.islbd.kothabondhu.SendNotificationPack.APIService;
-import net.islbd.kothabondhu.SendNotificationPack.Client;
-import net.islbd.kothabondhu.SendNotificationPack.Data;
-import net.islbd.kothabondhu.SendNotificationPack.MyResponse;
-import net.islbd.kothabondhu.SendNotificationPack.NotificationSender;
 import net.islbd.kothabondhu.event.IPackageSelectListener;
 import net.islbd.kothabondhu.model.pojo.AgentDetails;
 import net.islbd.kothabondhu.presenter.IDbInteractor;
@@ -61,7 +56,7 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
     private SharedPreferences sharedPref;
     private IPackageSelectListener packageSelectListener;
     private Activity activity;
-    private APIService apiService;
+    //private APIService apiService;
     private DatabaseReference databaseReference;
     private final Handler handler = new Handler();
 
@@ -85,7 +80,7 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_agent_item, parent, false);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+        //apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
 
         return new AgentListAdapter.ViewHolder(itemView);
@@ -138,14 +133,7 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
             public void onClick(View view) {
 
                 sharedPref.edit().putInt(SharedPrefUtils._TO_USER_PHONE, Integer.valueOf(id)).apply();
-                sendFirebaseNotification(id);
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Do something after 5s = 5000ms
-                        packageSelectListener.onPackageSelection(id, url);
-                    }
-                }, 4000);
+                packageSelectListener.onPackageSelection(id, url);
                 sharedPref.edit().putString(GlobalConstants.EXT_TAG_NAME,name).apply();
 
                 //showPackageDialog(id, name, url);
@@ -159,26 +147,9 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
             }
         });
 
-        /*holder.itemConsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (url != null) {
-                    Intent intent = new Intent(context, NewsActivity.class);
-                    intent.putExtra(GlobalConstants.EXT_TAG_URL, url);
-                    intent.putExtra(GlobalConstants.EXT_TAG_NAME, name);
-                    context.startActivity(intent);
-                }
 
-            }
-        });*/
     }
-
-
-
-
-
-
-    private void sendFirebaseNotification(String Id) {
+   /* private void sendFirebaseNotification(String Id) {
         databaseReference.child(Id).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -216,7 +187,7 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
             }
         });
     }
-
+*/
     private void showPackageDialog(final String id, final String name, final String url) {
         selectedPackageIndex = -1;
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.Theme_AppCompat_Light_Dialog);
@@ -233,11 +204,6 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
             public void onClick(DialogInterface dialogInterface, int i) {
                 sharedPref.edit().putInt(SharedPrefUtils._TO_USER_PHONE, Integer.valueOf(id)).apply();
                 dbInteractor.markCall(id, name, 0);
-                /*Intent intent = new Intent(context, CallActivity.class);
-                context.startActivity(intent);*/
-                //Toast.makeText(context, String.valueOf(selectedPackageIndex), Toast.LENGTH_SHORT).show();
-                /*Intent intent = new Intent(context, SinchCallActivity.class);
-                intent.putExtra(SinchCallActivity.EXTRA_RECIPIENT_ID, id);*/
                 packageSelectListener.onPackageSelection(id, url);
             }
         });
