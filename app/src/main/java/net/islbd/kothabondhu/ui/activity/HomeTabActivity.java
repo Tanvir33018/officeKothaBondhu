@@ -74,15 +74,15 @@ import java.security.MessageDigest;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_HOST;
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_KEY;
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_SECRET;
 
 
 public class HomeTabActivity extends BaseActivity implements
         IPackageSelectListener,
         NavigationView.OnNavigationItemSelectedListener,
-        BottomNavigationView.OnNavigationItemSelectedListener,
-        PushTokenRegistrationCallback,
-        UserRegistrationCallback {
+        BottomNavigationView.OnNavigationItemSelectedListener{
     //private HomeTabAdapter mSectionsPagerAdapter;
     //private ViewPager mViewPager;
     private Context context;
@@ -94,7 +94,6 @@ public class HomeTabActivity extends BaseActivity implements
     private BottomNavigationView bottomNavigationView;
     private MyDuration myDuration;
     private UserDuration userDuration;
-    private long mSigningSequence = 1;
     private String mUserId;
 
 
@@ -146,13 +145,6 @@ public class HomeTabActivity extends BaseActivity implements
 
 
         mUserId = getUserInfoFromGMail().getId();
-        UserController uc = Sinch.getUserControllerBuilder()
-                .context(getApplicationContext())
-                .applicationKey(SinchConfig.APPLICATION_KEY)
-                .userId(mUserId)
-                .environmentHost(SinchConfig.APPLICATION_HOST)
-                .build();
-        uc.registerUser(HomeTabActivity.this, HomeTabActivity.this);
 
 
     }
@@ -376,10 +368,11 @@ public class HomeTabActivity extends BaseActivity implements
     }
 
 
-    @Override
+   /* @Override
     public void tokenRegistered() {
         if (!getSinchServiceInterface().isStarted()) {
-            getSinchServiceInterface().startClient(mUserId);
+            getSinchServiceInterface().setUsername(mUserId);
+            getSinchServiceInterface().startClient();
         }
         Toast.makeText(context, "Token Registered! HTA", Toast.LENGTH_SHORT).show();
     }
@@ -393,7 +386,7 @@ public class HomeTabActivity extends BaseActivity implements
     @Override
     public void onCredentialsRequired(ClientRegistration clientRegistration) {
 
-        String toSign = mUserId + SinchConfig.APPLICATION_KEY + mSigningSequence + SinchConfig.APPLICATION_SECRET;
+        String toSign = mUserId + APPLICATION_KEY + mSigningSequence + APPLICATION_SECRET;
         String signature;
         MessageDigest messageDigest;
         try {
@@ -418,5 +411,5 @@ public class HomeTabActivity extends BaseActivity implements
     @Override
     public void onUserRegistrationFailed(SinchError sinchError) {
 
-    }
+    }*/
 }

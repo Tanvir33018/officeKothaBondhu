@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.WindowManager;
 import android.view.View;
 import android.widget.Button;
@@ -15,24 +16,37 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sinch.android.rtc.ClientRegistration;
+import com.sinch.android.rtc.PushTokenRegistrationCallback;
+import com.sinch.android.rtc.Sinch;
+import com.sinch.android.rtc.SinchError;
+import com.sinch.android.rtc.UserController;
+import com.sinch.android.rtc.UserRegistrationCallback;
+
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.AgentDetails;
 import net.islbd.kothabondhu.model.pojo.AgentQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
+import net.islbd.kothabondhu.service.SinchService;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
 
 import org.jetbrains.annotations.NotNull;
 
+import java.security.MessageDigest;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends BaseActivity {
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_HOST;
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_KEY;
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_SECRET;
+
+public class LoginActivity extends BaseActivity implements PushTokenRegistrationCallback, UserRegistrationCallback {
     private Context context;
     private EditText phoneEditText, passwordEditText;
     private Button logInButton;
@@ -49,6 +63,8 @@ public class LoginActivity extends BaseActivity {
     public static final String AGE_TAG = "_AGE";
     public static final String STATUS_TAG = "_STATUS";
     public static final String ID_TAG = "_ID";
+    private long mSigningSequence = 1;
+    private String mUserId, name, location, age, url, status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,21 +166,38 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        final String id = agentList.get(0).getAgentId();
-        final String name = agentList.get(0).getAgentName();
-        final String location = "Dhaka";
-        final String url = agentList.get(0).getAgentProfilePic();
-        final String age = agentList.get(0).getAgentAge() + " years";
-        final String status = agentList.get(0).getOnlineStatus();
-        sharedPref.edit().putInt(SharedPrefUtils._USER_PHONE, Integer.valueOf(id)).apply();
+        mUserId = agentList.get(0).getAgentId();
+        name = agentList.get(0).getAgentName();
+        location = "Dhaka";
+        url = agentList.get(0).getAgentProfilePic();
+        age = agentList.get(0).getAgentAge() + " years";
+        status = agentList.get(0).getOnlineStatus();
+
+
+
+        UserController uc = Sinch.getUserControllerBuilder()
+                .context(getApplicationContext())
+                .applicationKey(APPLICATION_KEY)
+                .userId(mUserId)//id
+                .environmentHost(APPLICATION_HOST)
+                .build();
+        uc.registerUser(LoginActivity.this, LoginActivity.this);
+
+    }
+
+
+
+    @Override
+    public void tokenRegistered() {
+        sharedPref.edit().putInt(SharedPrefUtils._USER_PHONE, Integer.valueOf(mUserId)).apply();
         sharedPref.edit().putString(SharedPrefUtils.PHOTO_URL_TAG,url).apply();
         sharedPref.edit().putString(SharedPrefUtils.NAME_TAG, name).apply();
         sharedPref.edit().putString(SharedPrefUtils.AGE_TAG,age).apply();
         sharedPref.edit().putString(SharedPrefUtils.STATUS_TAG,status).apply();
         sharedPref.edit().putString(SharedPrefUtils.LOCATION_TAG,location).apply();
-        sharedPref.edit().putString(SharedPrefUtils.ID_TAG,id).apply();
+        sharedPref.edit().putString(SharedPrefUtils.ID_TAG,mUserId).apply();
 
-
+        Toast.makeText(context, "Token Reistered!", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(LoginActivity.this, AgentHomeActivity.class);
         intent.putExtra(PHOTO_URL_TAG, url);
@@ -172,8 +205,42 @@ public class LoginActivity extends BaseActivity {
         intent.putExtra(AGE_TAG, age);
         intent.putExtra(STATUS_TAG, status);
         intent.putExtra(LOCATION_TAG, location);
-        intent.putExtra(ID_TAG, id);
+        intent.putExtra(ID_TAG, mUserId);
         startActivity(intent);
         finish();
+
+    }
+
+    @Override
+    public void tokenRegistrationFailed(SinchError sinchError) {
+        Toast.makeText(context, "Token Reistration Failed AHA"+sinchError.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCredentialsRequired(ClientRegistration clientRegistration) {
+        String toSign = mUserId + APPLICATION_KEY + mSigningSequence + APPLICATION_SECRET;
+        String signature;
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-1");
+            byte[] hash = messageDigest.digest(toSign.getBytes("UTF-8"));
+            signature = Base64.encodeToString(hash, Base64.DEFAULT).trim();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+
+        clientRegistration.register(signature, mSigningSequence++);
+        Toast.makeText(context, "Credentials", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onUserRegistered() {
+        Toast.makeText(context, "User Registered!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUserRegistrationFailed(SinchError sinchError) {
+        Toast.makeText(context, "User Reistration Failed AHA"+sinchError.toString(), Toast.LENGTH_SHORT).show();
     }
 }

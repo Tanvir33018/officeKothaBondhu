@@ -36,19 +36,26 @@ import com.squareup.picasso.Picasso;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.config.SinchConfig;
 import net.islbd.kothabondhu.presenter.AppPresenter;
+import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.service.SinchService;
+import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
 import java.security.MessageDigest;
 
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_HOST;
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_KEY;
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_SECRET;
 
-public class AgentHomeActivity extends BaseActivity implements SinchService.StartFailedListener, UserRegistrationCallback, PushTokenRegistrationCallback {
+
+public class AgentHomeActivity extends BaseActivity {
+
     private static final int REQUEST_CODE_PERMISSION = 2000;
     private Context context;
     private TextView agentNameTextView, locationTextView, ageTextView, sexTextView;
     private CircularImageView photoImageView;
     private ProgressBar agentPhotoProgressBar;
-    /*private IApiInteractor apiInteractor;
-    private SharedPreferences sharedPref;*/
+    //private IApiInteractor apiInteractor;
+    private SharedPreferences sharedPref;
     private DatabaseReference databaseReference;
     private long mSigningSequence = 1;
 
@@ -76,18 +83,12 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
                             Manifest.permission.ACCESS_FINE_LOCATION
                     },
                     REQUEST_CODE_PERMISSION);
-        } else {
+        }else {
             initializeWidgets();
             initializeData();
             eventListeners();
         }
-        UserController uc = Sinch.getUserControllerBuilder()
-                .context(getApplicationContext())
-                .applicationKey(SinchConfig.APPLICATION_KEY)
-                .userId(id)
-                .environmentHost(SinchConfig.APPLICATION_HOST)
-                .build();
-        uc.registerUser(this, this);
+
     }
 
     /*public String getId(){
@@ -114,6 +115,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
 
     private void initializeData() {
         AppPresenter appPresenter = new AppPresenter();
+        sharedPref = appPresenter.getSharedPrefInterface(context);
         context = this;
         Intent intent = getIntent();
         Log.d("TAG", "initializeData: ");
@@ -123,11 +125,13 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
         location = intent.getStringExtra(LoginActivity.LOCATION_TAG);
         status = intent.getStringExtra(LoginActivity.STATUS_TAG);
         id = intent.getStringExtra(LoginActivity.ID_TAG);
+        //sharedPref.edit().putString(SharedPrefUtils.USER_ID,id).commit();
         displayName = "Name: " + name;
         displayLocation = "Location: " + location;
         displayAge = "Age: " + age;
         //deviceTokenPush();
         displayData();
+
     }
 
     /*private void deviceTokenPush() {
@@ -180,23 +184,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
         }
     }
 
-    @Override
-    protected void onServiceConnected() {
-        getSinchServiceInterface().setStartListener(this);
-        if (id != null) {
-            getSinchServiceInterface().startClient(id);
-        }
-    }
 
-    @Override
-    public void onStartFailed(SinchError error) {
-        Log.d("TAG", "onStartFailed: ");
-        Toast.makeText(this, "Something went wrong AHA"+error.toString(), Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onStarted() {
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
@@ -227,50 +215,6 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
         displayData();
     }
 
-    @Override
-    public void onCredentialsRequired(ClientRegistration clientRegistration) {
-        String toSign = id + SinchConfig.APPLICATION_KEY + mSigningSequence + SinchConfig.APPLICATION_SECRET;
-        String signature;
-        MessageDigest messageDigest;
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-1");
-            byte[] hash = messageDigest.digest(toSign.getBytes("UTF-8"));
-            signature = Base64.encodeToString(hash, Base64.DEFAULT).trim();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-
-        clientRegistration.register(signature, mSigningSequence++);
-    }
-
-    @Override
-    public void onUserRegistered() {
-
-    }
-
-    @Override
-    public void onUserRegistrationFailed(SinchError sinchError) {
-
-        Log.d("TAG", "onUserRegistrationFailed: ");
-        Toast.makeText(context, "User Reistration Failed AHA", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void tokenRegistered() {
-        if (!getSinchServiceInterface().isStarted()) {
-            getSinchServiceInterface().startClient(id);
-        }
-
-        Toast.makeText(context, "Token Registred", Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void tokenRegistrationFailed(SinchError sinchError) {
-
-        Log.d("TAG", "tokenRegistrationFailed: ");
-        Toast.makeText(context, "Token Reistration Failed AHA", Toast.LENGTH_SHORT).show();
-    }
 
 
 }
