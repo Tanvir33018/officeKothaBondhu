@@ -46,7 +46,9 @@ import static net.islbd.kothabondhu.service.SinchService.APPLICATION_HOST;
 import static net.islbd.kothabondhu.service.SinchService.APPLICATION_KEY;
 import static net.islbd.kothabondhu.service.SinchService.APPLICATION_SECRET;
 
-public class LoginActivity extends BaseActivity implements PushTokenRegistrationCallback, UserRegistrationCallback {
+public class LoginActivity extends BaseActivity implements
+        PushTokenRegistrationCallback,
+        UserRegistrationCallback {
     private Context context;
     private EditText phoneEditText, passwordEditText;
     private Button logInButton;

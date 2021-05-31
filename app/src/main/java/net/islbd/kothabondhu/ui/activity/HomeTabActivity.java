@@ -252,7 +252,7 @@ public class HomeTabActivity extends BaseActivity implements
                             gotoCallOnGoingActivity(fCallId, fImageUrl, Double.parseDouble(myDuration.getDuration()));
                         }
                     }catch (Exception e){
-                        Toast.makeText(getApplicationContext(), "Server value error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Server value error"+e.toString(), Toast.LENGTH_LONG).show();
                     }
                     //double duration = Double.parseDouble(myDuration.getDuration());
                 }

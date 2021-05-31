@@ -22,6 +22,7 @@ import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -137,24 +138,15 @@ public class SinchService extends Service {
 
 
     private void start() {
-        /*if (mSinchClient == null) {
-            mSinchClient = new AppPresenter().getSinchClient(getApplicationContext(), userId);
-            mUserId = userId;
-            mSinchClient.setSupportCalling(true);
-            mSinchClient.startListeningOnActiveConnection();
-
-            mSinchClient.addSinchClientListener(new MySinchClientListener());
-            mSinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
-            mSinchClient.setSupportManagedPush(true);
-            mSinchClient.start();
-        }*/
 
         boolean permissionsGranted = true;
         createClientIfNecessary();
         try {
+            //Toast.makeText(this, "Permission 1", Toast.LENGTH_SHORT).show();
             //mandatory checks
             mSinchClient.checkManifest();
         } catch (MissingPermissionException e) {
+           // Toast.makeText(this, "permission 2", Toast.LENGTH_SHORT).show();
             permissionsGranted = false;
             if (messenger != null) {
                 Message message = Message.obtain();
@@ -163,6 +155,7 @@ public class SinchService extends Service {
                 message.setData(bundle);
                 message.what = MESSAGE_PERMISSIONS_NEEDED;
                 try {
+                    //Toast.makeText(this, "permission 3", Toast.LENGTH_SHORT).show();
                     messenger.send(message);
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
@@ -173,7 +166,9 @@ public class SinchService extends Service {
             Log.d(TAG, "Starting SinchClient");
             try {
                 mSinchClient.start();
+                //Toast.makeText(this, "Client Started!", Toast.LENGTH_SHORT).show();
             } catch (IllegalStateException e) {
+                //Toast.makeText(this, "permission 4", Toast.LENGTH_SHORT).show();
                 Log.w(TAG, "Can't start SinchClient - " + e.getMessage());
             }
         }

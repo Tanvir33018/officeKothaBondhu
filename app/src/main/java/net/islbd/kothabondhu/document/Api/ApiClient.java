@@ -9,7 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Url;
 
 public interface ApiClient {
-    String BASE_URL = "http://storysome.net/kotha/api/";
+    String BASE_URL = "http://kothabondhu.com/kothaapi/api/";
     @GET
     Call<ArrayList<MyContent>> getMyContent(@Url String url);
 }
