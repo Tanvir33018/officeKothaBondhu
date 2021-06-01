@@ -241,7 +241,7 @@
         android:orientation="horizontal"
         android:weightSum="2"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="55dp">
 
         <Button
             android:id="@+id/buttonBackSelectionFragment"
@@ -252,8 +252,10 @@
             android:text="@string/back_bangla"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:padding="10dp"
+            android:fontFamily="@font/solaiman_lipi"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/buttonUnderstandSelectionFragment"
@@ -262,9 +264,11 @@
             android:background="@drawable/c_button"
             android:text="@string/thik_ase"
             android:layout_weight="1"
+            android:fontFamily="@font/solaiman_lipi"
+            android:padding="10dp"
             android:layout_marginEnd="10dp"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 

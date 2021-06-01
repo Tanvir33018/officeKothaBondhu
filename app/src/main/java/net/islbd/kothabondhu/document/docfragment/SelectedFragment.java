@@ -1,6 +1,8 @@
 package net.islbd.kothabondhu.document.docfragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.Api.ApiClient;
@@ -33,22 +37,33 @@ public class SelectedFragment extends Fragment {
     private Button buttonBack;
     private RecyclerView recyclerView;
     private DocumentAdapter documentAdapter;
+    private String modifiedUrl;
+    private View view;
+
+    //-----SharedPreferences Variable-----
+    /*public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String TEXT = "text";
+    public static String GET_TEXT = "get_text";
+*/
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.document_selected_fragment_list_item, container,false);
+        if(view != null) return view;
+        view = inflater.inflate(R.layout.document_selected_fragment_list_item, container,false);
         getList();
         init(view);
         eventListeners();
         return view;
     }
+
     private String modifyQueryUrl(String url){
         for(int i = 0; i < DocumentActivity.selection.length; ++i){
             if(DocumentActivity.selection[i]) url += makeCid(i);
         }
         return url.substring(0, url.length() - 1);
     }
+
     private String makeCid(int cid){
         switch (cid){
             case 0: return "101,";
@@ -61,7 +76,10 @@ public class SelectedFragment extends Fragment {
             default: return null;
         }
     }
+
+
     private void getList(){
+
         String modifiedUrl = modifyQueryUrl(DocumentActivity.queryURL);
         ApiClient apiClient = ApiUtilities.getApiClient();
         apiClient.getMyContent(modifiedUrl).enqueue(new Callback<ArrayList<MyContent>>() {
@@ -79,8 +97,14 @@ public class SelectedFragment extends Fragment {
             }
         });
     }
+
+
+
+
+
     private void displayToast(String message){
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+       // if(message != null)
+              //Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
     private void init(View view){
         buttonDrutoKothaBolun = view.findViewById(R.id.buttonDrutoKothaBolunSelectedFragment);
@@ -113,6 +137,7 @@ public class SelectedFragment extends Fragment {
     }
     private void loadHomeTabActivity(){
         Intent intent = new Intent(getActivity(), HomeTabActivity.class);
+        //intent.putExtra("from_selected_fragment",1);
         startActivity(intent);
         getActivity().finish();
     }

@@ -49,27 +49,33 @@
         android:layout_marginBottom="5dp">
 
         <Button
-            android:id="@+id/buttonTour"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/c_button"
-            android:text="@string/ghure_dekhun"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-        <Button
             android:id="@+id/buttonNotNeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/c_button"
             android:text="@string/proyojon_nei"
             android:layout_weight="1"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:padding="10dp"
             android:textColor="@color/white"
             android:textStyle="bold" />
+
+
+
+        <Button
+            android:id="@+id/buttonTour"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/for_proyojon_button"
+            android:text="@string/ghure_dekhun"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
 
     </LinearLayout>
 

@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -20,21 +21,24 @@
     <application
         android:name=".KthBndhApp"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".document.DocumentActivity"
-            android:theme="@style/FullScreen" />
+        <activity android:name=".document.DocumentActivity" /> <!-- android:theme="@style/FullScreen" -->
         <activity
             android:name=".ui.activity.AboutActivity"
             android:theme="@style/AppThemeSecond" />
         <activity android:name=".ui.activity.AgentProfileActivity" />
-        <activity android:name=".ui.activity.AgentHomeActivity" />
+        <activity
+            android:name=".ui.activity.AgentHomeActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true" />
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,11 +57,6 @@
         </activity>
         <activity android:name=".ui.activity.NewsActivity" />
         <activity android:name=".ui.activity.RegistrationActivity" />
-
-        <service
-            android:name=".service.SinchService"
-            android:enabled="true"
-            android:exported="true" />
 
         <activity
             android:name=".ui.activity.MenuActivity"
@@ -80,6 +79,33 @@
             android:theme="@style/FullscreenTheme" />
         <activity android:name=".ui.activity.CallOnGoingActivity" />
         <activity android:name=".ui.activity.CallIncomingActivity" />
+
+        <service
+            android:name=".service.FcmListenerService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
+
+        <!--<service
+            android:name=".service.FcmListenerService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>-->
+
+
+        <service
+            android:name=".service.SinchService"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>

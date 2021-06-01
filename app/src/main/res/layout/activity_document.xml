@@ -11,4 +11,16 @@
         android:id="@+id/fragmentContainerDocument"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/background_toolbar_bottom_navigation"
+        app:itemTextColor="@color/button_color_bottom_nav"
+        app:itemIconTint="@color/button_color_bottom_nav"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu"/>
+
 </RelativeLayout>

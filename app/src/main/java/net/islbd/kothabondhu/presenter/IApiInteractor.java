@@ -7,6 +7,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+
+import net.islbd.kothabondhu.model.pojo.AamarPayPostInfo;
 import net.islbd.kothabondhu.model.pojo.Agent;
 import net.islbd.kothabondhu.model.pojo.AgentDetails;
 import net.islbd.kothabondhu.model.pojo.AgentQuery;
@@ -68,6 +70,9 @@ public interface IApiInteractor {
 
     @POST("api/setCallHistory.php")
     Call<StatusInfo> setCallHistory(@Body CallHistoryDetails callHistoryDetails);
+
+    @POST("api/setBuyLog.php")
+    Call<AamarPayPostInfo> setAamarPay(@Body AamarPayPostInfo aamarPayPostInfo);
 
     @POST("api/setUserRegistration.php")
     Call<StatusInfo> setUserRegistration(@Body UserDetails userDetails);

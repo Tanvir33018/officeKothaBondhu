@@ -1,0 +1,154 @@
+package net.islbd.kothabondhu.service;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Build;
+import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+import com.sinch.android.rtc.NotificationResult;
+import com.sinch.android.rtc.SinchHelpers;
+import com.sinch.android.rtc.calling.CallNotificationResult;
+
+import java.util.Map;
+
+public class FcmListenerService extends FirebaseMessagingService implements ServiceConnection {
+
+    public static String CHANNEL_ID = "Sinch Push Notification Channel";
+    private static final String TAG = FcmListenerService.class.getSimpleName();
+
+    private Map payload;
+
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage){
+        Map data = remoteMessage.getData();
+
+        Log.d(TAG, "onMessageReceived: "+remoteMessage.getNotification());
+
+        // Optional: inspect the payload w/o starting Sinch Client and thus avoiding onIncomingCall()
+        // e.g. useful to fetch user related polices (blacklist), resources (to show a picture, etc).
+        NotificationResult result = SinchHelpers.queryPushNotificationPayload(getApplicationContext(), data);
+        if (result.isValid() && result.isCall()) {
+            CallNotificationResult callResult = result.getCallResult();
+            Log.d(TAG, "queryPushNotificationPayload() -> display name: " + result.getDisplayName());
+            if (callResult != null) {
+                Log.e(TAG, "queryPushNotificationPayload() -> headers: " + result.getCallResult().getHeaders());
+                Log.d(TAG, "queryPushNotificationPayload() -> remote user ID: " + result.getCallResult().getRemoteUserId());
+                relayMessageData(data);
+            }
+        }
+/*
+        // Mandatory: forward payload to the SinchClient.
+        if (SinchHelpers.isSinchPushPayload(data)) {
+            Log.d(TAG, "onMessageReceived: ");
+            new ServiceConnection(){
+
+                private Map payload;
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    if (payload != null) {
+                        SinchService.SinchServiceInterface sinchService = (SinchService.SinchServiceInterface) service;
+                        if (sinchService != null) {
+                            NotificationResult result = sinchService.relayRemotePushNotificationPayload(payload);
+                            if (result.isValid() && result.isCall()) {
+
+                                // startActivity(new Intent(getApplicationContext(),IncomingCallScreenActivity.class));
+                                // Optional: handle result, e.g. show a notification or similar.
+                            }
+                        }
+                    }
+                    payload = null;
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+
+                }
+
+                @Override
+                public void onBindingDied(ComponentName name) {
+
+                }
+
+                @Override
+                public void onNullBinding(ComponentName name) {
+
+                }
+                public void relayMessageData(Map<String,String> data) {
+                    payload = data;
+                    createNotificationChannel(NotificationManager.IMPORTANCE_MAX);
+                    getApplicationContext().bindService(new Intent(getApplicationContext(), SinchService.class), this, BIND_AUTO_CREATE);
+                    // startActivity(new Intent(getApplicationContext(),IncomingCallScreenActivity.class));
+                }
+            }
+
+
+            .relayMessageData(data);
+        }*/
+    }
+
+    public void relayMessageData(Map<String,String> data) {
+        payload = data;
+
+        createNotificationChannel(NotificationManager.IMPORTANCE_MAX);
+        getApplicationContext().bindService(new Intent(getApplicationContext(), SinchService.class), this, BIND_AUTO_CREATE);
+        // startActivity(new Intent(getApplicationContext(),IncomingCallScreenActivity.class));
+    }
+
+
+    private void createNotificationChannel(int importance) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+       // Toast.makeText(getApplicationContext(), "Fcm", Toast.LENGTH_SHORT).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Sinch";
+            String description = "Incoming Sinch Push Notifications.";
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+
+        if (payload != null) {
+            SinchService.SinchServiceInterface sinchService = (SinchService.SinchServiceInterface) service;
+            if (sinchService != null) {
+                NotificationResult result = sinchService.relayRemotePushNotificationPayload(payload);
+                if (result.isValid() && result.isCall()) {
+
+                    Log.d(TAG, "onServiceConnected: "+result.getCallResult());
+                    // startActivity(new Intent(getApplicationContext(),IncomingCallScreenActivity.class));
+                    // Optional: handle result, e.g. show a notification or similar.
+                }
+            }
+        }
+        payload = null;
+
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+
+    }
+
+    @Override
+    public void onBindingDied(ComponentName name) {
+
+    }
+
+    @Override
+    public void onNullBinding(ComponentName name) {
+
+    }
+}

@@ -11,45 +11,62 @@ import android.os.PersistableBundle;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.ActionBar;
+
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.sinch.android.rtc.ClientRegistration;
+import com.sinch.android.rtc.PushTokenRegistrationCallback;
+import com.sinch.android.rtc.Sinch;
 import com.sinch.android.rtc.SinchError;
+import com.sinch.android.rtc.UserController;
+import com.sinch.android.rtc.UserRegistrationCallback;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import net.islbd.kothabondhu.R;
+import net.islbd.kothabondhu.config.SinchConfig;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.service.SinchService;
+import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
-public class AgentHomeActivity extends BaseActivity implements SinchService.StartFailedListener {
+import java.security.MessageDigest;
+
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_HOST;
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_KEY;
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_SECRET;
+
+
+public class AgentHomeActivity extends BaseActivity {
+
     private static final int REQUEST_CODE_PERMISSION = 2000;
     private Context context;
     private TextView agentNameTextView, locationTextView, ageTextView, sexTextView;
     private CircularImageView photoImageView;
     private ProgressBar agentPhotoProgressBar;
-    private IApiInteractor apiInteractor;
+    //private IApiInteractor apiInteractor;
     private SharedPreferences sharedPref;
-    String name;
-    String photoUrl;
-    String age;
-    String location;
-    String status;
-    String id;
-    String displayName;
-    String displayLocation;
-    String displayAge;
+    private DatabaseReference databaseReference;
+    private long mSigningSequence = 1;
+
+    private String name, photoUrl, age, location, status, id, displayName, displayLocation, displayAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_home);
 
+        //databaseReference = FirebaseDatabase.getInstance().getReference();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -66,12 +83,21 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
                             Manifest.permission.ACCESS_FINE_LOCATION
                     },
                     REQUEST_CODE_PERMISSION);
-        } else {
+        }else {
             initializeWidgets();
             initializeData();
             eventListeners();
         }
+
     }
+
+    /*public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }*/
 
     @Override
     protected void onResume() {
@@ -89,22 +115,31 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
 
     private void initializeData() {
         AppPresenter appPresenter = new AppPresenter();
-        context = this;
         sharedPref = appPresenter.getSharedPrefInterface(context);
-        apiInteractor = appPresenter.getApiInterface();
+        context = this;
         Intent intent = getIntent();
+        Log.d("TAG", "initializeData: ");
         name = intent.getStringExtra(LoginActivity.NAME_TAG);
         photoUrl = intent.getStringExtra(LoginActivity.PHOTO_URL_TAG);
         age = intent.getStringExtra(LoginActivity.AGE_TAG);
         location = intent.getStringExtra(LoginActivity.LOCATION_TAG);
         status = intent.getStringExtra(LoginActivity.STATUS_TAG);
         id = intent.getStringExtra(LoginActivity.ID_TAG);
+        //sharedPref.edit().putString(SharedPrefUtils.USER_ID,id).commit();
         displayName = "Name: " + name;
         displayLocation = "Location: " + location;
         displayAge = "Age: " + age;
-
+        //deviceTokenPush();
         displayData();
+
     }
+
+    /*private void deviceTokenPush() {
+        String refreshToken= FirebaseInstanceId.getInstance().getToken();
+        Token token= new Token(refreshToken)
+        databaseReference.child(id).setValue(token);
+        Toast.makeText(context, "Token Pushed", Toast.LENGTH_SHORT).show();
+    }*/
 
     private void displayData() {
         loadImage(photoUrl, photoImageView, agentPhotoProgressBar);
@@ -116,18 +151,8 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
     private void loadImage(String url, ImageView imageView, final ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
         Picasso picasso = Picasso.get();
-        //picasso.setDebugging(true);
-        /*picasso.load(Uri.parse(url)).error(R.drawable.ic_person).into(imageView, new Callback() {
-            @Override
-            public void onSuccess() {
-                progressBar.setVisibility(View.GONE);
-            }
 
-            @Override
-            public void onError(Exception e) {
-                progressBar.setVisibility(View.GONE);
-            }
-        });*/
+        Log.d("TAG", "loadImage: ");
         picasso.load(url).error(R.drawable.ic_person).into(imageView, new Callback() {
             @Override
             public void onSuccess() {
@@ -139,17 +164,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
                 progressBar.setVisibility(View.GONE);
             }
         });
-        /*picasso.load(url).error(R.drawable.ic_person).into(imageView, new Callback() {
-            @Override
-            public void onSuccess() {
-                progressBar.setVisibility(View.GONE);
-            }
 
-            @Override
-            public void onError() {
-                progressBar.setVisibility(View.GONE);
-            }
-        });*/
     }
 
     private void eventListeners() {
@@ -169,22 +184,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
         }
     }
 
-    @Override
-    protected void onServiceConnected() {
-        getSinchServiceInterface().setStartListener(this);
-        if (id != null) {
-            getSinchServiceInterface().startClient(id);
-        }
-    }
 
-    @Override
-    public void onStartFailed(SinchError error) {
-        Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onStarted() {
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
@@ -214,5 +214,7 @@ public class AgentHomeActivity extends BaseActivity implements SinchService.Star
 
         displayData();
     }
+
+
 
 }

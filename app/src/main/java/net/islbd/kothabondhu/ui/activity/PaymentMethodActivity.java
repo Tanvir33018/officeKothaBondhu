@@ -4,11 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -30,7 +35,7 @@ import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
 public class PaymentMethodActivity extends AppCompatActivity {
-    private ImageView bkashImageView, rocketImageView;
+   // private ImageView bkashImageView, rocketImageView;
     private String packageID, packageIdentifier, packageMedia, packageDuration, packageDetails;
     private Call<PackageInfo> packageInfoCall;
     private Call<PackageStatusInfo> buyPackCall;
@@ -39,11 +44,16 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private Context context;
     private UserGmailInfo userGmailInfo;
     private BuyPack buyPack;
+    private TextView paySuccessText;
+    private Button goHomeButton;
+    private boolean payStatus;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_method_package);
+        payStatus = getIntent().getBooleanExtra("abc", false);
         initializeWidgets();
         initializeData();
         eventListeners();
@@ -62,8 +72,12 @@ public class PaymentMethodActivity extends AppCompatActivity {
     }
 
     private void initializeWidgets() {
-        bkashImageView = findViewById(R.id.payment_bkash_imageView);
-        rocketImageView = findViewById(R.id.payment_rocket_imageView);
+        /*bkashImageView = findViewById(R.id.payment_bkash_imageView);
+        rocketImageView = findViewById(R.id.payment_rocket_imageView);*/
+        imageView = findViewById(R.id.payment_imageView);
+        paySuccessText = findViewById(R.id.payment_success_textview);
+        goHomeButton = findViewById(R.id.payment_success_button);
+
     }
 
     private void initializeData() {
@@ -81,63 +95,36 @@ public class PaymentMethodActivity extends AppCompatActivity {
         AppPresenter appPresenter = new AppPresenter();
         apiInteractor = appPresenter.getApiInterface();
         sharedPref = appPresenter.getSharedPrefInterface(this);
+
+
+        if(payStatus){
+            imageView.setImageResource(R.drawable.right_sign);
+            paySuccessText.setText("স্বাগতম, আপনার প্যাকেজ ক্রয় সম্পূর্ণ হয়েছে");
+
+        }
+
     }
 
     private void eventListeners() {
-        bkashImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                purchasePackage(GlobalConstants.PAYMENT_TAG_BKASH);
-            }
-        });
 
-        rocketImageView.setOnClickListener(new View.OnClickListener() {
+        goHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                purchasePackage(GlobalConstants.PAYMENT_TAG_ROCKET);
+
+                Log.d("TAG", "initializeData: ");
+
+                if(payStatus){
+                    purchasePackage();
+                }else {
+                    Intent intent = new Intent(PaymentMethodActivity.this, HomeTabActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }
 
-    private void purchasePackage(Integer gateway) {
-        switch (gateway) {
-            case GlobalConstants.PAYMENT_TAG_ROCKET:
-                // TODO: implement gateway for rocket
-                break;
-            case GlobalConstants.PAYMENT_TAG_BKASH:
-                // TODO: implement gateway for bkash
-                break;
-        }
-
-        /*final PackageInfoQuery packageInfoQuery = new PackageInfoQuery();
-        packageInfoQuery.setQ(packageMedia);
-        packageInfoQuery.setMobilenumber(String.valueOf(sharedPref.getInt(SharedPrefUtils._USER_PHONE, 0)));
-        packageInfoQuery.setMobilenumber("01888014");
-        packageInfoCall = apiInteractor.getPackageDetails(packageInfoQuery);
-        packageInfoCall.enqueue(new Callback<PackageInfo>() {
-            @Override
-            public void onResponse(Call<PackageInfo> call, Response<PackageInfo> response) {
-                if (response.code() == HttpStatusCodes.OK) {
-                    PackageInfo packageInfo = response.body();
-
-                    if (packageInfo != null) {
-                        sharedPref.edit().putString(SharedPrefUtils._PACKAGE_MEDIA, packageInfo.getMedia()).apply();
-                        sharedPref.edit().putString(SharedPrefUtils._PACKAGE_DETAILS, packageInfo.getPackageDetails()).apply();
-                        sharedPref.edit().putString(SharedPrefUtils._PACKAGE_ID, packageInfo.getPkgId()).apply();
-                        sharedPref.edit().putString(SharedPrefUtils._PACKAGE_IDENTIFIER, packageInfo.getPkgid()).apply();
-                        sharedPref.edit().putString(SharedPrefUtils._PACKAGE_DURATION, packageInfo.getPkgDuration()).apply();
-                        Toast.makeText(context, "PURCHASED PACKAGE : " + packageInfo.getPackageDetails(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Something went wrong! Please try again", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PackageInfo> call, Throwable t) {
-                Toast.makeText(context, "Something went wrong! Please try again.", Toast.LENGTH_SHORT).show();
-            }
-        });*/
+    private void purchasePackage() {
 
         buyPack = new BuyPack();
         buyPack.setEndUserRegId(packageIdentifier);
@@ -158,6 +145,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
                     Intent intent = new Intent(PaymentMethodActivity.this, HomeTabActivity.class);
                     startActivity(intent);
                     finish();
+
+
                 } else {
                     Toast.makeText(context, "Something went wrong! Please try again.", Toast.LENGTH_SHORT).show();
                 }

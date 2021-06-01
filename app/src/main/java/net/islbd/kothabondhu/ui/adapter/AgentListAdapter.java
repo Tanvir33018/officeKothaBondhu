@@ -10,6 +10,9 @@ import android.graphics.BitmapFactory;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -30,7 +38,11 @@ import net.islbd.kothabondhu.event.IPackageSelectListener;
 import net.islbd.kothabondhu.model.pojo.AgentDetails;
 import net.islbd.kothabondhu.presenter.IDbInteractor;
 import net.islbd.kothabondhu.ui.activity.AgentProfileActivity;
+import net.islbd.kothabondhu.ui.activity.HomeTabActivity;
+import net.islbd.kothabondhu.utility.GlobalConstants;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
+
+import retrofit2.Response;
 
 /**
  * Created by wahid.sadique on 9/17/2017.
@@ -44,6 +56,9 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
     private SharedPreferences sharedPref;
     private IPackageSelectListener packageSelectListener;
     private Activity activity;
+    //private APIService apiService;
+    private DatabaseReference databaseReference;
+    private final Handler handler = new Handler();
 
     public static final String PHOTO_URL_TAG = "_PHOTO";
     public static final String NAME_TAG = "_NAME";
@@ -63,6 +78,11 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
     @Override
     public AgentListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_agent_item, parent, false);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        //apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+
+
         return new AgentListAdapter.ViewHolder(itemView);
     }
 
@@ -111,8 +131,11 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
         holder.callImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 sharedPref.edit().putInt(SharedPrefUtils._TO_USER_PHONE, Integer.valueOf(id)).apply();
                 packageSelectListener.onPackageSelection(id, url);
+                sharedPref.edit().putString(GlobalConstants.EXT_TAG_NAME,name).apply();
+
                 //showPackageDialog(id, name, url);
             }
         });
@@ -124,20 +147,47 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
             }
         });
 
-        /*holder.itemConsLayout.setOnClickListener(new View.OnClickListener() {
+
+    }
+   /* private void sendFirebaseNotification(String Id) {
+        databaseReference.child(Id).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                if (url != null) {
-                    Intent intent = new Intent(context, NewsActivity.class);
-                    intent.putExtra(GlobalConstants.EXT_TAG_URL, url);
-                    intent.putExtra(GlobalConstants.EXT_TAG_NAME, name);
-                    context.startActivity(intent);
-                }
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("TAG", "onDataChange: ");
+                String usertoken=dataSnapshot.getValue(String.class);
+
+                Data data = new Data("Call", "Kotha BOndhu");
+                NotificationSender sender = new NotificationSender(data, usertoken);
+                Log.d("TAG", "sendNotifications: ");
+                apiService.sendNotifcation(sender).enqueue(new retrofit2.Callback<MyResponse>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<MyResponse> call, Response<MyResponse> response) {
+                        Log.d("TAG", "sendNotifications: ");
+                        if (response.code() == 200) {
+
+                            if (response.body().success != 1) {
+                                Toast.makeText(context, "Failed ", Toast.LENGTH_LONG);
+                            }else{
+                                Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<MyResponse> call, Throwable t) {
+                        Toast.makeText(context, ""+t.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             }
-        });*/
-    }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+*/
     private void showPackageDialog(final String id, final String name, final String url) {
         selectedPackageIndex = -1;
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.Theme_AppCompat_Light_Dialog);
@@ -154,11 +204,6 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
             public void onClick(DialogInterface dialogInterface, int i) {
                 sharedPref.edit().putInt(SharedPrefUtils._TO_USER_PHONE, Integer.valueOf(id)).apply();
                 dbInteractor.markCall(id, name, 0);
-                /*Intent intent = new Intent(context, CallActivity.class);
-                context.startActivity(intent);*/
-                //Toast.makeText(context, String.valueOf(selectedPackageIndex), Toast.LENGTH_SHORT).show();
-                /*Intent intent = new Intent(context, SinchCallActivity.class);
-                intent.putExtra(SinchCallActivity.EXTRA_RECIPIENT_ID, id);*/
                 packageSelectListener.onPackageSelection(id, url);
             }
         });

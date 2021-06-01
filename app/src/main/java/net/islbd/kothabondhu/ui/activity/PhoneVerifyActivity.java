@@ -22,6 +22,7 @@ import androidx.appcompat.app.ActionBar;
 import android.os.Bundle;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +31,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.rbddevs.splashy.Splashy;
+import com.sinch.android.rtc.ClientRegistration;
+import com.sinch.android.rtc.PushTokenRegistrationCallback;
+import com.sinch.android.rtc.Sinch;
 import com.sinch.android.rtc.SinchError;
+import com.sinch.android.rtc.UserController;
+import com.sinch.android.rtc.UserRegistrationCallback;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +45,7 @@ import retrofit2.Response;
 import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.DocumentActivity;
+import net.islbd.kothabondhu.document.docfragment.SelectedFragment;
 import net.islbd.kothabondhu.model.pojo.RegisterInfo;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
@@ -49,11 +56,20 @@ import net.islbd.kothabondhu.service.SinchService;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
+import java.security.MessageDigest;
+
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_HOST;
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_KEY;
+import static net.islbd.kothabondhu.service.SinchService.APPLICATION_SECRET;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PhoneVerifyActivity extends BaseActivity implements SinchService.StartFailedListener {
+public class PhoneVerifyActivity extends BaseActivity implements
+        SinchService.StartFailedListener,
+        PushTokenRegistrationCallback,
+        UserRegistrationCallback {
     private Splashy splashy;
     private Call<RegisterInfo> verifyCall;
     private Call<UserStatusDetails> verifyCall2;
@@ -66,8 +82,13 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     private Button verifyButton;
     private ImageView splashLogo;
     private UserGmailInfo userGmailInfo;
+    private Button log_in_gmail;
+    private String mUserId;
+    private long mSigningSequence = 1;
+    private boolean tokenRegistred;
 
     private static final int REQUEST_CODE_PERMISSION = 2000;
+    int i=0;
 
     private GoogleSignInClient mSignInClient;
     private static final int SIGN_IN = 1;
@@ -75,11 +96,17 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        log_in_gmail = findViewById(R.id.verify_login_button);
         setContentView(R.layout.activity_phone_verify);
-        if(alreadyRead()) loadActivityWork();
-        else loadAboutActivity();
-        //verifyUser(null);
-        //afterReadComplete();
+
+
+
+        if(alreadyRead())
+            loadActivityWork();
+        else
+            loadAboutActivity();
+
+
     }
 
     private void signInWork(){
@@ -93,12 +120,6 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
             public void onClick(View view) {
                 Intent intent = mSignInClient.getSignInIntent();
                 startActivityForResult(intent, SIGN_IN);
-                /*String phone = phoneEditText.getText().toString().trim();
-                if (phone.isEmpty()) {
-                    Toast.makeText(context, "Please insert phone Number", Toast.LENGTH_SHORT).show();
-                    return;
-                }*/
-                //verifyUser(phone);
             }
         });
     }
@@ -121,15 +142,12 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
         if (requestCode == SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             if (task.isSuccessful()) {
-                // Sign in succeeded, proceed with account
-                Toast.makeText(this, "Sign in successful!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Sign in successful!", Toast.LENGTH_SHORT).show();
                 restartActivity();
-                //GoogleSignInAccount acct = task.getResult();
-                //System.out.println("helo");
+
             } else {
                 Toast.makeText(this, "Sign in failed!", Toast.LENGTH_SHORT).show();
-                // Sign in failed, handle failure and update UI
-                // ...
+
             }
         }
     }
@@ -142,11 +160,11 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
 
     public boolean alreadyRead(){
         SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
-        //SharedPreferences.Editor sharedPreferencesEdit = sharedPreferences.edit();
         boolean alreadyRead = sharedPreferences.getBoolean("Read", false);
         return alreadyRead;
     }
 
+   //---- Call from onCreate
     private void loadAboutActivity(){
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -162,12 +180,14 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
         }, 2000);
     }
 
+
+    //---- call from onCreate
     private void loadActivityWork(){
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
-        context = this;
+        context = PhoneVerifyActivity.this;
 
         phoneEditText = findViewById(R.id.phone_verify_EditText);
         textInputLayout = findViewById(R.id.input_layout_user);
@@ -179,7 +199,9 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
                     new String[]{
                             Manifest.permission.RECORD_AUDIO,
                             Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.CALL_PHONE,
+                            Manifest.permission.READ_PHONE_STATE
                     },
                     REQUEST_CODE_PERMISSION);
         } else {
@@ -196,6 +218,7 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
         AppPresenter appPresenter = new AppPresenter();
         apiInteractor = appPresenter.getApiInterface();
         sharedPref = appPresenter.getSharedPrefInterface(this);
+        tokenRegistred = sharedPref.getBoolean("TokenRegistred",false);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -209,13 +232,11 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
     private void verifyUser(String phone) {
         userGmailInfo = getUserInfoFromGMail();
         if(userGmailInfo == null){
-            Toast.makeText(this, "Please log in", Toast.LENGTH_SHORT).show();
             showVerifyButton(true);
             return;
         }
+        mUserId = userGmailInfo.getId();
         Log.d(TAG, "verifyUser: " + userGmailInfo.toString());
-        //final UserQuery userQuery = new UserQuery();
-        //userQuery.setEndUserId(phone);
         verifyCall = apiInteractor.getUserAccountInfoGMail(userGmailInfo);
         verifyCall.enqueue(new Callback<RegisterInfo>() {
             @Override
@@ -224,11 +245,29 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
                     RegisterInfo registerInfo = response.body();
                     if(registerInfo.getStatusCode() != null){
                         sharedPref.edit().putInt(SharedPrefUtils._STATUS_CODE, Integer.parseInt(registerInfo.getStatusCode())).apply();
-                        if (!getSinchServiceInterface().isStarted()) {
-                            getSinchServiceInterface().startClient(userGmailInfo.getId());
+                        sharedPref.edit().putString(SharedPrefUtils.USER_ID, userGmailInfo.getId()).apply();
+
+                        if(tokenRegistred){
+                            if (!getSinchServiceInterface().isStarted()) {
+                                getSinchServiceInterface().setUsername(userGmailInfo.getId());
+                                getSinchServiceInterface().startClient();
+
+
                         } else {
                             logIntoHomeScreen();
                         }
+
+                        }else{
+                            UserController uc = Sinch.getUserControllerBuilder()
+                                    .context(getApplicationContext())
+                                    .applicationKey(APPLICATION_KEY)
+                                    .userId(mUserId)
+                                    .environmentHost(APPLICATION_HOST)
+                                    .build();
+                            uc.registerUser(PhoneVerifyActivity.this, PhoneVerifyActivity.this);
+
+                        }
+
                     }
                 }
             }
@@ -238,45 +277,16 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
                 Toast.makeText(context, "Some problem occurs !", Toast.LENGTH_SHORT).show();
             }
         });
-        /*verifyCall2 = apiInteractor.getUserStatus(userQuery);
-        verifyCall2.enqueue(new Callback<UserStatusDetails>() {
-            @Override
-            public void onResponse(Call<UserStatusDetails> call, Response<UserStatusDetails> response) {
-                if (response.code() == HttpStatusCodes.OK) {
-                    UserStatusDetails userStatusDetails = response.body();
-                    //if (userStatusDetails.getEndUserRegId() != null && userStatusDetails.getEndUserId() != null)
-                    if (userStatusDetails.getEndUserId() != null) {
-                        sharedPref.edit().putInt(SharedPrefUtils._USER_PHONE, Integer.parseInt(userStatusDetails.getEndUserId())).apply();
-                        if (!getSinchServiceInterface().isStarted()) {
-                            getSinchServiceInterface().startClient(userStatusDetails.getEndUserId());
-                        } else {
-                            logIntoHomeScreen();
-                        }
-                    } else {
-                        Toast.makeText(context, "Wrong number!", Toast.LENGTH_SHORT).show();
-                        showVerifyButton(true);
-                    }
-                }
-            }
 
-            @Override
-            public void onFailure(Call<UserStatusDetails> call, Throwable t) {
-                Toast.makeText(PhoneVerifyActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
-            }
-        });*/
     }
 
     private void logIntoHomeScreen() {
+
         Intent intent = new Intent(PhoneVerifyActivity.this, DocumentActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private void openAgentLogInScreen() {
-        Intent intent = new Intent(PhoneVerifyActivity.this, DocumentActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     private void showVerifyButton(boolean isShow) {
         if (isShow) {
@@ -349,11 +359,12 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
 
     @Override
     public void onStartFailed(SinchError error) {
-        Toast.makeText(PhoneVerifyActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+        Toast.makeText(PhoneVerifyActivity.this, "Something went wrong PVA", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onStarted() {
+        //Toast.makeText(context, "Started PVA", Toast.LENGTH_SHORT).show();
         logIntoHomeScreen();
     }
 
@@ -367,5 +378,45 @@ public class PhoneVerifyActivity extends BaseActivity implements SinchService.St
                 finish();
             }
         }
+    }
+
+    @Override
+    public void tokenRegistered() {
+        sharedPref.edit().putBoolean("TokenRegistred", true).apply();
+        //Toast.makeText(context, "Token Registered!", Toast.LENGTH_SHORT).show();
+        getSinchServiceInterface().setUsername(mUserId);
+        getSinchServiceInterface().startClient();
+    }
+
+    @Override
+    public void tokenRegistrationFailed(SinchError sinchError) {
+        Toast.makeText(context, "Token Reistration Failed PVA", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCredentialsRequired(ClientRegistration clientRegistration) {
+        String toSign = mUserId + APPLICATION_KEY + mSigningSequence + APPLICATION_SECRET;
+        String signature;
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-1");
+            byte[] hash = messageDigest.digest(toSign.getBytes("UTF-8"));
+            signature = Base64.encodeToString(hash, Base64.DEFAULT).trim();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+
+        clientRegistration.register(signature, mSigningSequence++);
+        //Toast.makeText(context, "Credentials", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUserRegistered() {
+        //Toast.makeText(context, "User Registered!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUserRegistrationFailed(SinchError sinchError) {
+        Toast.makeText(context, "Registration Failed!", Toast.LENGTH_SHORT).show();
     }
 }

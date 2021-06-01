@@ -26,11 +26,21 @@
     </FrameLayout>
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/call_agent_photo_layout"
+        android:id="@+id/agentNameTextView"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
         android:id="@+id/call_state_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/call_user_layout"
-        android:layout_below="@+id/call_agent_photo_layout"
+        android:layout_below="@+id/agentNameTextView"
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Contacting....."

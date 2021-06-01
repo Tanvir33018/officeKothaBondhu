@@ -63,6 +63,6 @@
         android:background="@drawable/c_button"
         android:text="@string/login_register_bangla"
         android:textColor="@color/white"
-        android:textStyle="bold" />
+       />
 
 </RelativeLayout>

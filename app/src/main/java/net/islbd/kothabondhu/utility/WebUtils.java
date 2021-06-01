@@ -5,7 +5,7 @@ public final class WebUtils {
     //public static final String BASE_URL = "http://10.0.2.2:8000/";
     //public static final String BASE_URL = "http://192.168.0.104/";
     //public static final String BASE_URL = "http://104.248.37.209:8000/";
-    public static final String BASE_URL = "http://storysome.net/kotha/";
+    public static final String BASE_URL = "http://kothabondhu.com/kothaapi/"; //"http://storysome.net/kotha/";
 
     public static final int PAGINATION_DEFAULT_PAGE = 1;
     public static final Long REQUEST_TIMEOUT = 10L;

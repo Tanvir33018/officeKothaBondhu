@@ -53,6 +53,8 @@
         android:background="@drawable/c_button"
         android:text="@string/login_register_bangla"
         android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:textSize="12sp"
+        android:fontFamily="@font/solaiman_lipi"
+        />
 
 </RelativeLayout>

@@ -27,12 +27,19 @@ public class CallIncomingActivity extends BaseActivity {
     private Context context;
     private ImageView callDismissImageView, callAcceptImageView;
 
+
+    public static final String ACTION_ANSWER = "answer";
+    public static final String ACTION_IGNORE = "ignore";
+    public static final String EXTRA_ID = "id";
+    public static int MESSAGE_ID = 14;
+    private String mAction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.NoActionBar);
         setContentView(R.layout.activity_call_incoming);
-
+        SinchService.mAudioPlayer.stopRingtone();
         initializeWidgets();
         initializeData();
         eventListeners();
@@ -48,7 +55,7 @@ public class CallIncomingActivity extends BaseActivity {
         mAudioPlayer = new AudioPlayer(this);
         mAudioPlayer.playRingtone();
         mCallId = getIntent().getStringExtra(SinchService.CALL_ID);
-        mCallLocation = getIntent().getStringExtra(SinchService.LOCATION);
+        //mCallLocation = getIntent().getStringExtra(SinchService.LOCATION);
     }
 
     private void eventListeners() {
@@ -72,6 +79,13 @@ public class CallIncomingActivity extends BaseActivity {
         Call call = getSinchServiceInterface().getCall(mCallId);
         if (call != null) {
             call.addCallListener(new SinchCallListener());
+            if (ACTION_ANSWER.equals(mAction)) {
+                mAction = "";
+                answerClicked();
+            } else if (ACTION_IGNORE.equals(mAction)) {
+                mAction = "";
+                declineClicked();
+            }
         } else {
             Log.e(TAG, "Started with invalid callId, aborting");
             finish();

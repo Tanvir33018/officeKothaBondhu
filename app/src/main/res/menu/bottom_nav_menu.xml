@@ -6,10 +6,11 @@
         android:icon="@drawable/home"
         android:id="@+id/bottom_home"/>
 
+
     <item
-        android:title="@string/nav_item_settings"
-        android:icon="@drawable/setting"
-        android:id="@+id/bottom_settings"/>
+        android:title = "@string/nav__item_call"
+        android:icon="@drawable/ic_call_home"
+        android:id="@+id/bottom_dailer" />
 
     <item
         android:title="@string/nav_item_packages"

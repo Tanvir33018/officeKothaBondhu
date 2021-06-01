@@ -31,7 +31,7 @@ public class AppPresenter {
         return context.getSharedPreferences(SharedPrefUtils.SPF_NAME, SharedPrefUtils.SPF_MODE);
     }
 
-    public SinchClient getSinchClient(Context context, String userId) {
+    /*public SinchClient getSinchClient(Context context, String userId) {
         return SinchConfig.getInstance().getClient(context, userId);
-    }
+    }*/
 }

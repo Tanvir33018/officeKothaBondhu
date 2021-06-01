@@ -5,6 +5,7 @@ public class MyContent {
     private String cat_name;
     private String cat_id;
     private String decontent;
+    private String title;
 
     public String getCid() {
         return cid;
@@ -20,5 +21,9 @@ public class MyContent {
 
     public String getDecontent() {
         return decontent;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

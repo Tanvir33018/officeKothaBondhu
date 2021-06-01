@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLayout">
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/vector_message"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -15,7 +17,8 @@
         android:id="@+id/recyclerViewSelectedFragment"
         android:layout_above="@id/buttonLinearLayoutSelected"
         android:layout_marginBottom="5dp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:outlineSpotShadowColor="@color/red"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +27,7 @@
         android:weightSum="2"
         android:id="@+id/buttonLinearLayoutSelected"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="55dp">
 
         <Button
             android:id="@+id/buttonBackSelectedFragment"
@@ -32,22 +35,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/c_button"
-            android:text="@string/back_bangla"
+            android:text="@string/posondr_bisoy"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginLeft="35dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/solaiman_lipi"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:padding="10dp"
+            />
 
         <Button
             android:id="@+id/buttonDrutoKothaBolunSelectedFragment"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/c_button"
+            android:drawableLeft="@drawable/phone"
+            android:fontFamily="@font/solaiman_lipi"
+            android:paddingRight="35dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="35dp"
             android:text="@string/druto_kotha_bolun"
             android:textColor="@color/white"
-            android:layout_marginEnd="10dp"
-            android:textStyle="bold" />
+            android:textSize="16sp"
+
+            />
+
 
     </LinearLayout>
 
