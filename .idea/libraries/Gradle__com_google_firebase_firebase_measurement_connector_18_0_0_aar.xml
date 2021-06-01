@@ -4,6 +4,9 @@
       <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/7f7f541beb37cb0dba750894066e7ffb/jetified-firebase-measurement-connector-18.0.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/7f7f541beb37cb0dba750894066e7ffb/jetified-firebase-measurement-connector-18.0.0/res" />
       <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/7f7f541beb37cb0dba750894066e7ffb/jetified-firebase-measurement-connector-18.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7f7f541beb37cb0dba750894066e7ffb/jetified-firebase-measurement-connector-18.0.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7f7f541beb37cb0dba750894066e7ffb/jetified-firebase-measurement-connector-18.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7f7f541beb37cb0dba750894066e7ffb/jetified-firebase-measurement-connector-18.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
