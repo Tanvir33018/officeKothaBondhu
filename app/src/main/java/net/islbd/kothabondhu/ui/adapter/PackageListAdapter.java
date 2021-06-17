@@ -57,8 +57,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
     public String packageId, packageIdentifier, packageDetails, packageDuration, packageMedia;
     private Fragment fragment;
     private int selected_position = 0;
-    private PackageStatusQuery packageStatusQuery;
-    public String packageDetail = "20 min / 40 TK";
+    public String packageDetail;
 
 
 
@@ -82,8 +81,9 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
     @Override
     public void onBindViewHolder(final PackageListAdapter.ViewHolder holder, int position) {
 
-        if(position == selected_position) holder.setPackageTextColorToGreen();
-        else holder.setPackageTextColorToBlack();
+        //change 6/14/2021
+        /*if(position == selected_position) holder.setPackageTextColorToGreen();
+        else holder.setPackageTextColorToBlack();*/
 
         //holder.packageNameTextView.setText(packageIdentifier);
         holder.packageNameTextView.setText(packageList.get(position).getPackageDetails());
@@ -94,11 +94,12 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
                 selected_position = position;
                 notifyDataSetChanged();
                 loadPackageDetails(position);
-                ((PackageListFragment)fragment).setPackageTextAcToAmount(packageList.get(position).getPackageDetails());
+               // ((PackageListFragment)fragment).setPackageTextAcToAmount(packageList.get(position).getPackageDetails());
                 packageDetail = packageList.get(position).getPackageDetails();
                 Log.d("TAG", "onClick: Check Values ");
                 ((PackageListFragment) fragment).customerAmount(packageDetail);
-
+                ((PackageListFragment)fragment).eventListener();
+                ((PackageListFragment)fragment).mDialog.showDialog();
             }
         });
     }
@@ -111,7 +112,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
             return;
         }
 
-        packageStatusQuery = new PackageStatusQuery();
+        PackageStatusQuery packageStatusQuery = new PackageStatusQuery();
         packageStatusQuery.setEndUserRegId(endUserRegId);
         packageStatusInfoCall = apiInteractor.getPackageStatus(packageStatusQuery);
         packageStatusInfoCall.enqueue(new Callback<PackageStatusInfo>() {
@@ -164,7 +165,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
         }
 
         private void initializeWidgets(View itemView) {
-            packageNameTextView = itemView.findViewById(R.id.package_details_textView);
+            packageNameTextView = itemView.findViewById(R.id.package_buy_textView);
             packageListRelativeLayout = itemView.findViewById(R.id.package_item_relativeLayout);
         }
 
@@ -172,9 +173,10 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
             packageNameTextView.setTextColor(context.getResources().getColor(R.color.green_500));
         }
 
-        private void setPackageTextColorToBlack(){
+        //change 6/14/2021
+        /*private void setPackageTextColorToBlack(){
             packageNameTextView.setTextColor(context.getResources().getColor(R.color.black));
-        }
+        }*/
     }
 
     private void moveToPurchase(String packageId, String packageIdentifier, String packageMedia, String packageDuration, String packageDetails) {

@@ -25,6 +25,7 @@ import net.islbd.kothabondhu.document.docfragment.WelcomeFragment;
 import net.islbd.kothabondhu.ui.activity.HomeTabActivity;
 import net.islbd.kothabondhu.ui.activity.MyAccountActivity;
 import net.islbd.kothabondhu.ui.activity.PackagesActivity;
+import net.islbd.kothabondhu.ui.fragment.PackageListFragment;
 import net.islbd.kothabondhu.utility.MySharedPreferences;
 
 import java.lang.reflect.Type;
@@ -54,12 +55,15 @@ public class DocumentActivity extends AppCompatActivity implements BottomNavigat
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-       //if(flag == true)bottomNavigationView.setVisibility(View.VISIBLE);
 
         selectionSharedPref = getSharedPreferences("SharedPref", MODE_PRIVATE);
         if(getIntent().getIntExtra("from_home_tab",-1) == 1){
             bottomNavigationView.setSelectedItemId(bottom_category);
             loadSelectionFragment();
+        }
+        else if(getIntent().getIntExtra("from_home_tab3",-1) == 3){
+            bottomNavigationView.setSelectedItemId(bottom_package);
+            loadPackageFrangment();
         }
         else if(getIntent().getIntExtra("from_home_tab_home", -2) == 2) {
             bottomNavigationView.setSelectedItemId(bottom_home);
@@ -131,6 +135,13 @@ public class DocumentActivity extends AppCompatActivity implements BottomNavigat
                 .commit();
     }
 
+    private void loadPackageFrangment(){
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out)
+                .replace(R.id.fragmentContainerDocument, new PackageListFragment())
+                .commit();
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -143,8 +154,9 @@ public class DocumentActivity extends AppCompatActivity implements BottomNavigat
             Intent intent = new Intent(this, MyAccountActivity.class);
             startActivity(intent);
         }else if(id==bottom_package){
-            Intent intent = new Intent(this, PackagesActivity.class);
-            startActivity(intent);
+            /*Intent intent = new Intent(this, PackagesActivity.class);
+            startActivity(intent);*/
+            loadPackageFrangment();
         }
         else if(id==bottom_category){
             loadSelectionFragment();

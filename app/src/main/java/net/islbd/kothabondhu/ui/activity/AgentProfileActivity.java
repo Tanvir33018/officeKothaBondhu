@@ -151,11 +151,6 @@ public class AgentProfileActivity extends BaseActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 sharedPref.edit().putInt(SharedPrefUtils._TO_USER_PHONE, Integer.valueOf(id)).apply();
                 dbInteractor.markCall(id, name, 0);
-                /*Intent intent = new Intent(context, CallActivity.class);
-                context.startActivity(intent);*/
-                //Toast.makeText(context, String.valueOf(selectedPackageIndex), Toast.LENGTH_SHORT).show();
-                /*Intent intent = new Intent(context, SinchCallActivity.class);
-                intent.putExtra(SinchCallActivity.EXTRA_RECIPIENT_ID, id);*/
                 onPackageSelection(id, name, url);
             }
         });
@@ -172,13 +167,6 @@ public class AgentProfileActivity extends BaseActivity {
     }
 
     private void onPackageSelection(String callId, String name, String url) {
-        /*Call call = getSinchServiceInterface().callUser(callId);
-
-        Intent intent = new Intent(context, CallOnGoingActivity.class);
-        intent.putExtra(SinchService.CALL_ID, call.getCallId());
-        intent.putExtra(GlobalConstants.EXT_TAG_URL, url);
-        startActivity(intent);*/
-
         String endUserRegId = sharedPref.getString(SharedPrefUtils._PACKAGE_IDENTIFIER, "");
         final String fCallId = callId;
         final String fImageUrl = url;

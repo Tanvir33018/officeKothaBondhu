@@ -29,6 +29,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -65,6 +67,7 @@ import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.service.SinchService;
 import net.islbd.kothabondhu.ui.fragment.AgentListFragment;
+import net.islbd.kothabondhu.ui.fragment.PackageListFragment;
 import net.islbd.kothabondhu.utility.GlobalConstants;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
@@ -111,25 +114,23 @@ public class HomeTabActivity extends BaseActivity implements
 
     private void initializeWidgets() {
         toolbar = findViewById(R.id.toolbar);
-        //mViewPager = findViewById(R.id.container);
-        //tabLayout = findViewById(R.id.tabs);
 
     }
 
     private void initializeData() {
-        setSupportActionBar(toolbar);
+       // setSupportActionBar(toolbar);
 
         context = this;
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+*/
+        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -328,6 +329,7 @@ public class HomeTabActivity extends BaseActivity implements
             intent = new Intent(this, SettingsActivity.class);
         } else if (id == R.id.subscription_package || id == R.id.bottom_package) {
             intent = new Intent(this, PackagesActivity.class);
+            /*fragment = new PackageListFragment();*/
         } else if(id == R.id.about){
             intent = new Intent(this, AboutActivity.class);
         }
@@ -367,49 +369,4 @@ public class HomeTabActivity extends BaseActivity implements
         }
     }
 
-
-   /* @Override
-    public void tokenRegistered() {
-        if (!getSinchServiceInterface().isStarted()) {
-            getSinchServiceInterface().setUsername(mUserId);
-            getSinchServiceInterface().startClient();
-        }
-        Toast.makeText(context, "Token Registered! HTA", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void tokenRegistrationFailed(SinchError sinchError) {
-        Toast.makeText(context, "Token Reistration Failed HTA", Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void onCredentialsRequired(ClientRegistration clientRegistration) {
-
-        String toSign = mUserId + APPLICATION_KEY + mSigningSequence + APPLICATION_SECRET;
-        String signature;
-        MessageDigest messageDigest;
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-1");
-            byte[] hash = messageDigest.digest(toSign.getBytes("UTF-8"));
-            signature = Base64.encodeToString(hash, Base64.DEFAULT).trim();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-
-        clientRegistration.register(signature, mSigningSequence++);
-        Toast.makeText(context, "Credentials", Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void onUserRegistered() {
-
-        Toast.makeText(context, "User Registered!", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onUserRegistrationFailed(SinchError sinchError) {
-
-    }*/
 }

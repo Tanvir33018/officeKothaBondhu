@@ -10,8 +10,8 @@
     android:paddingTop="@dimen/activity_horizontal_margin"
     android:gravity="bottom"
     android:orientation="vertical"
-
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    >
+    <!--android:theme="@style/ThemeOverlay.AppCompat.Dark"-->
 
     <ImageView
         android:id="@+id/imageView"

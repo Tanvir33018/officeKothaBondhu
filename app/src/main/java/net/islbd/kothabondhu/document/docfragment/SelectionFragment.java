@@ -222,15 +222,6 @@ public class SelectionFragment extends Fragment {
                 .commit();
     }
 
-    /// ------ Shared Preferences--------
-    /*public void saveOnSharedPreference(){
-        Gson gson = new Gson();
-        String jSon = gson.toJson(DocumentActivity.selection);
-        SharedPreferences sharedPreferences = new AppPresenter().getSharedPrefInterface(getActivity());
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Selection Array", jSon);
-        editor.apply();
-    }*/
 
     private void loadAccountFragment(){
         getActivity().getSupportFragmentManager().beginTransaction()

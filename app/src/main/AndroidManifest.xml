@@ -49,8 +49,7 @@
         <activity android:name=".ui.activity.LoginActivity" />
         <activity
             android:name=".ui.activity.HomeTabActivity"
-            android:label="@string/title_activity_home_tabbed"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.Customlayout">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />

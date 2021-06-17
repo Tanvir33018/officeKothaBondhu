@@ -49,6 +49,7 @@ import net.islbd.kothabondhu.presenter.IDbInteractor;
 import net.islbd.kothabondhu.ui.activity.PaymentMethodActivity;
 import net.islbd.kothabondhu.ui.adapter.PackageListAdapter;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
+import net.islbd.kothabondhu.utility.ProgressDialogBox;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,6 +69,7 @@ public class PackageListFragment extends Fragment {
     private Button buttonContinue;
     private PaymentMethodActivity paymentMethodActivity;
     private UserGmailInfo userGmailInfo;
+    public ProgressDialogBox mDialog;
 
 
     // ****Aamarpay varriable****
@@ -76,13 +78,13 @@ public class PackageListFragment extends Fragment {
     private Button payNow;
     private DialogBuilder dialogBuilder;
     private String trxID, trxAmount = "40", trxCurrency, customerName, customerEmail, customerPhone, customerAddress, customerCity,
-                   customerCountry, paymentDescription = "20 min / 40 TK";
+                   customerCountry, paymentDescription = "FORTY_TAKA";
 
 
-    private static final String FORTY_TAKA = "20 min / 40 TK";
-    private static final String HUNDRED_TAKA = "50 min / 100 TK";
-    private static final String HUNDRED_AND_NINTY_TAKA = "100 min / 190 TK";
-    private static final String THREE_HUNDRED_AND_EIGHTY_TAKA = "200 min / 380 TK";
+    private static final String FORTY_TAKA = "২০ মিনিট / ৪০ টাকা";
+    private static final String HUNDRED_TAKA = "৫০ মিনিট / ১০০ টাকা";
+    private static final String HUNDRED_AND_NINTY_TAKA = "১০০ মিনিট / ১৯০ টাকা";
+    private static final String THREE_HUNDRED_AND_EIGHTY_TAKA = "২০০ মিনিট / ৩৮০ টাকা";
 
 
 
@@ -94,7 +96,7 @@ public class PackageListFragment extends Fragment {
         initializeWidgets(view);
         initializeData();
         requiredFieldInit();
-        eventListener();
+        //eventListener();
         return view;
     }
 
@@ -106,13 +108,13 @@ public class PackageListFragment extends Fragment {
 
     private ContinueWork continueWork;
 
-    private void eventListener(){
+    public void eventListener(){
 
 
-        buttonContinue.setOnClickListener(new View.OnClickListener() {
+        /*buttonContinue.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {*/
                // dialogBuilder.showLoading();
 
                 Log.d("TAG", "onClick: ");
@@ -131,6 +133,7 @@ public class PackageListFragment extends Fragment {
                         // You will get the response, if payment gateway initialization is failed.
                         Log.d("TEST_IF", message);
                         Toast.makeText(context, "Initialization Failed!", Toast.LENGTH_SHORT).show();
+                        mDialog.dismissDialog();
 
 
                     }
@@ -147,6 +150,7 @@ public class PackageListFragment extends Fragment {
                             @Override
                             public void onResponse(Call<AamarPayPostInfo> call, Response<AamarPayPostInfo> response) {
                                 Log.d("TAG", "onResponse: " +response);
+                                mDialog.dismissDialog();
                             }
 
                             @Override
@@ -219,6 +223,7 @@ public class PackageListFragment extends Fragment {
                                 public void onSuccess(JSONObject jsonObject) {
                                     Log.d("TEST_", jsonObject.toString());
                                     Toast.makeText(context, "Payment Canceled", Toast.LENGTH_SHORT).show();
+                                    mDialog.dismissDialog();
 
                                 }
 
@@ -230,8 +235,8 @@ public class PackageListFragment extends Fragment {
                         } catch (JSONException e) { e.printStackTrace(); }
                     }
                 });
-            }
-        });
+            //}
+       // });
     }
 
 
@@ -317,11 +322,12 @@ public class PackageListFragment extends Fragment {
         packageListRecyclerView = view.findViewById(R.id.package_list_recyclerView);
         textViewAll = view.findViewById(R.id.textViewAllPackageList);
         textViewTitle = view.findViewById(R.id.textViewTitlePackageList);
-        buttonContinue = view.findViewById(R.id.buttonContinuePackageList);
+        //buttonContinue = view.findViewById(R.id.buttonContinuePackageList);
     }
 
     private void initializeData() {
         context = this.getContext();
+        mDialog = new ProgressDialogBox(context);
         AppPresenter appPresenter = new AppPresenter();
         dbInteractor = appPresenter.getDbInterface(context);
         apiInteractor = appPresenter.getApiInterface();

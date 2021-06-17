@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.DocumentActivity;
 import net.islbd.kothabondhu.ui.fragment.MyAccountFragment;
+import net.islbd.kothabondhu.utility.ProgressDialogBox;
 
 import org.webrtc.EglBase;
 
@@ -25,11 +26,13 @@ import static net.islbd.kothabondhu.R.id.bottom_my_account;
 public class MyAccountActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private BottomNavigationView bottomNavigationView;
     private Context context;
+    public static ProgressDialogBox mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
+        context = MyAccountActivity.this;
         initializeWidgets();
         initializeData();
         eventListeners();
@@ -38,6 +41,8 @@ public class MyAccountActivity extends AppCompatActivity implements BottomNaviga
     private void initializeWidgets() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("My Account");
+        mDialog = new ProgressDialogBox(context);
+        mDialog.showDialog();
         Fragment fragment = new MyAccountFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.my_account_constraint_layout, fragment).commit();
     }

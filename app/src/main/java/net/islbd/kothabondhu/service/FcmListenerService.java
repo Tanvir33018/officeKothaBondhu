@@ -90,7 +90,7 @@ public class FcmListenerService extends FirebaseMessagingService {
     private void createNotificationChannel(int importance) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        Toast.makeText(this, "Fcm", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Fcm", Toast.LENGTH_SHORT).show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Sinch";
             String description = "Incoming Sinch Push Notifications.";

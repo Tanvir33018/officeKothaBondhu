@@ -392,7 +392,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
         @Override
         public void onShouldSendPushNotification(Call call, List<PushPair> pushPairs) {
-            // Send a push through your push provider here, e.g. GCM
+
         }
     }
 
@@ -423,8 +423,6 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
                             Toast.makeText(getApplicationContext(), "YOU DO NOT HAVE SUFFICIENT BALANCE!", Toast.LENGTH_LONG).show();
                             MyVariableStore.balance_empty = false;
                         }
-                        //else Toast.makeText(CallOnGoingActivity.this, statusInfo.getDescrption(), Toast.LENGTH_LONG).show();
-
                     }
                 }
             }

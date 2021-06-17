@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
+        android:textSize="13sp"
         android:text="Catagory"
         android:layout_marginTop="5dp"
         android:layout_marginRight="3dp"
@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:text="This Title"
         android:textColor="@color/white"
         android:fontFamily="@font/borson_rrr_ansi_v2"
@@ -47,6 +47,7 @@
         android:padding="10dp"
         android:paddingTop="5dp"
         android:layout_marginTop="20dp"
+        android:textSize="13sp"
         android:textColor="@color/white"
         android:fontFamily="@font/borson_rrr_ansi_v1"
         android:layout_below="@id/newMessageTitle"

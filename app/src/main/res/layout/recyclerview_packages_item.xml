@@ -4,32 +4,27 @@
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:id="@+id/package_item_relativeLayout">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:cardCornerRadius="3dp"
+        android:outlineSpotShadowColor="@color/black"
         android:elevation="40dp"
         app:cardElevation="40dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center">
-
             <TextView
-                android:id="@+id/package_details_textView"
+                android:id="@+id/package_buy_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="PACKAGE"
-
-                android:textStyle="bold" />
-        </LinearLayout>
-
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:background="@drawable/text_view_button"
+                android:text="@string/packageText" />
 
     </androidx.cardview.widget.CardView>
 

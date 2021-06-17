@@ -85,10 +85,8 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         private final TextView catagory, title;
-        //private final ExpandableTextView  body;
         private final TextView body;
         public RelativeLayout parent;
-        //public Context context;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,7 +94,6 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
             body = itemView.findViewById(R.id.messageBody);
             title = itemView.findViewById(R.id.messageTitle);
             parent = itemView.findViewById(R.id.parentLayout2);
-           // view = itemView.findViewById(R.id.messageListView);
         }
         private void loadContentToViewHolder(int position){
             String cat_name = myContentArrayList.get(position).getCat_name();
@@ -105,9 +102,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
 
 
             catagory.setText(cat_name);
-            //catagory.setBackgroundColor(Color.parseColor("#8CF5EA"));
             title.setText(titleString);
-            //title.setBackgroundColor(Color.parseColor("#8CF5EA"));
             body.setText(decontent);
             String getName = myContentArrayList.get(position).getCat_name();
             String getTitle = myContentArrayList.get(position).getTitle();
@@ -120,8 +115,6 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.MyView
                     bundle.putString("Content",myContentArrayList.get(position).getDecontent());
                     NewSelectedItem newSelectedItem = new NewSelectedItem();
                     newSelectedItem.setArguments(bundle);
-
-                    //Toast.makeText( context,"Title is"+myContentArrayList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
                     ((DocumentActivity)context).getSupportFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out)
                             .replace(R.id.fragmentContainerDocument, newSelectedItem)

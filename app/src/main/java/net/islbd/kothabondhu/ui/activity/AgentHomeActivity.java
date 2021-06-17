@@ -54,7 +54,6 @@ public class AgentHomeActivity extends BaseActivity {
     private TextView agentNameTextView, locationTextView, ageTextView, sexTextView;
     private CircularImageView photoImageView;
     private ProgressBar agentPhotoProgressBar;
-    //private IApiInteractor apiInteractor;
     private SharedPreferences sharedPref;
     private DatabaseReference databaseReference;
     private long mSigningSequence = 1;
@@ -65,8 +64,6 @@ public class AgentHomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_home);
-
-        //databaseReference = FirebaseDatabase.getInstance().getReference();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -76,11 +73,11 @@ public class AgentHomeActivity extends BaseActivity {
         if (!hasPermission(context)) {
             ActivityCompat.requestPermissions(AgentHomeActivity.this,
                     new String[]{
-                            Manifest.permission.READ_SMS,
                             Manifest.permission.RECORD_AUDIO,
-                            Manifest.permission.READ_PHONE_STATE,
                             Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.CALL_PHONE
                     },
                     REQUEST_CODE_PERMISSION);
         }else {
@@ -91,13 +88,7 @@ public class AgentHomeActivity extends BaseActivity {
 
     }
 
-    /*public String getId(){
-        return id;
-    }
 
-    public void setId(String id){
-        this.id = id;
-    }*/
 
     @Override
     protected void onResume() {
@@ -134,12 +125,6 @@ public class AgentHomeActivity extends BaseActivity {
 
     }
 
-    /*private void deviceTokenPush() {
-        String refreshToken= FirebaseInstanceId.getInstance().getToken();
-        Token token= new Token(refreshToken)
-        databaseReference.child(id).setValue(token);
-        Toast.makeText(context, "Token Pushed", Toast.LENGTH_SHORT).show();
-    }*/
 
     private void displayData() {
         loadImage(photoUrl, photoImageView, agentPhotoProgressBar);
@@ -214,7 +199,4 @@ public class AgentHomeActivity extends BaseActivity {
 
         displayData();
     }
-
-
-
 }

@@ -44,8 +44,7 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
                         | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
                         | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-        /*getApplicationContext().bindService(new Intent(this, SinchService.class), this,
-                BIND_AUTO_CREATE);*/
+
     }
 
     @Override

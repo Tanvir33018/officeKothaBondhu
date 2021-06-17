@@ -50,14 +50,7 @@ public class WelcomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(getUserInfoFromGMail() != null) {
-
                     loadSelectionFragmentNew();
-                    //loadHomeTabActivity();
-                   /* getActivity().getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out)
-                            .replace(R.id.fragmentContainerDocument, new QuestionFragment())
-                            .commit();*/
-
                 }
                 else loadLoginActivity();
             }

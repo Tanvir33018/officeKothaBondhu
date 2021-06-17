@@ -40,11 +40,6 @@ public class SelectedFragment extends Fragment {
     private String modifiedUrl;
     private View view;
 
-    //-----SharedPreferences Variable-----
-    /*public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String TEXT = "text";
-    public static String GET_TEXT = "get_text";
-*/
 
     @Nullable
     @Override
@@ -103,8 +98,8 @@ public class SelectedFragment extends Fragment {
 
 
     private void displayToast(String message){
-       // if(message != null)
-              //Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        if(message != null)
+              Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
     private void init(View view){
         buttonDrutoKothaBolun = view.findViewById(R.id.buttonDrutoKothaBolunSelectedFragment);
@@ -137,7 +132,6 @@ public class SelectedFragment extends Fragment {
     }
     private void loadHomeTabActivity(){
         Intent intent = new Intent(getActivity(), HomeTabActivity.class);
-        //intent.putExtra("from_selected_fragment",1);
         startActivity(intent);
         getActivity().finish();
     }

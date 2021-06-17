@@ -44,9 +44,7 @@ import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
 import retrofit2.Response;
 
-/**
- * Created by wahid.sadique on 9/17/2017.
- */
+
 
 public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.ViewHolder> {
     private Context context;
@@ -79,7 +77,7 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
     public AgentListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_agent_item, parent, false);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        //databaseReference = FirebaseDatabase.getInstance().getReference();
         //apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
 

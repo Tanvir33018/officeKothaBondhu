@@ -37,6 +37,7 @@ import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
+import net.islbd.kothabondhu.ui.activity.MyAccountActivity;
 import net.islbd.kothabondhu.ui.activity.SettingsActivity;
 import net.islbd.kothabondhu.ui.adapter.CallLogListAdapter;
 import net.islbd.kothabondhu.ui.adapter.PackageHistoryListAdapter;
@@ -157,6 +158,7 @@ public class MyAccountFragment extends Fragment {
                     int durationInt = (int)durationDouble;
                     String durationString = String.valueOf(durationInt);
                     timeLeftTextView.setText(time_left + convertTimeFormat(durationString));
+                    MyAccountActivity.mDialog.dismissDialog();
                 }
             }
 
