@@ -2,16 +2,17 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    tools:context=".ui.activity.HomeTabActivity">
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         tools:openDrawer="start">
-        <!--android:fitsSystemWindows="true"-->
 
         <include
             layout="@layout/app_bar_main"
@@ -29,18 +30,6 @@
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:src="@drawable/ic_call"
-        android:contentDescription="@string/home_fab_button"
-        android:layout_above="@+id/bottomNavigationView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp" />-->
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
@@ -51,8 +40,5 @@
         app:itemIconTint="@color/button_color_bottom_nav"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />
-
-
-
 </RelativeLayout>
 

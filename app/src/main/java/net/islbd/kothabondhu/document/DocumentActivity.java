@@ -129,10 +129,7 @@ public class DocumentActivity extends AppCompatActivity implements BottomNavigat
     }
     private void loadSelectedFragment(){
 
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out)
-                .replace(R.id.fragmentContainerDocument, new SelectedFragment())
-                .commit();
+
     }
 
     private void loadPackageFrangment(){

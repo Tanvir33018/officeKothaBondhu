@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/general_padding"
         app:cardBackgroundColor="@color/white"
-        card_view:cardElevation="5dp">
+        card_view:cardElevation="10dp"
+        android:layout_marginTop="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -31,6 +32,7 @@
                 android:paddingLeft="@dimen/margin4"
                 android:paddingStart="@dimen/margin4"
                 android:paddingTop="@dimen/margin2"
+                android:textColor="@color/black"
                 android:textSize="12dp"
                 android:text="12/12/19" />
 
@@ -48,7 +50,7 @@
                 android:paddingBottom="@dimen/margin2"
                 android:paddingTop="@dimen/margin2"
                 android:textSize="12dp"
-                android:textColor="@color/black_overlay" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/call_log_item_duration_textView"
@@ -64,6 +66,7 @@
                 android:paddingStart="@dimen/margin4"
                 android:paddingTop="@dimen/margin2"
                 android:textSize="12dp"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:text="00:00:00" />
 

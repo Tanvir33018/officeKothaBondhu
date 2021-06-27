@@ -7,17 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.HomeTabActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <!--<com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!--android:theme="@style/AppTheme.AppBarOverlay"-->
+        &lt;!&ndash;android:theme="@style/AppTheme.AppBarOverlay"&ndash;&gt;
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary">
-            <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
+            &lt;!&ndash;app:popupTheme="@style/AppTheme.PopupOverlay"&ndash;&gt;
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -34,7 +34,7 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
-
+-->
     <include layout="@layout/content_main" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

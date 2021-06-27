@@ -29,7 +29,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".document.DocumentActivity" /> <!-- android:theme="@style/FullScreen" -->
+        <activity android:name=".document.DocumentActivity" />
         <activity
             android:name=".ui.activity.AboutActivity"
             android:theme="@style/AppThemeSecond" />
@@ -48,11 +48,10 @@
         </activity>
         <activity android:name=".ui.activity.LoginActivity" />
         <activity
-            android:name=".ui.activity.HomeTabActivity"
-            android:theme="@style/AppTheme.Customlayout">
-            <meta-data
+            android:name=".ui.activity.HomeTabActivity">
+            <!--<meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable" />-->
         </activity>
         <activity android:name=".ui.activity.NewsActivity" />
         <activity android:name=".ui.activity.RegistrationActivity" />

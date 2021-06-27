@@ -13,10 +13,10 @@
     </style>
 
     <style name="AppTheme.Customlayout">
-        <item name="windowNoTitle">true</item>
+        <!--<item name="windowNoTitle">true</item>-->
         <item name="android:windowFullscreen">false</item>
-        <item name="statusBarForeground">@color/teal_400
-        </item>
+
+
     </style>
 
     <style name="AppTheme.NoActionBar">
