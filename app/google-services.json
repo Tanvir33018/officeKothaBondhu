@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "348346489836",
-    "firebase_url": "https://officekothabondhu-default-rtdb.firebaseio.com",
-    "project_id": "officekothabondhu",
-    "storage_bucket": "officekothabondhu.appspot.com"
+    "project_number": "967485800890",
+    "project_id": "kothabondhu-d433a",
+    "storage_bucket": "kothabondhu-d433a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:348346489836:android:946b21e5f579c70a05bec9",
+        "mobilesdk_app_id": "1:967485800890:android:224dc5cc16cd7b5ed71d83",
         "android_client_info": {
           "package_name": "net.islbd.kothabondhu"
         }
       },
       "oauth_client": [
         {
-          "client_id": "348346489836-cm3fk6ohk0aj4rcsadqmgjaiml29adj7.apps.googleusercontent.com",
+          "client_id": "967485800890-04hhe4o3rcv0oqu6a0nm8nck00f10s72.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAkBcUcOpBGs9Cj5MofAGOBtaJvR1dbeKQ"
+          "current_key": "AIzaSyC9xaLmARXw7Lfx209CaPtdsuV-y5hfOuk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "348346489836-cm3fk6ohk0aj4rcsadqmgjaiml29adj7.apps.googleusercontent.com",
+              "client_id": "967485800890-04hhe4o3rcv0oqu6a0nm8nck00f10s72.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

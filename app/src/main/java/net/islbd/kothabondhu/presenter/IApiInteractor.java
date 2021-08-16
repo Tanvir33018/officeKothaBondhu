@@ -7,6 +7,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import net.islbd.kothabondhu.model.pojo.AamarPayPostInfo;
 import net.islbd.kothabondhu.model.pojo.Agent;
@@ -19,6 +20,7 @@ import net.islbd.kothabondhu.model.pojo.Communication;
 import net.islbd.kothabondhu.model.pojo.CommunicationDetails;
 import net.islbd.kothabondhu.model.pojo.CommunicationStatus;
 import net.islbd.kothabondhu.model.pojo.MyDuration;
+import net.islbd.kothabondhu.model.pojo.NagadResponse;
 import net.islbd.kothabondhu.model.pojo.PackageInfo;
 import net.islbd.kothabondhu.model.pojo.PackageInfoQuery;
 import net.islbd.kothabondhu.model.pojo.PackageStatusInfo;
@@ -40,6 +42,9 @@ import net.islbd.kothabondhu.model.pojo.UserStatusDetails;
 public interface IApiInteractor {
     @GET("api/agent.php")
     Call<List<Agent>> getAgentList();
+
+    @GET("api/getNP_Status.php?user_orderid=&user_amount=")
+    Call<NagadResponse> getNagadResponse(@Query("user_orderid") String id, @Query("user_amount")String tk);
 
     @POST("api/getDuration.php")
     Call<MyDuration> getMyDuration(@Body UserDuration userDuration);

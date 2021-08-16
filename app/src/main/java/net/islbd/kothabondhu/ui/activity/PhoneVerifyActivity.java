@@ -62,10 +62,7 @@ import static net.islbd.kothabondhu.service.SinchService.APPLICATION_HOST;
 import static net.islbd.kothabondhu.service.SinchService.APPLICATION_KEY;
 import static net.islbd.kothabondhu.service.SinchService.APPLICATION_SECRET;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
+
 public class PhoneVerifyActivity extends BaseActivity implements
         SinchService.StartFailedListener,
         PushTokenRegistrationCallback,
@@ -407,12 +404,12 @@ public class PhoneVerifyActivity extends BaseActivity implements
         }
 
         clientRegistration.register(signature, mSigningSequence++);
-        //Toast.makeText(context, "Credentials", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Credentials", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onUserRegistered() {
-        //Toast.makeText(context, "User Registered!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "User Registered!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

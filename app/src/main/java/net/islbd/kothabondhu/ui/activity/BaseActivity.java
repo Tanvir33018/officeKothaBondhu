@@ -30,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
  */
 
 public class BaseActivity extends AppCompatActivity implements ServiceConnection {
-
     private SinchService.SinchServiceInterface mSinchServiceInterface;
 
     @Override
@@ -89,7 +88,7 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
     });
 
 
-    /*public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+   /* public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         boolean granted = grantResults.length > 0;
         for (int grantResult : grantResults) {
             granted &= grantResult == PackageManager.PERMISSION_GRANTED;
@@ -105,10 +104,10 @@ public class BaseActivity extends AppCompatActivity implements ServiceConnection
     public boolean hasPermission(Context context) {
         return
                 ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED ;
+                        ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED ;
     }
 
     public void reload(@NotNull Activity activity) {

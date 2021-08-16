@@ -21,11 +21,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
+/*import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.ValueEventListener;*/
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -55,7 +55,7 @@ public class AgentListAdapter extends RecyclerView.Adapter<AgentListAdapter.View
     private IPackageSelectListener packageSelectListener;
     private Activity activity;
     //private APIService apiService;
-    private DatabaseReference databaseReference;
+ /*   private DatabaseReference databaseReference;*/
     private final Handler handler = new Handler();
 
     public static final String PHOTO_URL_TAG = "_PHOTO";

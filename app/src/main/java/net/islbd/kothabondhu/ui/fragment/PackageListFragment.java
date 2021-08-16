@@ -1,8 +1,11 @@
 package net.islbd.kothabondhu.ui.fragment;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -35,9 +38,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.model.pojo.AamarPayPostInfo;
+import net.islbd.kothabondhu.model.pojo.NagadResponse;
 import net.islbd.kothabondhu.model.pojo.PackageInfo;
 import net.islbd.kothabondhu.model.pojo.PackageInfoQuery;
 import net.islbd.kothabondhu.model.pojo.UserAccountInfo;
@@ -46,6 +51,7 @@ import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.presenter.IDbInteractor;
+import net.islbd.kothabondhu.ui.activity.PackagesActivity;
 import net.islbd.kothabondhu.ui.activity.PaymentMethodActivity;
 import net.islbd.kothabondhu.ui.adapter.PackageListAdapter;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
@@ -70,6 +76,9 @@ public class PackageListFragment extends Fragment {
     private PaymentMethodActivity paymentMethodActivity;
     private UserGmailInfo userGmailInfo;
     public ProgressDialogBox mDialog;
+    public static boolean mNagad = false, mOthers = false;
+    public Dialog mPaymentMethodDialog;
+    public String packageDetail;
 
 
     // ****Aamarpay varriable****
@@ -96,17 +105,53 @@ public class PackageListFragment extends Fragment {
         initializeWidgets(view);
         initializeData();
         requiredFieldInit();
+        if(PackagesActivity.nagadFlag){
+            mDialog.showDialog();
+            getNagadResponse();
+        }
         //eventListener();
+        Log.d("TAG", "onCreateView: ");
         return view;
     }
-
-
-
     public interface ContinueWork{
         void loadMoveToPurchase();
     }
 
     private ContinueWork continueWork;
+
+
+    private void getNagadResponse() {
+        apiInteractor.getNagadResponse(PackagesActivity.mOrderId, "10").enqueue(new Callback<NagadResponse>() {
+            @Override
+            public void onResponse(Call<NagadResponse> call, Response<NagadResponse> response) {
+                if(response.isSuccessful()){
+                    PackagesActivity.nagadFlag = false;
+                    if(response.body().getStatus().equals("Faild")){
+                        Toast.makeText(context, "Payment Not Complete!", Toast.LENGTH_SHORT).show();
+                        mDialog.dismissDialog();
+
+                    }else if(response.body().getStatus().equals("Success")){
+                        continueWork.loadMoveToPurchase();
+                        mDialog.dismissDialog();
+                    }
+
+                }else{
+                    Toast.makeText(context, "Network Error PLF!", Toast.LENGTH_SHORT).show();
+                    mDialog.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NagadResponse> call, Throwable t) {
+                Toast.makeText(context, "Network Error PLF!", Toast.LENGTH_SHORT).show();
+                mDialog.dismissDialog();
+
+            }
+        });
+    }
+
+
+
 
     public void eventListener(){
 
@@ -235,8 +280,6 @@ public class PackageListFragment extends Fragment {
                         } catch (JSONException e) { e.printStackTrace(); }
                     }
                 });
-            //}
-       // });
     }
 
 
@@ -260,6 +303,7 @@ public class PackageListFragment extends Fragment {
                 break;
         }
         trxAmount =  amount;
+        PackagesActivity.mAmount = amount;
     }
 
 
@@ -328,6 +372,8 @@ public class PackageListFragment extends Fragment {
     private void initializeData() {
         context = this.getContext();
         mDialog = new ProgressDialogBox(context);
+        mPaymentMethodDialog = new Dialog(getActivity());
+        mPaymentMethodDialog.setContentView(R.layout.payment_method_dialog);
         AppPresenter appPresenter = new AppPresenter();
         dbInteractor = appPresenter.getDbInterface(context);
         apiInteractor = appPresenter.getApiInterface();
@@ -335,6 +381,48 @@ public class PackageListFragment extends Fragment {
         aamarPayPostInfo = new AamarPayPostInfo();
         gson = new GsonBuilder().create();
         createList();
+    }
+
+    public void showPaymentMethods(){
+        Log.d("TAG", "showPaymentMethods: ");
+        mPaymentMethodDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mPaymentMethodDialog.show();
+        mPaymentMethodDialog.findViewById(R.id.nagadLayout).setOnClickListener(v -> {
+            Toast.makeText(context, "Nagad Payment", Toast.LENGTH_SHORT).show();
+            PackagesActivity.flag = true;
+            mPaymentMethodDialog.dismiss();
+            customerAmount(packageDetail);
+            mDialog.showDialog();
+            loadNagadWebView();
+            PackagesActivity.nagadFlag = true;
+
+        });
+        mPaymentMethodDialog.findViewById(R.id.bkashLayout).setOnClickListener(v -> {
+            Toast.makeText(context, "Bkash Payment", Toast.LENGTH_SHORT).show();
+            PackagesActivity.flag = true;
+            mPaymentMethodDialog.dismiss();
+            customerAmount(packageDetail);
+            eventListener();
+            mDialog.showDialog();
+        });
+        mPaymentMethodDialog.findViewById(R.id.cancelButton).setOnClickListener(v -> {
+            mPaymentMethodDialog.dismiss();
+        });
+    }
+
+    private void loadNagadWebView() {
+        generateOrderId();
+        Bundle mBundle = new Bundle();
+        mBundle.putString("mOrderId",PackagesActivity.mOrderId);
+        mBundle.putString("amount","10"); //trxAmount
+        Fragment fragment = new WebViewFragment();
+        fragment.setArguments(mBundle);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerPackage,fragment)
+                .commit();
+        mDialog.dismissDialog();
+
     }
 
     private void createList() {
@@ -368,6 +456,25 @@ public class PackageListFragment extends Fragment {
                 break;
             default: break;
         }
+    }
+
+    private void generateOrderId() {
+        PackagesActivity.mOrderId = "KPAK"+ getAlphaNumericString(14);
+    }
+
+    static String getAlphaNumericString(int n)
+    {
+        String AlphaNumericString =  "0123456789";
+
+        StringBuilder sb = new StringBuilder(n);
+        for (int i = 0; i < n; i++) {
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+        return sb.toString();
     }
 
     private void downloadPackages() {

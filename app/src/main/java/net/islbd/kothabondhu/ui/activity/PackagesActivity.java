@@ -24,6 +24,9 @@ import static net.islbd.kothabondhu.R.id.bottom_package;
 public class PackagesActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavigationView;
+    public static boolean flag = false;
+    public static boolean nagadFlag = false;
+    public static String packageId, packageIdentifier, packageDetails, packageDuration, packageMedia, mOrderId, mAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +38,16 @@ public class PackagesActivity extends AppCompatActivity implements BottomNavigat
     }
 
     private void initializeWidgets() {
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        flag = false;
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Packages");
         Fragment fragment = new PackageListFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.packages_constraint_layout, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerPackage, fragment).commit();
 
     }
 
     private void initializeData() {
+
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -71,6 +75,15 @@ public class PackagesActivity extends AppCompatActivity implements BottomNavigat
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(flag){
+            initializeWidgets();
+            return;
+        }
+        super.onBackPressed();
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

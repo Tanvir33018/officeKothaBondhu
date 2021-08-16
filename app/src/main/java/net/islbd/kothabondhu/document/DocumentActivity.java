@@ -128,7 +128,10 @@ public class DocumentActivity extends AppCompatActivity implements BottomNavigat
                 .commit();
     }
     private void loadSelectedFragment(){
-
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out)
+                .replace(R.id.fragmentContainerDocument, new SelectedFragment())
+                .commit();
 
     }
 
@@ -151,9 +154,9 @@ public class DocumentActivity extends AppCompatActivity implements BottomNavigat
             Intent intent = new Intent(this, MyAccountActivity.class);
             startActivity(intent);
         }else if(id==bottom_package){
-            /*Intent intent = new Intent(this, PackagesActivity.class);
-            startActivity(intent);*/
-            loadPackageFrangment();
+            Intent intent = new Intent(this, PackagesActivity.class);
+            startActivity(intent);
+            //loadPackageFrangment();
         }
         else if(id==bottom_category){
             loadSelectionFragment();

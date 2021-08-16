@@ -31,6 +31,7 @@ import net.islbd.kothabondhu.model.pojo.PackageStatusQuery;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
 import net.islbd.kothabondhu.presenter.IDbInteractor;
+import net.islbd.kothabondhu.ui.activity.PackagesActivity;
 import net.islbd.kothabondhu.ui.activity.PaymentMethodActivity;
 import net.islbd.kothabondhu.ui.fragment.PackageListFragment;
 import net.islbd.kothabondhu.utility.GlobalConstants;
@@ -54,10 +55,10 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
     private SharedPreferences sharedPreferences;
     private Call<PackageStatusInfo> packageStatusInfoCall;
     private IApiInteractor apiInteractor;
-    public String packageId, packageIdentifier, packageDetails, packageDuration, packageMedia;
+    //public String packageId, packageIdentifier, packageDetails, packageDuration, packageMedia;
     private Fragment fragment;
     private int selected_position = 0;
-    public String packageDetail;
+
 
 
 
@@ -95,20 +96,24 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
                 notifyDataSetChanged();
                 loadPackageDetails(position);
                // ((PackageListFragment)fragment).setPackageTextAcToAmount(packageList.get(position).getPackageDetails());
-                packageDetail = packageList.get(position).getPackageDetails();
+                ((PackageListFragment)fragment).packageDetail = packageList.get(position).getPackageDetails();
                 Log.d("TAG", "onClick: Check Values ");
-                ((PackageListFragment) fragment).customerAmount(packageDetail);
+                ((PackageListFragment)fragment).showPaymentMethods();
+                Log.d(TAG, "onClick: ");
+                /*((PackageListFragment) fragment).customerAmount(packageDetail);
                 ((PackageListFragment)fragment).eventListener();
-                ((PackageListFragment)fragment).mDialog.showDialog();
+                ((PackageListFragment)fragment).mDialog.showDialog();*/
             }
         });
+
     }
 
     @Override
     public void loadMoveToPurchase(){
         String endUserRegId = sharedPreferences.getString(SharedPrefUtils._PACKAGE_IDENTIFIER, "");
         if (endUserRegId.isEmpty()) {
-            moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
+            moveToPurchase(PackagesActivity.packageId, PackagesActivity.packageIdentifier, PackagesActivity.packageMedia,
+                    PackagesActivity.packageDuration, PackagesActivity.packageDetails);
             return;
         }
 
@@ -119,7 +124,9 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
             @Override
             public void onResponse(retrofit2.Call<PackageStatusInfo> rCall, Response<PackageStatusInfo> response) {
                 if (response.code() == HttpStatusCodes.OK) {
-                    moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
+                    moveToPurchase(PackagesActivity.packageId, PackagesActivity.packageIdentifier, PackagesActivity.packageMedia,
+                                PackagesActivity.packageDuration, PackagesActivity.packageDetails);
+
                     Toast.makeText(context, "Package purchase successful", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "Server error!", Toast.LENGTH_SHORT).show();
@@ -129,7 +136,8 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
             @Override
             public void onFailure(retrofit2.Call<PackageStatusInfo> rCall, Throwable t) {
                 //Toast.makeText(context, "Package purchase failed, please try again later", Toast.LENGTH_LONG).show();
-                moveToPurchase(packageId, packageIdentifier, packageMedia, packageDuration, packageDetails);
+                moveToPurchase(PackagesActivity.packageId, PackagesActivity.packageIdentifier,
+                        PackagesActivity.packageMedia, PackagesActivity.packageDuration, PackagesActivity.packageDetails);
             }
         });
     }
@@ -148,11 +156,11 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
     }
 
     private void loadPackageDetails(int position){
-        packageId = packageList.get(position).getPkgId();
-        packageIdentifier = packageList.get(position).getPkgid();
-        packageDetails = packageList.get(position).getPackageDetails();
-        packageDuration = packageList.get(position).getPkgDuration();
-        packageMedia = packageList.get(position).getMedia();
+        PackagesActivity.packageId = packageList.get(position).getPkgId();
+        PackagesActivity.packageIdentifier = packageList.get(position).getPkgid();
+        PackagesActivity.packageDetails = packageList.get(position).getPackageDetails();
+        PackagesActivity.packageDuration = packageList.get(position).getPkgDuration();
+        PackagesActivity.packageMedia = packageList.get(position).getMedia();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

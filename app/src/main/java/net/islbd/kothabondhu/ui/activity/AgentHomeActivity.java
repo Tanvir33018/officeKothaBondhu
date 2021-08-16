@@ -20,8 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+/*import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;*/
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.sinch.android.rtc.ClientRegistration;
@@ -55,9 +55,8 @@ public class AgentHomeActivity extends BaseActivity {
     private CircularImageView photoImageView;
     private ProgressBar agentPhotoProgressBar;
     private SharedPreferences sharedPref;
-    private DatabaseReference databaseReference;
+/*    private DatabaseReference databaseReference;*/
     private long mSigningSequence = 1;
-
     private String name, photoUrl, age, location, status, id, displayName, displayLocation, displayAge;
 
     @Override
@@ -163,9 +162,7 @@ public class AgentHomeActivity extends BaseActivity {
         if (requestCode == REQUEST_CODE_PERMISSION) {
             if (hasPermission(context)) {
                 reload(this);
-            } else {
-                finish();
-            }
+            } else { finish(); }
         }
     }
 
