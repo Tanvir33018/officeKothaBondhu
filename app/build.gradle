@@ -16,8 +16,8 @@ android {
         applicationId "net.islbd.kothabondhu"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 12
-        versionName "8.0"
+        versionCode 13
+        versionName "9.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
@@ -80,6 +80,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:21.0.0'
     implementation 'com.google.firebase:firebase-analytics:19.0.0'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.android.gms:play-services-tagmanager:17.0.0'
     /* implementation 'com.google.firebase:firebase-database:19.7.0'*/
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -111,6 +112,7 @@ dependencies {
     implementation'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
     //---- For Expandable Texview--------
     implementation 'com.borjabravo:readmoretextview:2.1.0'
     implementation 'com.ms-square:expandableTextView:0.1.4'
@@ -119,5 +121,5 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'org.jsoup:jsoup:1.11.2'
     implementation 'com.github.aamarpay-dev:aamarPay-Android-Library:1.1'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

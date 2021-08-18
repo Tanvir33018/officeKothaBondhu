@@ -1,5 +1,6 @@
 package net.islbd.kothabondhu.ui.fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.webkit.WebViewClient;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.databinding.FragmentWebViewBinding;
+import net.islbd.kothabondhu.ui.activity.PackagesActivity;
 
 public class WebViewFragment extends Fragment {
 
@@ -40,8 +42,34 @@ public class WebViewFragment extends Fragment {
 
         mBinding = FragmentWebViewBinding.inflate(getLayoutInflater());
         mBinding.webView.getSettings().setJavaScriptEnabled(true);
-        mBinding.webView.setWebViewClient(new WebViewClient());
         mBinding.webView.loadUrl(url);
+        mBinding.webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                //super.onPageFinished(view, url);
+                PackageListFragment.mDialog.dismissDialog();
+                Log.d("TAG", "onPageFinished: "+url);
+                if(url.equals("http://kothabondhu.com/success.html")){
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentContainerPackage,new PackageListFragment())
+                            .commit();
+                }
+                if(url.equals("http://kothabondhu.com/fail.html")){
+                    PackagesActivity.nagadFlag = false;
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentContainerPackage,new PackageListFragment())
+                            .commit();
+                }
+            }
+        });
+
 
         return mBinding.getRoot();
     }

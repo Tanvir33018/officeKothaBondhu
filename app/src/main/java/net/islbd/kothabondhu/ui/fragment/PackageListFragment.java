@@ -75,7 +75,7 @@ public class PackageListFragment extends Fragment {
     private Button buttonContinue;
     private PaymentMethodActivity paymentMethodActivity;
     private UserGmailInfo userGmailInfo;
-    public ProgressDialogBox mDialog;
+    public static ProgressDialogBox mDialog;
     public static boolean mNagad = false, mOthers = false;
     public Dialog mPaymentMethodDialog;
     public String packageDetail;
@@ -121,7 +121,7 @@ public class PackageListFragment extends Fragment {
 
 
     private void getNagadResponse() {
-        apiInteractor.getNagadResponse(PackagesActivity.mOrderId, "10").enqueue(new Callback<NagadResponse>() {
+        apiInteractor.getNagadResponse(PackagesActivity.mOrderId, PackagesActivity.mAmount).enqueue(new Callback<NagadResponse>() {
             @Override
             public void onResponse(Call<NagadResponse> call, Response<NagadResponse> response) {
                 if(response.isSuccessful()){
@@ -388,7 +388,7 @@ public class PackageListFragment extends Fragment {
         mPaymentMethodDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mPaymentMethodDialog.show();
         mPaymentMethodDialog.findViewById(R.id.nagadLayout).setOnClickListener(v -> {
-            Toast.makeText(context, "Nagad Payment", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Nagad Payment", Toast.LENGTH_SHORT).show();
             PackagesActivity.flag = true;
             mPaymentMethodDialog.dismiss();
             customerAmount(packageDetail);
@@ -398,7 +398,7 @@ public class PackageListFragment extends Fragment {
 
         });
         mPaymentMethodDialog.findViewById(R.id.bkashLayout).setOnClickListener(v -> {
-            Toast.makeText(context, "Bkash Payment", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Bkash Payment", Toast.LENGTH_SHORT).show();
             PackagesActivity.flag = true;
             mPaymentMethodDialog.dismiss();
             customerAmount(packageDetail);
@@ -414,14 +414,13 @@ public class PackageListFragment extends Fragment {
         generateOrderId();
         Bundle mBundle = new Bundle();
         mBundle.putString("mOrderId",PackagesActivity.mOrderId);
-        mBundle.putString("amount","10"); //trxAmount
+        mBundle.putString("amount",trxAmount); //trxAmount
         Fragment fragment = new WebViewFragment();
         fragment.setArguments(mBundle);
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerPackage,fragment)
                 .commit();
-        mDialog.dismissDialog();
 
     }
 

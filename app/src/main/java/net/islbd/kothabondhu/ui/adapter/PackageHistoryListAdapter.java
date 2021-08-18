@@ -31,7 +31,7 @@ public class PackageHistoryListAdapter extends RecyclerView.Adapter<PackageHisto
         final String packExpireDate = packageHistoryDetailsList.get(position).getPackExpireDate();
 
         if (packDetails != null) {
-            holder.packageDetailsTextView.setText(packDetails);
+            //holder.packageDetailsTextView.setText(packDetails);
         }
         if (packDuration != null) {
             holder.packageDurationTextView.setText(packDuration +" munites");

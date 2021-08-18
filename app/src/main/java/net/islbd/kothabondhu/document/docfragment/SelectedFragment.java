@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.Api.ApiClient;
@@ -39,6 +40,7 @@ public class SelectedFragment extends Fragment {
     private DocumentAdapter documentAdapter;
     private String modifiedUrl;
     private View view;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Nullable
@@ -109,6 +111,14 @@ public class SelectedFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         documentAdapter = new DocumentAdapter();
         recyclerView.setAdapter(documentAdapter);
+
+        //*** For Google Tag Manager ***
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "kotha_id");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Home Screen");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Category Content");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
     private void eventListeners(){
         buttonBack.setOnClickListener(new View.OnClickListener() {

@@ -27,6 +27,7 @@
                 android:layout_marginEnd="@dimen/margin2"
                 android:layout_marginRight="@dimen/margin2"
                 android:background="@color/blue_100"
+                android:text="N/A"
                 android:maxLines="1"
                 android:gravity="center"
                 android:paddingStart="@dimen/margin4"
