@@ -3,6 +3,7 @@ package net.islbd.kothabondhu.ui.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -45,6 +46,8 @@ import net.islbd.kothabondhu.model.pojo.AamarPayPostInfo;
 import net.islbd.kothabondhu.model.pojo.NagadResponse;
 import net.islbd.kothabondhu.model.pojo.PackageInfo;
 import net.islbd.kothabondhu.model.pojo.PackageInfoQuery;
+import net.islbd.kothabondhu.model.pojo.PackageStatusInfo;
+import net.islbd.kothabondhu.model.pojo.PackageStatusQuery;
 import net.islbd.kothabondhu.model.pojo.UserAccountInfo;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
 import net.islbd.kothabondhu.model.pojo.UserQuery;
@@ -54,8 +57,10 @@ import net.islbd.kothabondhu.presenter.IDbInteractor;
 import net.islbd.kothabondhu.ui.activity.PackagesActivity;
 import net.islbd.kothabondhu.ui.activity.PaymentMethodActivity;
 import net.islbd.kothabondhu.ui.adapter.PackageListAdapter;
+import net.islbd.kothabondhu.utility.GlobalConstants;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.ProgressDialogBox;
+import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,6 +71,7 @@ public class PackageListFragment extends Fragment {
     private IDbInteractor dbInteractor;
     private IApiInteractor apiInteractor;
     private Call<List<PackageInfo>> packageListCall;
+    private Call<PackageStatusInfo> packageStatusInfoCall;
     private Call<AamarPayPostInfo> aamarPayPostInfoCall;
     private AamarPayPostInfo aamarPayPostInfo;
     private Gson gson;
@@ -110,14 +116,13 @@ public class PackageListFragment extends Fragment {
             getNagadResponse();
         }
         //eventListener();
-        Log.d("TAG", "onCreateView: ");
         return view;
     }
-    public interface ContinueWork{
+    /*public interface ContinueWork{
         void loadMoveToPurchase();
     }
 
-    private ContinueWork continueWork;
+    private ContinueWork continueWork;*/
 
 
     private void getNagadResponse() {
@@ -131,7 +136,8 @@ public class PackageListFragment extends Fragment {
                         mDialog.dismissDialog();
 
                     }else if(response.body().getStatus().equals("Success")){
-                        continueWork.loadMoveToPurchase();
+                        //continueWork.loadMoveToPurchase();
+                        loadMoveToPurchase();
                         mDialog.dismissDialog();
                     }
 
@@ -154,21 +160,12 @@ public class PackageListFragment extends Fragment {
 
 
     public void eventListener(){
-
-
-        /*buttonContinue.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {*/
                // dialogBuilder.showLoading();
-
                 Log.d("TAG", "onClick: ");
                 // Set transaction parameter
                 aamarPay.setTransactionParameter(trxAmount, trxCurrency, paymentDescription);
-
                 // Set Customer details
                 aamarPay.setCustomerDetails(customerName, customerEmail, customerPhone, customerAddress, customerCity, customerCountry);
-
                 // Initiating PGW
                 aamarPay.initPGW(new AamarPay.onInitListener() {
 
@@ -204,7 +201,8 @@ public class PackageListFragment extends Fragment {
 
                             }
                         });
-                        continueWork.loadMoveToPurchase();
+                        //continueWork.loadMoveToPurchase();
+                        loadMoveToPurchase();
 
                     }
 
@@ -229,10 +227,7 @@ public class PackageListFragment extends Fragment {
 
                             }
                         });
-
-
                     }
-
                     @Override
                     public void onPaymentProcessingFailed(JSONObject jsonObject) {
                         // You will get the payment processing failed response as a JSON callback
@@ -302,14 +297,59 @@ public class PackageListFragment extends Fragment {
                 amount = "40";
                 break;
         }
-        trxAmount =  amount;
+        trxAmount = amount;
         PackagesActivity.mAmount = amount;
+    }
+
+
+    public void loadMoveToPurchase(){
+        String endUserRegId = sharedPref.getString(SharedPrefUtils._PACKAGE_IDENTIFIER, "");
+        if (endUserRegId.isEmpty()) {
+            moveToPurchase(PackagesActivity.packageId, PackagesActivity.packageIdentifier, PackagesActivity.packageMedia,
+                    PackagesActivity.packageDuration, PackagesActivity.packageDetails);
+            return;
+        }
+
+        PackageStatusQuery packageStatusQuery = new PackageStatusQuery();
+        packageStatusQuery.setEndUserRegId(endUserRegId);
+        packageStatusInfoCall = apiInteractor.getPackageStatus(packageStatusQuery);
+        packageStatusInfoCall.enqueue(new Callback<PackageStatusInfo>() {
+            @Override
+            public void onResponse(retrofit2.Call<PackageStatusInfo> rCall, Response<PackageStatusInfo> response) {
+                if (response.code() == HttpStatusCodes.OK) {
+                    moveToPurchase(PackagesActivity.packageId, PackagesActivity.packageIdentifier, PackagesActivity.packageMedia,
+                            PackagesActivity.packageDuration, PackagesActivity.packageDetails);
+
+                    Toast.makeText(context, "Package purchase successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Server error!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<PackageStatusInfo> rCall, Throwable t) {
+                //Toast.makeText(context, "Package purchase failed, please try again later", Toast.LENGTH_LONG).show();
+                moveToPurchase(PackagesActivity.packageId, PackagesActivity.packageIdentifier,
+                        PackagesActivity.packageMedia, PackagesActivity.packageDuration, PackagesActivity.packageDetails);
+            }
+        });
+    }
+
+    private void moveToPurchase(String packageId, String packageIdentifier, String packageMedia, String packageDuration, String packageDetails) {
+        Intent intent = new Intent(context, PaymentMethodActivity.class);
+        intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_ID, packageId);
+        intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_IDENTIFIER, packageIdentifier);
+        intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_MEDIA, packageMedia);
+        intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_DURATION, packageDuration);
+        intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_DETAILS, packageDetails);
+        intent.putExtra("abc", true);
+        context.startActivity(intent);
     }
 
 
     private void requiredFieldInit(){
         // Initiate payment
-        aamarPay = new AamarPay(context, "kothabondhu", "b1a37fb12afb8571fe11a485349d99aa");
+        aamarPay = new AamarPay(context, "kothabondhu", getString(R.string.AmarPay_SignatureKey));
 
         // Set Test Mode
         aamarPay.testMode(false);
@@ -350,7 +390,7 @@ public class PackageListFragment extends Fragment {
     }
 
 
-
+ 
     private UserGmailInfo getUserInfoFromGMail(){
         GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(getContext()); //It will return null on sign out condition
         if(googleSignInAccount != null){
@@ -426,12 +466,11 @@ public class PackageListFragment extends Fragment {
 
     private void createList() {
         packageListAdapter = new PackageListAdapter(context, dbInteractor, this);
-        continueWork = (ContinueWork)packageListAdapter;
+        //continueWork = (ContinueWork)packageListAdapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         packageListRecyclerView.setLayoutManager(layoutManager);
         packageListRecyclerView.setItemAnimator(new DefaultItemAnimator());
         packageListRecyclerView.setAdapter(packageListAdapter);
-
         downloadPackages();
     }
 

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.joschi.jackson:jackson-datatype-threetenbp:2.13.0-rc2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.github.joschi.jackson/jackson-datatype-threetenbp/2.13.0-rc2/17c56b360739fdf555d5b8a27467bf22017b002c/jackson-datatype-threetenbp-2.13.0-rc2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.github.joschi.jackson/jackson-datatype-threetenbp/2.13.0-rc2/9da45b295cff7eaa7c1d51fb8b209ab7db6418b5/jackson-datatype-threetenbp-2.13.0-rc2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.github.joschi.jackson/jackson-datatype-threetenbp/2.13.0-rc2/54f8519589b3ad44e23ce646add6fc8140f98fc7/jackson-datatype-threetenbp-2.13.0-rc2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

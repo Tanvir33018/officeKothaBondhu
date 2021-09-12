@@ -15,6 +15,12 @@ public class CallHistoryDetails {
     private String callDate;
     @SerializedName("userId")
     private String userId;
+    @SerializedName("status")
+    private String status;
+
+    public String getStatus() { return status; }
+
+    public void setStatus(String status) { this.status = status; }
 
     public String getAgentId() {
         return agentId;

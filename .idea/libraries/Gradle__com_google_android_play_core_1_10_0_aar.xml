@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Gradle: com.google.android.play:core:1.10.0@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/8957c0b8e4120d69ecf4e0b4b6e45a2a/jetified-core-1.10.0/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/8957c0b8e4120d69ecf4e0b4b6e45a2a/jetified-core-1.10.0/res" />
+      <root url="file://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/8957c0b8e4120d69ecf4e0b4b6e45a2a/jetified-core-1.10.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/transforms-2/files-2.1/8957c0b8e4120d69ecf4e0b4b6e45a2a/jetified-core-1.10.0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.google.android.play/core/1.10.0/a451746b029f0ab32986925c6547a91b8abc76dd/core-1.10.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

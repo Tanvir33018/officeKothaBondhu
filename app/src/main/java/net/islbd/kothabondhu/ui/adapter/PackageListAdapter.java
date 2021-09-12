@@ -46,14 +46,14 @@ import retrofit2.Response;
  * Created by UserStatusDetails on 2/16/2019.
  */
 
-public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.ViewHolder> implements PackageListFragment.ContinueWork {
+public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.ViewHolder>{
     private static final String TAG = "PackageListAdapter";
     private IDbInteractor dbInteractor;
     private Context context;
     private List<PackageInfo> packageList;
     boolean isActive = false;
     private SharedPreferences sharedPreferences;
-    private Call<PackageStatusInfo> packageStatusInfoCall;
+    //private Call<PackageStatusInfo> packageStatusInfoCall;
     private IApiInteractor apiInteractor;
     //public String packageId, packageIdentifier, packageDetails, packageDuration, packageMedia;
     private Fragment fragment;
@@ -108,7 +108,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
 
     }
 
-    @Override
+  /*  @Override
     public void loadMoveToPurchase(){
         String endUserRegId = sharedPreferences.getString(SharedPrefUtils._PACKAGE_IDENTIFIER, "");
         if (endUserRegId.isEmpty()) {
@@ -140,7 +140,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
                         PackagesActivity.packageMedia, PackagesActivity.packageDuration, PackagesActivity.packageDetails);
             }
         });
-    }
+    }*/
 
     @Override
     public int getItemCount() {
@@ -152,7 +152,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
 
     public void setPackageList(List<PackageInfo> packageList) {
         this.packageList = packageList;
-        if(this.packageList != null && packageList.size() > 0) loadPackageDetails(0);
+        //if(this.packageList != null && packageList.size() > 0) loadPackageDetails(0);
     }
 
     private void loadPackageDetails(int position){
@@ -186,8 +186,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
             packageNameTextView.setTextColor(context.getResources().getColor(R.color.black));
         }*/
     }
-
-    private void moveToPurchase(String packageId, String packageIdentifier, String packageMedia, String packageDuration, String packageDetails) {
+    /*private void moveToPurchase(String packageId, String packageIdentifier, String packageMedia, String packageDuration, String packageDetails) {
         Intent intent = new Intent(context, PaymentMethodActivity.class);
         intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_ID, packageId);
         intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_IDENTIFIER, packageIdentifier);
@@ -196,6 +195,6 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
         intent.putExtra(GlobalConstants.EXT_TAG_PACKAGE_DETAILS, packageDetails);
         intent.putExtra("abc", true);
         context.startActivity(intent);
-    }
+    }*/
 
 }

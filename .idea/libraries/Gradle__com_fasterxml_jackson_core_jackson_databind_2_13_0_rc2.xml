@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.13.0-rc2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.13.0-rc2/db40b3b9d5a0503e456b4e195b69b3a1ebfe6e07/jackson-databind-2.13.0-rc2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.13.0-rc2/11614a048f4883208b49e8799164f989263844cf/jackson-databind-2.13.0-rc2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.13.0-rc2/e663ae7ba115ddfff5716f4ce07c3757821dcb68/jackson-databind-2.13.0-rc2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

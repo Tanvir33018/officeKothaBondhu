@@ -72,7 +72,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
     private AudioManager audioManager;
 
-    private boolean isMicOn = true, isSpeakerOn = false;
+    private boolean isMicOn = true, isSpeakerOn = false, callFlag = false;
 
     private CallHistoryDetails callHistoryDetails;
 
@@ -145,7 +145,8 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
     private void initializeData() {
         isMicOn = false;
         isSpeakerOn = false;
-
+        callHistoryDetails = new CallHistoryDetails();
+        callHistoryDetails.setStatus("Not Sent");
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         proximity = sensorManager != null ? sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) : null;
@@ -319,6 +320,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 
     @Override
@@ -340,7 +342,9 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
             callStateChronoMeter.stop();
             callStateChronoMeter.setVisibility(View.GONE);
             callStateTextView.setVisibility(View.VISIBLE);
-            if (BuildConfig.TYPE.equals(GlobalConstants.TYPE_USER)) postCallHistory(call);
+            if (BuildConfig.TYPE.equals(GlobalConstants.TYPE_USER)){
+                postCallHistory(call);
+            }
             endCall();
         }
 
@@ -348,6 +352,8 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         public void onCallEstablished(Call call) {
             Log.d(TAG, "Call established");
             mAudioPlayer.stopProgressTone();
+            callFlag = true;
+            callHistoryDetails.setStatus("Received");
             setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
             mCallStart = System.currentTimeMillis();
             //callStateTextView.setText(String.valueOf(mCallStart));
@@ -385,8 +391,8 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         @Override
         public void onCallProgressing(Call call) {
             Log.d(TAG, "Call progressing");
-            callStateTextView.setText("Contacting.....");
-            //endCall();
+            callStateTextView.setText("Contacting...");
+            callHistoryDetails.setStatus("Not Received");
             mAudioPlayer.playProgressTone();
         }
 
@@ -398,7 +404,6 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
 
     private void postCallHistory(Call call) {
         Date date = new Date(TimeUnit.SECONDS.toMillis(call.getDetails().getStartedTime()));
-        callHistoryDetails = new CallHistoryDetails();
         //callHistoryDetails.setAgentId(call.getCallId());
         callHistoryDetails.setAgentId(getIntent().getStringExtra(GlobalConstants.F_CALL_ID));
         callHistoryDetails.setCallDate(date.toString());
@@ -411,6 +416,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
         UserGmailInfo userGmailInfo = getUserInfoFromGMail();
         //callHistoryDetails.setUserId(String.valueOf(sharedPreferences.getInt(SharedPrefUtils._USER_PHONE, 0)));
         callHistoryDetails.setUserId(userGmailInfo.getId());
+        //if(!callFlag)callHistoryDetails.setStatus("Not Received");
         callToSetHistory = apiInteractor.setCallHistory(callHistoryDetails);
         callToSetHistory.enqueue(new retrofit2.Callback<StatusInfo>() {
             @Override
@@ -418,7 +424,7 @@ public class CallOnGoingActivity extends BaseActivity implements SensorEventList
                 if (response.code() == HttpStatusCodes.OK) {
                     if (response.body() != null) {
                         StatusInfo statusInfo = response.body();
-
+                        callFlag = false;
                         if(MyVariableStore.balance_empty){
                             Toast.makeText(getApplicationContext(), "YOU DO NOT HAVE SUFFICIENT BALANCE!", Toast.LENGTH_LONG).show();
                             MyVariableStore.balance_empty = false;

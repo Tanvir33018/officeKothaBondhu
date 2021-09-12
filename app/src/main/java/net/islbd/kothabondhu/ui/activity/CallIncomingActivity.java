@@ -33,6 +33,7 @@ public class CallIncomingActivity extends BaseActivity {
     public static final String EXTRA_ID = "id";
     public static int MESSAGE_ID = 14;
     private String mAction;
+    private String callReceive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class CallIncomingActivity extends BaseActivity {
         context = this;
         mAudioPlayer = new AudioPlayer(this);
         mAudioPlayer.playRingtone();
+        callReceive = "Declined";
         mCallId = getIntent().getStringExtra(SinchService.CALL_ID);
         //mCallLocation = getIntent().getStringExtra(SinchService.LOCATION);
     }
@@ -94,6 +96,7 @@ public class CallIncomingActivity extends BaseActivity {
 
     private void answerClicked() {
         mAudioPlayer.stopRingtone();
+        callReceive = "Answered";
         Call call = getSinchServiceInterface().getCall(mCallId);
         if (call != null) {
             call.answer();
@@ -107,6 +110,7 @@ public class CallIncomingActivity extends BaseActivity {
 
     private void declineClicked() {
         mAudioPlayer.stopRingtone();
+        callReceive = "Declined";
         Call call = getSinchServiceInterface().getCall(mCallId);
         if (call != null) {
             call.hangup();

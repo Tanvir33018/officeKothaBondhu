@@ -2,20 +2,30 @@ package net.islbd.kothabondhu.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 /*import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;*/
+
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.UpdateAvailability;
 
 import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.utility.GlobalConstants;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
+
+import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         if (BuildConfig.TYPE.equals(GlobalConstants.TYPE_USER)) {
             Intent intent = new Intent(MainActivity.this, PhoneVerifyActivity.class);
             startActivity(intent);
+            finish();
         } else if (BuildConfig.TYPE.equals(GlobalConstants.TYPE_AGENT)) {
             if(ID == 1007){
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -58,9 +69,23 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(LOCATION_TAG, preferences.getString(SharedPrefUtils.LOCATION_TAG,""));
                 intent.putExtra(ID_TAG, preferences.getString(SharedPrefUtils.ID_TAG,""));
                 startActivity(intent);
+
             }
 
         }
         finish();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }

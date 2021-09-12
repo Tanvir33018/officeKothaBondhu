@@ -3,22 +3,33 @@ package net.islbd.kothabondhu.ui.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Handler;
+
 import androidx.annotation.NonNull;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.ActionBar;
+
 import android.os.Bundle;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
@@ -28,8 +39,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.rbddevs.splashy.Splashy;
 import com.sinch.android.rtc.ClientRegistration;
 import com.sinch.android.rtc.PushTokenRegistrationCallback;
@@ -42,13 +63,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import net.islbd.kothabondhu.BuildConfig;
 import net.islbd.kothabondhu.R;
 import net.islbd.kothabondhu.document.DocumentActivity;
-import net.islbd.kothabondhu.document.docfragment.SelectedFragment;
 import net.islbd.kothabondhu.model.pojo.RegisterInfo;
 import net.islbd.kothabondhu.model.pojo.UserGmailInfo;
-import net.islbd.kothabondhu.model.pojo.UserQuery;
 import net.islbd.kothabondhu.model.pojo.UserStatusDetails;
 import net.islbd.kothabondhu.presenter.AppPresenter;
 import net.islbd.kothabondhu.presenter.IApiInteractor;
@@ -56,8 +74,13 @@ import net.islbd.kothabondhu.service.SinchService;
 import net.islbd.kothabondhu.utility.HttpStatusCodes;
 import net.islbd.kothabondhu.utility.SharedPrefUtils;
 
-import java.security.MessageDigest;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.util.Arrays;
+
+import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 import static net.islbd.kothabondhu.service.SinchService.APPLICATION_HOST;
 import static net.islbd.kothabondhu.service.SinchService.APPLICATION_KEY;
 import static net.islbd.kothabondhu.service.SinchService.APPLICATION_SECRET;
@@ -80,33 +103,64 @@ public class PhoneVerifyActivity extends BaseActivity implements
     private ImageView splashLogo;
     private UserGmailInfo userGmailInfo;
     private Button log_in_gmail;
+    private LoginButton facebookButton;
+    private TextView orTextView;
     private String mUserId;
     private long mSigningSequence = 1;
     private boolean tokenRegistred;
+    private AppUpdateManager mUpdateManager;
+    private static final Integer DAYS_FOR_FLEXIBLE_UPDATE = 5;
+    private static final int MY_REQUEST_CODE = 101;
 
     private static final int REQUEST_CODE_PERMISSION = 2000;
-    int i=0;
+    int i = 0;
 
     private GoogleSignInClient mSignInClient;
     private static final int SIGN_IN = 1;
     private static final String TAG = "PhoneVerifyActivity";
+    private CallbackManager mCallbackManager;
+    private FirebaseAuth mAuth;
+    private AccessToken mToken;
+    private String logInFlag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        log_in_gmail = findViewById(R.id.verify_login_button);
         setContentView(R.layout.activity_phone_verify);
-
-
-
-        if(alreadyRead())
-            loadActivityWork();
-        else
-            loadAboutActivity();
-
-
+        log_in_gmail = findViewById(R.id.verify_login_button);
+        facebookButton = findViewById(R.id.login_button);
+        orTextView = findViewById(R.id.orTextView);
+        mAuth = FirebaseAuth.getInstance();
+        mCallbackManager = CallbackManager.Factory.create();
+        logInFlag = "null";
+        checkForUpdate();
     }
 
-    private void signInWork(){
+    private void checkForUpdate() {
+        mUpdateManager = AppUpdateManagerFactory.create(this);
+        //Toast.makeText(this, "Checking for update...", Toast.LENGTH_SHORT).show();
+        com.google.android.play.core.tasks.Task<AppUpdateInfo> appUpdateInfoTask = mUpdateManager.getAppUpdateInfo();
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+           // Toast.makeText(this, "Checking for update 2...", Toast.LENGTH_SHORT).show();
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                try {
+                  //  Toast.makeText(this, "Checking for update 3...", Toast.LENGTH_SHORT).show();
+                    mUpdateManager.startUpdateFlowForResult(appUpdateInfo, IMMEDIATE,
+                            this, MY_REQUEST_CODE);
+                } catch (IntentSender.SendIntentException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                if (alreadyRead())
+                    loadActivityWork();
+                else
+                    loadAboutActivity();
+            }
+        });
+    }
+
+
+    private void signInWork() {
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestId()
@@ -115,27 +169,114 @@ public class PhoneVerifyActivity extends BaseActivity implements
         verifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                logInFlag = SharedPrefUtils.LOG_IN_FLAG_GMAIL;
                 Intent intent = mSignInClient.getSignInIntent();
                 startActivityForResult(intent, SIGN_IN);
             }
         });
+
+        facebookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginManager.getInstance().logInWithReadPermissions(PhoneVerifyActivity.this, Arrays.asList("email", "public_profile"));
+                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        logInFlag = SharedPrefUtils.LOG_IN_FLAG_FACEBOOK;
+                        Toast.makeText(context, "Facebook  Login Success!", Toast.LENGTH_SHORT).show();
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Toast.makeText(context, "Facebook Login Cancel!", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+
+                        Toast.makeText(context, "Facebook Login Failed!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
-    private UserGmailInfo getUserInfoFromGMail(){
-        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this); //It will return null on sign out condition
-        if(googleSignInAccount != null){
-            String name = googleSignInAccount.getDisplayName();
-            String email = googleSignInAccount.getEmail();
-            String id = googleSignInAccount.getId();
-            return new UserGmailInfo(name, email, id);
-            //Log.d(TAG, "onCreate: " + email);
-        }
+    private void handleFacebookAccessToken(AccessToken token) {
+        Log.d(TAG, "handleFacebookAccessToken:" + token);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(PhoneVerifyActivity.this, "Authentication Success",
+                                    Toast.LENGTH_SHORT).show();
+                            // updateUI(user);
+                           // restartActivity();
+                            GraphRequest mRequest = GraphRequest.newMeRequest(token, new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(JSONObject object, GraphResponse response) {
+                                    Log.d("Login Success", "onCompleted: ");
+                                    if(object != null){
+                                        try {
+                                           String mEmail = object.getString("email");
+                                            Log.d("Email", "onCompleted: "+mEmail);
+                                           String mId = object.getString("id");
+                                            Log.d("mId", "onCompleted: "+mId);
+                                           //String mName = object.getString("first_name") + " " + object.getString("last_name");
+                                            /*sharedPref.edit().putString(SharedPrefUtils._FACEBOOK_NAME, mName).apply();
+                                            sharedPref.edit().putString(SharedPrefUtils._FACEBOOK_EMAIL, mName).apply();
+                                            sharedPref.edit().putString(SharedPrefUtils._FACEBOOK_NAME, mName).apply();*/
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                }
+                            });
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(PhoneVerifyActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            // updateUI(null);
+                        }
+                    }
+                });
+    }
+
+    private UserGmailInfo getUserInfo() {
+        //if(logInFlag.equals(SharedPrefUtils.LOG_IN_FLAG_GMAIL)){
+            GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this); //It will return null on sign out condition
+            if (googleSignInAccount != null) {
+                String name = googleSignInAccount.getDisplayName();
+                String email = googleSignInAccount.getEmail();
+                String id = googleSignInAccount.getId();
+                return new UserGmailInfo(name, email, id);
+            }
+
+        /*if(logInFlag.equals(SharedPrefUtils.LOG_IN_FLAG_FACEBOOK)){
+
+        }*/
         return null;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_REQUEST_CODE) {
+            if (resultCode == RESULT_CANCELED) {
+                Log.d("TAG", "Update flow failed! Result code: " + resultCode);
+                finishAndRemoveTask();
+            }
+        }
         if (requestCode == SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             if (task.isSuccessful()) {
@@ -149,24 +290,24 @@ public class PhoneVerifyActivity extends BaseActivity implements
         }
     }
 
-    private void restartActivity(){
+    private void restartActivity() {
         Intent intent = getIntent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
-    public boolean alreadyRead(){
+    public boolean alreadyRead() {
         SharedPreferences sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
         boolean alreadyRead = sharedPreferences.getBoolean("Read", false);
         return alreadyRead;
     }
 
-   //---- Call from onCreate
-    private void loadAboutActivity(){
+    //---- Call from onCreate
+    private void loadAboutActivity() {
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
+        /*if (actionBar != null) {
             actionBar.hide();
-        }
+        }*/
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -179,11 +320,11 @@ public class PhoneVerifyActivity extends BaseActivity implements
 
 
     //---- call from onCreate
-    private void loadActivityWork(){
+    private void loadActivityWork() {
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
+        /*if (actionBar != null) {
             actionBar.hide();
-        }
+        }*/
         context = PhoneVerifyActivity.this;
 
         phoneEditText = findViewById(R.id.phone_verify_EditText);
@@ -215,20 +356,43 @@ public class PhoneVerifyActivity extends BaseActivity implements
         AppPresenter appPresenter = new AppPresenter();
         apiInteractor = appPresenter.getApiInterface();
         sharedPref = appPresenter.getSharedPrefInterface(this);
-        tokenRegistred = sharedPref.getBoolean("TokenRegistred",false);
+        tokenRegistred = sharedPref.getBoolean("TokenRegistred", false);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                String phone = getPhoneNumber();
+                 String phone = getPhoneNumber();
                 verifyUser(phone);
             }
         }, 1000);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mUpdateManager.getAppUpdateInfo()
+                .addOnSuccessListener(
+                        appUpdateInfo -> {
+                            if (appUpdateInfo.updateAvailability()
+                                    == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                                // If an in-app update is already running, resume the update.
+                                try {
+                                    mUpdateManager.startUpdateFlowForResult(
+                                            appUpdateInfo,
+                                            IMMEDIATE,
+                                            this,
+                                            MY_REQUEST_CODE);
+                                } catch (IntentSender.SendIntentException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+    }
+
     private void verifyUser(String phone) {
-        userGmailInfo = getUserInfoFromGMail();
-        if(userGmailInfo == null){
+        userGmailInfo = getUserInfo();
+        if (userGmailInfo == null) {
             showVerifyButton(true);
             return;
         }
@@ -238,23 +402,23 @@ public class PhoneVerifyActivity extends BaseActivity implements
         verifyCall.enqueue(new Callback<RegisterInfo>() {
             @Override
             public void onResponse(Call<RegisterInfo> call, Response<RegisterInfo> response) {
-                if(response.code() == HttpStatusCodes.OK){
+                if (response.code() == HttpStatusCodes.OK) {
                     RegisterInfo registerInfo = response.body();
-                    if(registerInfo.getStatusCode() != null){
+                    if (registerInfo.getStatusCode() != null) {
                         sharedPref.edit().putInt(SharedPrefUtils._STATUS_CODE, Integer.parseInt(registerInfo.getStatusCode())).apply();
                         sharedPref.edit().putString(SharedPrefUtils.USER_ID, userGmailInfo.getId()).apply();
 
-                        if(tokenRegistred){
+                        if (tokenRegistred) {
                             if (!getSinchServiceInterface().isStarted()) {
                                 getSinchServiceInterface().setUsername(userGmailInfo.getId());
                                 getSinchServiceInterface().startClient();
 
 
-                        } else {
-                            logIntoHomeScreen();
-                        }
+                            } else {
+                                logIntoHomeScreen();
+                            }
 
-                        }else{
+                        } else {
                             UserController uc = Sinch.getUserControllerBuilder()
                                     .context(getApplicationContext())
                                     .applicationKey(APPLICATION_KEY)
@@ -288,11 +452,15 @@ public class PhoneVerifyActivity extends BaseActivity implements
     private void showVerifyButton(boolean isShow) {
         if (isShow) {
             verifyButton.setVisibility(View.VISIBLE);
+            //facebookButton.setVisibility(View.VISIBLE);
+            //orTextView.setVisibility(View.VISIBLE);
             phoneEditText.setVisibility(View.GONE);
             textInputLayout.setVisibility(View.GONE);
             splashLogo.setVisibility(View.VISIBLE);
         } else {
             verifyButton.setVisibility(View.GONE);
+            facebookButton.setVisibility(View.GONE);
+            orTextView.setVisibility(View.GONE);
             phoneEditText.setVisibility(View.GONE);
             textInputLayout.setVisibility(View.GONE);
             splashLogo.setVisibility(View.VISIBLE);
@@ -317,26 +485,8 @@ public class PhoneVerifyActivity extends BaseActivity implements
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
         mPhoneNumber = "";
-        /*if (tMgr != null) {
-            /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(PhoneVerifyActivity.this,
-                        new String[]{
-                                Manifest.permission.READ_SMS,
-                                Manifest.permission.RECORD_AUDIO,
-                                Manifest.permission.READ_PHONE_STATE,
-                                Manifest.permission.READ_PHONE_NUMBERS,
-                                Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.ACCESS_FINE_LOCATION
-                        },
-                        REQUEST_CODE_PERMISSION);
-                return mPhoneNumber;
-            }
-            mPhoneNumber = tMgr.getLine1Number();
-        }*/
 
         if (mPhoneNumber == null) mPhoneNumber = "";
-
-        //if (mPhoneNumber.isEmpty() && BuildConfig.DEBUG) mPhoneNumber = "1863290261";
 
         if (mPhoneNumber.isEmpty()) mPhoneNumber = "1863290261";
 
@@ -376,7 +526,6 @@ public class PhoneVerifyActivity extends BaseActivity implements
             }
         }
     }
-
     @Override
     public void tokenRegistered() {
         sharedPref.edit().putBoolean("TokenRegistred", true).apply();
@@ -384,12 +533,10 @@ public class PhoneVerifyActivity extends BaseActivity implements
         getSinchServiceInterface().setUsername(mUserId);
         getSinchServiceInterface().startClient();
     }
-
     @Override
     public void tokenRegistrationFailed(SinchError sinchError) {
         Toast.makeText(context, "Token Reistration Failed PVA", Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public void onCredentialsRequired(ClientRegistration clientRegistration) {
         String toSign = mUserId + APPLICATION_KEY + mSigningSequence + APPLICATION_SECRET;
@@ -402,16 +549,13 @@ public class PhoneVerifyActivity extends BaseActivity implements
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e.getCause());
         }
-
         clientRegistration.register(signature, mSigningSequence++);
-        Toast.makeText(context, "Credentials", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(context, "Credentials", Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public void onUserRegistered() {
-        Toast.makeText(context, "User Registered!", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(context, "User Registered!", Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public void onUserRegistrationFailed(SinchError sinchError) {
         Toast.makeText(context, "Registration Failed!", Toast.LENGTH_SHORT).show();

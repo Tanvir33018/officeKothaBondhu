@@ -56,6 +56,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
         payStatus = getIntent().getBooleanExtra("abc", false);
         initializeWidgets();
         initializeData();
+        if(payStatus)purchasePackage();
         eventListeners();
     }
 
@@ -81,7 +82,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
     }
 
     private void initializeData() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Payment");
         context = this;
         userGmailInfo = getUserInfoFromGMail();
@@ -112,14 +113,9 @@ public class PaymentMethodActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Log.d("TAG", "initializeData: ");
-
-                if(payStatus){
-                    purchasePackage();
-                }else {
                     Intent intent = new Intent(PaymentMethodActivity.this, HomeTabActivity.class);
                     startActivity(intent);
                     finish();
-                }
             }
         });
     }
@@ -141,12 +137,10 @@ public class PaymentMethodActivity extends AppCompatActivity {
                     sharedPref.edit().putString(SharedPrefUtils._PACKAGE_ID, packageID).apply();
                     sharedPref.edit().putString(SharedPrefUtils._PACKAGE_IDENTIFIER, packageIdentifier).apply();
                     sharedPref.edit().putString(SharedPrefUtils._PACKAGE_DURATION, packageDuration).apply();
-                    Toast.makeText(context, "PURCHASED PACKAGE : " + packageDetails, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(PaymentMethodActivity.this, HomeTabActivity.class);
+                    //Toast.makeText(context, "PURCHASED PACKAGE : " + packageDetails, Toast.LENGTH_SHORT).show();
+                    /*Intent intent = new Intent(PaymentMethodActivity.this, HomeTabActivity.class);
                     startActivity(intent);
-                    finish();
-
-
+                    finish();*/
                 } else {
                     Toast.makeText(context, "Something went wrong! Please try again.", Toast.LENGTH_SHORT).show();
                 }
@@ -173,5 +167,10 @@ public class PaymentMethodActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

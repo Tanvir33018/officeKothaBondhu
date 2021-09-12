@@ -186,7 +186,7 @@
                 android:id="@+id/agent_item_call_imageView"
                 style="?android:borderlessButtonStyle"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_handphone" />
         </LinearLayout>

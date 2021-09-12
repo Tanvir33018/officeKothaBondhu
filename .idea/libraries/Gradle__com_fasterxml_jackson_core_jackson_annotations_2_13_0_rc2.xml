@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.13.0-rc2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.13.0-rc2/57860cb56f568065aee2c45d6387fd701c0617b2/jackson-annotations-2.13.0-rc2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.13.0-rc2/e2a92782fd089088820f070cf9a79fa78969d2d6/jackson-annotations-2.13.0-rc2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.13.0-rc2/87fc6625ad84c3ff656aa556b75607d5c48efa4b/jackson-annotations-2.13.0-rc2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

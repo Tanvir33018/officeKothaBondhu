@@ -27,4 +27,7 @@ public final class SharedPrefUtils {
     public static final String AGE_TAG = "_AGE";
     public static final String STATUS_TAG = "_STATUS";
     public static final String ID_TAG = "_ID";
+    public static final String LOG_IN_FLAG_GMAIL = "Gmail";
+    public static final String LOG_IN_FLAG_FACEBOOK = "Facebook";
+    public static final String _FACEBOOK_NAME = "Facebook Name";
 }

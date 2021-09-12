@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.fasterxml.jackson.core:jackson-core:2.13.0-rc2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.13.0-rc2/d128bff497020747007453b5315f7c00abae5749/jackson-core-2.13.0-rc2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.13.0-rc2/14f44d38fd4109074c9cbcc581e16534fbc2a907/jackson-core-2.13.0-rc2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/AndroidStudioProjects/WirelessComChat/wrapper/dists/gradle-2.14.1-all/8bnwg5hd3w55iofp58khbp6yv/gradle-2.14.1/bin/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.13.0-rc2/7121164cb1b5c081c58f411076075bc3f41357f3/jackson-core-2.13.0-rc2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

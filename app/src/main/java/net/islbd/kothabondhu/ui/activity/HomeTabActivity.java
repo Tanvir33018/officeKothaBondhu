@@ -3,6 +3,7 @@ package net.islbd.kothabondhu.ui.activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.icu.text.CaseMap;
 import android.os.Build;
@@ -16,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -38,6 +40,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;*/
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.Task;
 import com.sinch.android.rtc.ClientRegistration;
 import com.sinch.android.rtc.PushTokenRegistrationCallback;
 import com.sinch.android.rtc.Sinch;
@@ -77,6 +85,7 @@ import java.security.MessageDigest;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 import static net.islbd.kothabondhu.service.SinchService.APPLICATION_HOST;
 import static net.islbd.kothabondhu.service.SinchService.APPLICATION_KEY;
 import static net.islbd.kothabondhu.service.SinchService.APPLICATION_SECRET;
@@ -86,6 +95,8 @@ public class HomeTabActivity extends BaseActivity implements
         IPackageSelectListener,
         NavigationView.OnNavigationItemSelectedListener,
         BottomNavigationView.OnNavigationItemSelectedListener{
+    private static final Integer DAYS_FOR_FLEXIBLE_UPDATE = 5;
+    private static final int MY_REQUEST_CODE = 101;
     //private HomeTabAdapter mSectionsPagerAdapter;
     //private ViewPager mViewPager;
     private Context context;
@@ -98,6 +109,7 @@ public class HomeTabActivity extends BaseActivity implements
     private MyDuration myDuration;
     private UserDuration userDuration;
     private String mUserId;
+    private AppUpdateManager mUpdateManager;
 
 
 
@@ -107,9 +119,10 @@ public class HomeTabActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tab);
 
+        eventListeners();
         initializeWidgets();
         initializeData();
-        eventListeners();
+
     }
 
     private void initializeWidgets() {
@@ -118,44 +131,32 @@ public class HomeTabActivity extends BaseActivity implements
     }
 
     private void initializeData() {
-       // setSupportActionBar(toolbar);
-
         context = this;
-
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-*/
-        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();*/
-
-
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         //onNavigationItemSelected(navigationView.getMenu().getItem(0));
-
         sharedPreferences = new AppPresenter().getSharedPrefInterface(context);
         sharedPreferences.edit().putString(SharedPrefUtils._API_KEY, GlobalConstants.API_KEY).apply();
-
         AppPresenter appPresenter = new AppPresenter();
         apiInteractor = appPresenter.getApiInterface();
-
-
         mUserId = getUserInfoFromGMail().getId();
-
-
     }
 
 
     private void eventListeners() {
 
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -209,8 +210,6 @@ public class HomeTabActivity extends BaseActivity implements
         final String fImageUrl = imageUrl;
         PackageStatusQuery packageStatusQuery = new PackageStatusQuery();
         packageStatusQuery.setEndUserRegId(mUserId);
-
-
         packageStatusInfoCall = apiInteractor.getPackageStatus(packageStatusQuery);
         packageStatusInfoCall.enqueue(new Callback<PackageStatusInfo>() {
             @Override
@@ -246,8 +245,8 @@ public class HomeTabActivity extends BaseActivity implements
                         MyDuration myDuration = response.body();
                         Toast.makeText(getApplicationContext(), "Remaining Balance" + myDuration.getDuration(), Toast.LENGTH_SHORT).show();
                         double duration = Double.parseDouble(myDuration.getDuration());
-                        if(duration <= 0.0){
-                            //Toast.makeText(getApplicationContext(), "You do not have sufficient balance!", Toast.LENGTH_LONG).show();
+                        if(duration < 1.0){
+                            Toast.makeText(getApplicationContext(), "কথা বলার জন্য প্যাকেজ কিনুন...!!", Toast.LENGTH_LONG).show();
                             gotoPackageActivity();
                         }
                         else{
@@ -307,6 +306,7 @@ public class HomeTabActivity extends BaseActivity implements
     protected void onResume() {
         bottomNavigationView.setSelectedItemId(R.id.bottom_dailer);
         super.onResume();
+
     }
 
     @Override

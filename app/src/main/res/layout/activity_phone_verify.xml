@@ -39,6 +39,7 @@
         android:padding="10dp"
         android:visibility="invisible"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
         android:textSize="13sp"
         android:text="@string/login_with_gmail_button"
         android:drawableLeft="@drawable/google2"
@@ -46,5 +47,26 @@
         android:fontFamily="@font/aileronl_ight"
         android:background="@drawable/login_background">
     </Button>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/orTextView"
+        android:text="--অথবা--"
+        android:visibility="invisible"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/aileronl_ight"
+        android:padding="10dp"
+        android:textSize="13sp"
+        android:visibility="invisible"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp" />
 
 </LinearLayout>
